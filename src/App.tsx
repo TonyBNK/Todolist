@@ -1,49 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
+import {TasksType, Todolist} from "./Todolist/Todolist";
+
+export type FilterType = 'all' | 'active' | 'completed';
 
 function App() {
 
-    let task1 = [
-        {
-            id: 1,
-            title: "CSS&HTML",
-            isDone: true
-        },
-        {
-            id: 2,
-            title: "JS",
-            isDone: true
-        },
-        {
-            id: 3,
-            title: "React",
-            isDone: false
-        },
-    ];
+    let [tasks, setTasks] = useState<Array<TasksType>>([
+        {id: 1, title: "HTML&CSS", isDone: true},
+        {id: 2, title: "JS", isDone: true},
+        {id: 3, title: "React", isDone: false},
+        {id: 4, title: "Redux", isDone: false},
+    ]);
+    let [filter, setFilter] = useState<FilterType>('all');
 
-    let task2 = [
-        {
-            id: 1,
-            title: "Terminator",
-            isDone: true
-        },
-        {
-            id: 2,
-            title: "XXX",
-            isDone: false
-        },
-        {
-            id: 3,
-            title: "Gentlemen",
-            isDone: true
-        },
-    ];
+    const removeTask = (id: number) => {
+      let filteredTasks = tasks.filter(t => t.id !== id);
+      setTasks(filteredTasks);
+    };
+
+    const changeFilter = (filter: FilterType) => {
+        setFilter(filter);
+    }
+
+    let tasksForTodolist = tasks;
+    if (filter === 'active') tasksForTodolist = tasks.filter(t => !t.isDone);
+    if (filter === 'completed') tasksForTodolist = tasks.filter(t => t.isDone);
 
     return (
         <div className="App">
-            <Todolist mainTitle={"What to learn"} content={task1}/>
-            <Todolist mainTitle={"Movies"} content={task2}/>
+            <Todolist mainTitle="What to learn"
+                      tasks={tasksForTodolist}
+                      removeTask={removeTask}
+                      changeFilter={changeFilter}
+            />
         </div>
     );
 }
