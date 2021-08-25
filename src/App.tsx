@@ -1,21 +1,24 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TasksType, Todolist} from "./Todolist/Todolist";
+import {TaskType, Todolist} from "./Todolist/Todolist";
 
 export type FilterType = 'all' | 'active' | 'completed';
 
 function App() {
 
-    let [tasks, setTasks] = useState<Array<TasksType>>([
+    let [tasks, setTasks] = useState<Array<TaskType>>([
         {id: 1, title: "HTML&CSS", isDone: true},
         {id: 2, title: "JS", isDone: true},
         {id: 3, title: "React", isDone: false},
         {id: 4, title: "Redux", isDone: false},
+        {id: 5, title: "Rest API", isDone: false},
+        {id: 6, title: "GraphQL", isDone: false},
     ]);
+
     let [filter, setFilter] = useState<FilterType>('all');
 
-    const removeTask = (id: number) => {
-      let filteredTasks = tasks.filter(t => t.id !== id);
+    const removeTask = (taskId: number) => {
+      let filteredTasks = tasks.filter(t => t.id !== taskId);
       setTasks(filteredTasks);
     };
 
