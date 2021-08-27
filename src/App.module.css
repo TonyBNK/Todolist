@@ -1,8 +1,11 @@
-.App{
+.Todolist{
   padding: 30px;
   display: flex;
 }
 
-.App > div{
+.Todolist div{
   margin-right: 50px;
 }
+
+
+
