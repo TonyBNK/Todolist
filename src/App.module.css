@@ -1,9 +1,9 @@
-.Todolist{
+.app{
   padding: 30px;
   display: flex;
 }
 
-.Todolist div{
+.app div{
   margin-right: 50px;
 }
 
