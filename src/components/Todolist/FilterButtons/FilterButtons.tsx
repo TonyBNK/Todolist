@@ -8,22 +8,37 @@ export type FilterButtonsType = {
     changeFilter: (filter: FilterType, todolistId: string) => void
     filter: FilterType
 }
-export const FilterButtons: React.FC<FilterButtonsType> = (props) => {
+export const FilterButtons: React.FC<FilterButtonsType> = (
+    {
+        todolistId,
+        changeFilter,
+        filter
+    }) => {
 
-    const onAllFilterHandler = () => props.changeFilter('all', props.todolistId);
-    const onActiveFilterHandler = () => props.changeFilter('active', props.todolistId);
-    const onCompletedFilterHandler = () => props.changeFilter('completed', props.todolistId);
-
+    const onAllFilterHandler = () => changeFilter('all', todolistId);
+    const onActiveFilterHandler = () => changeFilter('active', todolistId);
+    const onCompletedFilterHandler = () => changeFilter('completed', todolistId);
 
     return (
         <div className={c.filterButtons}>
-            <button onClick={onAllFilterHandler}
-                    className={props.filter === 'all' ? c.currentFilter : ''}>All
+            <button
+                onClick={onAllFilterHandler}
+                className={filter === 'all' ? c.currentFilter : ''}
+            >
+                All
             </button>
-            <button onClick={onActiveFilterHandler}
-                    className={props.filter === 'active' ? c.currentFilter : ''}>Active</button>
-            <button onClick={onCompletedFilterHandler}
-                    className={props.filter === 'completed' ? c.currentFilter : ''}>Completed</button>
+            <button
+                onClick={onActiveFilterHandler}
+                className={filter === 'active' ? c.currentFilter : ''}
+            >
+                Active
+            </button>
+            <button
+                onClick={onCompletedFilterHandler}
+                className={filter === 'completed' ? c.currentFilter : ''}
+            >
+                Completed
+            </button>
         </div>
     );
 };
