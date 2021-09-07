@@ -1,6 +1,7 @@
 import React from "react";
 import c from './FilterButtons.module.css';
 import {FilterType} from "../../../App";
+import {Button} from "@material-ui/core";
 
 
 export type FilterButtonsType = {
@@ -15,30 +16,39 @@ export const FilterButtons: React.FC<FilterButtonsType> = (
         filter
     }) => {
 
-    const onAllFilterHandler = () => changeFilter('all', todolistId);
-    const onActiveFilterHandler = () => changeFilter('active', todolistId);
-    const onCompletedFilterHandler = () => changeFilter('completed', todolistId);
+    const onAllFilterHandler = () => changeFilter('All', todolistId);
+    const onActiveFilterHandler = () => changeFilter('Active', todolistId);
+    const onCompletedFilterHandler = () => changeFilter('Completed', todolistId);
 
     return (
         <div className={c.filterButtons}>
-            <button
+            <Button
+                style={{margin: '3px'}}
                 onClick={onAllFilterHandler}
-                className={filter === 'all' ? c.currentFilter : ''}
+                color={'primary'}
+                variant={filter === "All" ? 'contained' : 'outlined'}
+                size={'small'}
             >
                 All
-            </button>
-            <button
+            </Button>
+            <Button
+                style={{margin: '3px'}}
                 onClick={onActiveFilterHandler}
-                className={filter === 'active' ? c.currentFilter : ''}
+                color={"primary"}
+                variant={filter === "Active" ? 'contained' : 'outlined'}
+                size={'small'}
             >
                 Active
-            </button>
-            <button
+            </Button>
+            <Button
+                style={{margin: '3px'}}
                 onClick={onCompletedFilterHandler}
-                className={filter === 'completed' ? c.currentFilter : ''}
+                variant={filter === "Completed" ? 'contained' : 'outlined'}
+                color={'primary'}
+                size={'small'}
             >
                 Completed
-            </button>
+            </Button>
         </div>
     );
 };

@@ -4,6 +4,8 @@ import {FilterButtons} from "./FilterButtons/FilterButtons";
 import {FilterType} from "../../App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Checkbox, IconButton} from "@material-ui/core";
+import {DeleteOutline, RemoveCircleOutline} from "@material-ui/icons";
 
 export type TaskType = {
     id: string
@@ -66,8 +68,8 @@ export const Todolist: React.FC<TodolistPropsType> = (
             key={t.id}
             className={t.isDone ? c.completed : ''}
         >
-            <input
-                type="checkbox"
+            <Checkbox
+                color={'primary'}
                 checked={t.isDone}
                 onChange={onSetCompletedHandler}
             />
@@ -75,7 +77,12 @@ export const Todolist: React.FC<TodolistPropsType> = (
                 title={t.title}
                 onChangeTitle={onChangeTaskTitleHandler}
             />
-            <button onClick={onRemoveTaskHandler}>X</button>
+            <IconButton
+                onClick={onRemoveTaskHandler}
+                size={"small"}
+            >
+                <RemoveCircleOutline/>
+            </IconButton>
         </li>
     })
 
@@ -86,7 +93,9 @@ export const Todolist: React.FC<TodolistPropsType> = (
                     title={title}
                     onChangeTitle={onChangeTodolistTitleHandler}
                 />
-                <button onClick={onRemoveTodolistHandler}>X</button>
+                <IconButton onClick={onRemoveTodolistHandler}>
+                    <DeleteOutline color={"primary"}/>
+                </IconButton>
             </h3>
             <AddItemForm addItem={onAddTaskTitleHandler}/>
             <ul>
