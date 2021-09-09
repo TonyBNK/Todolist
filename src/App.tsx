@@ -13,12 +13,12 @@ import {
 import {Menu} from "@material-ui/icons";
 
 export type FilterType = 'All' | 'Active' | 'Completed';
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterType
 }
-type TasksObjectType = {
+export type TasksObjectType = {
     [key: string]: Array<TaskType>
 }
 

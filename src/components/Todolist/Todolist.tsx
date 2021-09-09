@@ -64,7 +64,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
             changeTaskTitle(todolistId, t.id, newTitle);
         }
 
-        return <li
+        return <div
             key={t.id}
             className={t.isDone ? c.completed : ''}
         >
@@ -83,7 +83,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
             >
                 <RemoveCircleOutline/>
             </IconButton>
-        </li>
+        </div>
     })
 
     return (
@@ -98,9 +98,9 @@ export const Todolist: React.FC<TodolistPropsType> = (
                 </IconButton>
             </h3>
             <AddItemForm addItem={onAddTaskTitleHandler}/>
-            <ul>
+            <div>
                 {listOfTasks}
-            </ul>
+            </div>
             <FilterButtons
                 todolistId={todolistId}
                 changeFilter={changeFilter}
