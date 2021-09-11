@@ -16,12 +16,12 @@ type TodolistPropsType = {
     todolistId: string
     title: string
     tasks: Array<TaskType>
-    addTask: (taskTitle: string, todolistId: string) => void
-    removeTask: (taskId: string, todolistId: string) => void
-    changeFilter: (filter: FilterType, todolistId: string) => void
+    addTask: (todolistId: string, taskTitle: string) => void
+    removeTask: (todolistId: string, taskTitle: string) => void
+    changeFilter: (todolistId: string, filter: FilterType) => void
     changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
-    setCompleted: (taskId: string, isDone: boolean, todolistId: string) => void
+    setCompleted: (todolistId: string, taskId: string, isDone: boolean) => void
     filter: FilterType
     removeTodolist: (todolistId: string) => void
 }
@@ -45,7 +45,7 @@ export const Todolist: React.FC<TodolistPropsType> = (
     }
 
     const onAddTaskTitleHandler = (newTitle: string) => {
-        addTask(newTitle, todolistId);
+        addTask(todolistId, newTitle);
     }
     
     const onChangeTodolistTitleHandler = (newTitle: string) => {
@@ -54,10 +54,10 @@ export const Todolist: React.FC<TodolistPropsType> = (
 
     let listOfTasks = tasks.map(t => {
 
-        const onRemoveTaskHandler = () => removeTask(t.id, todolistId);
+        const onRemoveTaskHandler = () => removeTask(todolistId, t.id);
 
         const onSetCompletedHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            setCompleted(t.id, e.currentTarget.checked, todolistId);
+            setCompleted(todolistId, t.id, e.currentTarget.checked);
         }
 
         const onChangeTaskTitleHandler = (newTitle: string) => {

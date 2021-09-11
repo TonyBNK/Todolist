@@ -47,10 +47,32 @@ function App() {
         ]
     });
 
-    const addTask = (taskTitle: string, todolistId: string) => {
+    const addTask = (todolistId: string, taskTitle: string) => {
         const newTask = {id: v1(), title: taskTitle, isDone: false};
         tasksObj[todolistId] = [...tasksObj[todolistId], newTask];
         setTasksObj({...tasksObj});
+    }
+
+    const removeTask = (todolistId: string, taskId: string) => {
+        tasksObj[todolistId] = tasksObj[todolistId].filter(t => t.id !== taskId);
+        setTasksObj({...tasksObj});
+    }
+
+    const changeTaskTitle = (todolistId: string, taskId: string, newTitle: string) => {
+        const newTasks = tasksObj[todolistId].map(t => {
+            return t.id === taskId
+                ? {...t, title: newTitle}
+                : t
+        });
+        setTasksObj({...tasksObj, [todolistId]: newTasks});
+    }
+
+    const setCompleted = (todolistId: string, taskId: string, isDone: boolean) => {
+        let task = tasksObj[todolistId].find(t => t.id === taskId);
+        if (task) {
+            task.isDone = isDone;
+            setTasksObj({...tasksObj});
+        }
     }
 
     const addTodolist = (todolistTitle: string) => {
@@ -63,26 +85,11 @@ function App() {
         setTasksObj({...tasksObj, [newTodolist.id]: []});
     }
 
-    const removeTask = (taskId: string, todolistId: string) => {
-        tasksObj[todolistId] = tasksObj[todolistId].filter(t => t.id !== taskId);
+    const removeTodolist = (todolistId: string) => {
+        let filteredTodolists = todolists.filter(tl => tl.id !== todolistId);
+        setTodolists(filteredTodolists);
+        delete tasksObj[todolistId];
         setTasksObj({...tasksObj});
-    }
-
-    const changeFilter = (filter: FilterType, todolistId: string) => {
-        const todolist = todolists.find(tl => tl.id === todolistId);
-        if (todolist) {
-            todolist.filter = filter;
-            setTodolists([...todolists]);
-        }
-    }
-
-    const changeTaskTitle = (todolistId: string, taskId: string, newTitle: string) => {
-        const newTasks = tasksObj[todolistId].map(t => {
-            return t.id === taskId
-                ? {...t, title: newTitle}
-                : t
-        });
-        setTasksObj({...tasksObj, [todolistId]: newTasks});
     }
 
     const changeTodolistTitle = (todolistId: string, newTitle: string) => {
@@ -94,19 +101,12 @@ function App() {
         setTodolists(newTodolists);
     }
 
-    const setCompleted = (taskId: string, isDone: boolean, todolistId: string) => {
-        let task = tasksObj[todolistId].find(t => t.id === taskId);
-        if (task) {
-            task.isDone = isDone;
-            setTasksObj({...tasksObj});
+    const changeFilter = (todolistId: string, filter: FilterType) => {
+        const todolist = todolists.find(tl => tl.id === todolistId);
+        if (todolist) {
+            todolist.filter = filter;
+            setTodolists([...todolists]);
         }
-    }
-
-    const removeTodolist = (todolistId: string) => {
-        let filteredTodolists = todolists.filter(tl => tl.id !== todolistId);
-        setTodolists(filteredTodolists);
-        delete tasksObj[todolistId];
-        setTasksObj({...tasksObj});
     }
 
     return (

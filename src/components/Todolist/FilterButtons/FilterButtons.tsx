@@ -6,7 +6,7 @@ import {Button} from "@material-ui/core";
 
 export type FilterButtonsType = {
     todolistId: string
-    changeFilter: (filter: FilterType, todolistId: string) => void
+    changeFilter: (todolistId: string, filter: FilterType) => void
     filter: FilterType
 }
 export const FilterButtons: React.FC<FilterButtonsType> = (
@@ -16,9 +16,9 @@ export const FilterButtons: React.FC<FilterButtonsType> = (
         filter
     }) => {
 
-    const onAllFilterHandler = () => changeFilter('All', todolistId);
-    const onActiveFilterHandler = () => changeFilter('Active', todolistId);
-    const onCompletedFilterHandler = () => changeFilter('Completed', todolistId);
+    const onAllFilterHandler = () => changeFilter(todolistId,'All');
+    const onActiveFilterHandler = () => changeFilter(todolistId, 'Active');
+    const onCompletedFilterHandler = () => changeFilter(todolistId, 'Completed');
 
     return (
         <div className={c.filterButtons}>

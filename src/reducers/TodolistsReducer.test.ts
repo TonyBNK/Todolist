@@ -55,7 +55,7 @@ test('todolist title should be changed', () => {
 test('todolist filter should be changed', () => {
     const newFilter: FilterType = 'Completed';
 
-    const newTodolists = TodolistsReducer(todolists, changeTodolistFilterAC(newFilter, todolistId1));
+    const newTodolists = TodolistsReducer(todolists, changeTodolistFilterAC(todolistId1, newFilter));
 
     expect(newTodolists.length).toBe(2);
     expect(newTodolists[0].filter).toBe(newFilter);
