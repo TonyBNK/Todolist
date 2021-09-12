@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import {addTodolistACType, removeTodolistACType} from "./TodolistsReducer";
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>;
 type addTaskACType = ReturnType<typeof addTaskAC>;
@@ -9,7 +10,9 @@ type TasksReducerActionsType =
     removeTaskACType
     | addTaskACType
     | changeTaskTitleACType
-    | setCompletedACType;
+    | setCompletedACType
+    | addTodolistACType
+    | removeTodolistACType;
 
 export const removeTaskAC = (todolistId: string, taskId: string) => ({
     type: "REMOVE-TASK",
@@ -42,7 +45,7 @@ type TaskType = {
     title: string
     isDone: boolean
 }
-type TasksObjectType = {
+export type TasksObjectType = {
     [key: string]: Array<TaskType>
 }
 
@@ -84,11 +87,11 @@ export const TasksReducer = (state: TasksObjectType = initialState, action: Task
         case "CHANGE-TASK-TITLE":
             return {
                 ...state,
-                [action.todolistId]: state[action.todolistId].map(t => {
-                    return t.id === action.taskId
+                [action.todolistId]: state[action.todolistId].map(t =>
+                    t.id === action.taskId
                         ? {...t, title: action.newTitle}
                         : t
-                })
+                )
             };
         case "SET-TASK-COMPLETED":
             return {
@@ -99,6 +102,15 @@ export const TasksReducer = (state: TasksObjectType = initialState, action: Task
                         : t
                 )
             };
+        case "ADD-TODOLIST":
+            return {
+                ...state,
+                [action.todolistId]: []
+            };
+        case "REMOVE-TODOLIST":
+            const stateCopy = {...state};
+            delete stateCopy[action.todolistId];
+            return stateCopy;
         default:
             return state;
     }
