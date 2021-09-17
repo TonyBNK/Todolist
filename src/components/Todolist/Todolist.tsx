@@ -1,11 +1,18 @@
 import React, {ChangeEvent} from "react";
 import c from './Todolist.module.css';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
-import {FilterType} from "../../App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {DeleteOutline, RemoveCircleOutline} from "@material-ui/icons";
+import {
+    addTaskAC,
+    changeTaskTitleAC,
+    removeTaskAC, setCompletedAC
+} from "../../reducers/TasksReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {RootStateType} from "../../redux/store";
+import {FilterType, TasksType} from "../../App";
 
 export type TaskType = {
     id: string
@@ -15,13 +22,8 @@ export type TaskType = {
 type TodolistPropsType = {
     todolistId: string
     title: string
-    tasks: Array<TaskType>
-    addTask: (todolistId: string, taskTitle: string) => void
-    removeTask: (todolistId: string, taskTitle: string) => void
     changeFilter: (todolistId: string, filter: FilterType) => void
-    changeTaskTitle: (todolistId: string, taskId: string, newTitle: string) => void
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
-    setCompleted: (todolistId: string, taskId: string, isDone: boolean) => void
     filter: FilterType
     removeTodolist: (todolistId: string) => void
 }
@@ -29,39 +31,47 @@ export const Todolist: React.FC<TodolistPropsType> = (
     {
         todolistId,
         title,
-        tasks,
-        addTask,
-        removeTask,
         changeFilter,
-        changeTaskTitle,
         changeTodolistTitle,
-        setCompleted,
         filter,
         removeTodolist
     }) => {
+    const tasks = useSelector<RootStateType, TasksType>(
+        state => state.tasks
+    )
+
+    let tasksForTodolist = tasks[todolistId];
+    if (filter === 'Active') {
+        tasksForTodolist = tasksForTodolist.filter(t => !t.isDone);
+    }
+    if (filter === 'Completed') {
+        tasksForTodolist = tasksForTodolist.filter(t => t.isDone);
+    }
+
+    const dispatch = useDispatch();
 
     const onRemoveTodolistHandler = () => {
         removeTodolist(todolistId);
     }
 
     const onAddTaskTitleHandler = (newTitle: string) => {
-        addTask(todolistId, newTitle);
+        dispatch(addTaskAC(todolistId, newTitle));
     }
     
     const onChangeTodolistTitleHandler = (newTitle: string) => {
       changeTodolistTitle(todolistId, newTitle);
     }
 
-    let listOfTasks = tasks.map(t => {
+    let listOfTasks = tasksForTodolist.map(t => {
 
-        const onRemoveTaskHandler = () => removeTask(todolistId, t.id);
+        const onRemoveTaskHandler = () => dispatch(removeTaskAC(todolistId, t.id));
 
         const onSetCompletedHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            setCompleted(todolistId, t.id, e.currentTarget.checked);
+            dispatch(setCompletedAC(todolistId, t.id, e.currentTarget.checked));
         }
 
         const onChangeTaskTitleHandler = (newTitle: string) => {
-            changeTaskTitle(todolistId, t.id, newTitle);
+            dispatch(changeTaskTitleAC(todolistId, t.id, newTitle));
         }
 
         return <div
