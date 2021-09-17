@@ -52,7 +52,7 @@ export type TodolistsDispatchType = {
     changeFilter: (todolistId: string, filter: FilterType) => void
 }
 
-const [todolistId1, todolistId2] = [v1(), v1()];
+export const [todolistId1, todolistId2] = [v1(), v1()];
 
 const initialState: Array<TodolistType> = [
     {id: todolistId1, title: "What to learn", filter: 'All'},
