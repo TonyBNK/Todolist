@@ -1,5 +1,4 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import c from "./Todolist.module.css";
 import {IconButton, TextField} from "@material-ui/core";
 import {AddCircleOutline} from "@material-ui/icons";
 
@@ -11,25 +10,25 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (
         addItem
     }
 ) => {
-    let [newTask, setNewTask] = useState<string>('');
+    let [newItem, setNewItem] = useState<string>('');
     let [error, setError] = useState<string | null>(null);
 
-    const onAddTaskHandler = () => {
-        if (newTask.trim()) {
-            addItem(newTask.trim());
-            setNewTask('');
+    const onAddItemHandler = () => {
+        if (newItem.trim()) {
+            addItem(newItem.trim());
+            setNewItem('');
         } else {
             setError("Title is required!");
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTask(e.currentTarget.value);
+        setNewItem(e.currentTarget.value);
     }
     const onEnterPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            if (newTask.trim()) {
-                addItem(newTask.trim());
-                setNewTask('');
+            if (newItem.trim()) {
+                addItem(newItem.trim());
+                setNewItem('');
             } else {
                 setError("Title is required!");
             }
@@ -43,12 +42,12 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (
             <TextField
                 onChange={onChangeHandler}
                 onKeyPress={onEnterPressHandler}
-                value={newTask}
+                value={newItem}
                 error={!!error}
                 helperText={error}
                 label={'Add item'}
             />
-            <IconButton onClick={onAddTaskHandler}>
+            <IconButton onClick={onAddItemHandler}>
                 <AddCircleOutline color={'primary'}/>
             </IconButton>
         </div>

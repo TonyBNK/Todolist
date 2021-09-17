@@ -82,7 +82,7 @@ export const TasksReducer = (state: TasksObjectType = initialState, action: Task
 
             return {
                 ...state,
-                [action.todolistId]: [...state[action.todolistId], newTask]
+                [action.todolistId]: [newTask, ...state[action.todolistId],],
             };
         case "CHANGE-TASK-TITLE":
             return {
