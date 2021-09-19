@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useMemo} from "react";
 import c from './Todolist.module.css';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
 import {AddItemForm} from "./AddItemForm";
@@ -12,8 +12,8 @@ import {
 } from "../../reducers/TasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../redux/store";
-import {FilterType, TasksType} from "../../App";
-import {Task} from "./Task";
+import {FilterType} from "../../App";
+import {Task, TaskType} from "./Task";
 
 
 type TodolistPropsType = {
@@ -34,11 +34,11 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         filter,
         removeTodolist
     }) => {
-    const tasks = useSelector<RootStateType, TasksType>(
-        state => state.tasks
-    )
+    console.log('Todolist is rendered');
 
-    let tasksForTodolist = tasks[todolistId];
+    let tasksForTodolist = useSelector<RootStateType, Array<TaskType>>(
+        state => state.tasks[todolistId]
+    )
 
     if (filter === 'Active') {
         tasksForTodolist = tasksForTodolist.filter(t => !t.isDone);
@@ -54,7 +54,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [removeTodolist, todolistId]);
 
     const onChangeTodolistTitleHandler = useCallback((newTitle: string) => {
-      changeTodolistTitle(todolistId, newTitle);
+        changeTodolistTitle(todolistId, newTitle);
     }, [changeTodolistTitle, todolistId]);
 
     const onAddItemHandler = useCallback((newTitle: string) => {
@@ -73,14 +73,17 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         dispatch(changeTaskTitleAC(todolistId, taskId, newTitle));
     }, [dispatch, todolistId]);
 
-    let listOfTasks = tasksForTodolist.map(t =>
-        <Task
-            removeTask={removeTask}
-            setTaskCompleted={setTaskCompleted}
-            changeTaskTitle={changeTaskTitle}
-            taskData={t}
-        />
-    )
+
+    let listOfTasks = useMemo(() => {
+        return tasksForTodolist.map(t => <Task
+                removeTask={removeTask}
+                setTaskCompleted={setTaskCompleted}
+                changeTaskTitle={changeTaskTitle}
+                taskData={t}
+            />
+        )
+    }, [tasksForTodolist, changeTaskTitle, removeTask, setTaskCompleted]);
+
 
     return (
         <div
