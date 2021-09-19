@@ -1,4 +1,4 @@
-import {TasksObjectType} from "../App";
+import {TasksType} from "../App";
 import {v1} from "uuid";
 import {
     addTaskAC,
@@ -9,7 +9,7 @@ import {
 import {addTodolistAC, removeTodolistAC} from "./TodolistsReducer";
 
 const [todolistId1, todolistId2] = [v1(), v1()];
-let tasks: TasksObjectType;
+let tasks: TasksType;
 
 beforeEach(() => {
     tasks = {
@@ -42,8 +42,8 @@ test('new task should be added', () => {
     let newTasks = TasksReducer(tasks, addTaskAC(todolistId2, newTaskTitle));
 
     expect(newTasks[todolistId2].length).toBe(4);
-    expect(newTasks[todolistId2][3].title).toBe(newTaskTitle);
-    expect(newTasks[todolistId2][3].isDone).toBe(false);
+    expect(newTasks[todolistId2][0].title).toBe(newTaskTitle);
+    expect(newTasks[todolistId2][0].isDone).toBe(false);
 });
 
 test('task title should change', () => {

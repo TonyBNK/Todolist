@@ -1,11 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {IconButton, TextField} from "@material-ui/core";
 import {AddCircleOutline} from "@material-ui/icons";
 
 type AddItemFormPropsType = {
     addItem: (newTitle: string) => void
 }
-export const AddItemForm: React.FC<AddItemFormPropsType> = (
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
     {
         addItem
     }
@@ -13,18 +13,18 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (
     let [newItem, setNewItem] = useState<string>('');
     let [error, setError] = useState<string | null>(null);
 
-    const onAddItemHandler = () => {
+    const onAddItemHandler = useCallback(() => {
         if (newItem.trim()) {
             addItem(newItem.trim());
             setNewItem('');
         } else {
             setError("Title is required!");
         }
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    }, [addItem, newItem]);
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setNewItem(e.currentTarget.value);
-    }
-    const onEnterPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    }, []);
+    const onEnterPressHandler = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             if (newItem.trim()) {
                 addItem(newItem.trim());
@@ -33,9 +33,11 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (
                 setError("Title is required!");
             }
         } else {
-            setError(null);
+            if (error !== null) {
+                setError(null);
+            }
         }
-    }
+    }, [addItem, newItem, error]);
 
     return (
         <div>
@@ -52,4 +54,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (
             </IconButton>
         </div>
     )
-}
+})

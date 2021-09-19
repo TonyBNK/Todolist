@@ -38,8 +38,8 @@ test('todolist should be added', () => {
     const newTodolists = TodolistsReducer(todolists, addTodolistAC(todolistTitle));
 
     expect(newTodolists.length).toBe(3);
-    expect(newTodolists[2].title).toBe(todolistTitle);
-    expect(newTodolists[2].filter).toBe('All');
+    expect(newTodolists[0].title).toBe(todolistTitle);
+    expect(newTodolists[0].filter).toBe('All');
 });
 
 test('todolist title should be changed', () => {

@@ -81,7 +81,6 @@ export const TasksReducer = (state: TasksType = initialState, action: TasksReduc
             };
         case "ADD-TASK":
             const newTask = {id: v1(), title: action.taskTitle, isDone: false};
-
             return {
                 ...state,
                 [action.todolistId]: [newTask, ...state[action.todolistId],],

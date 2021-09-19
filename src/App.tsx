@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import c from './App.module.css';
-import {TaskType, Todolist} from "./components/Todolist/Todolist";
+import {Todolist} from "./components/Todolist/Todolist";
 import {AddItemForm} from "./components/Todolist/AddItemForm";
 import {
     AppBar,
@@ -16,6 +16,7 @@ import {
 } from "./reducers/TodolistsReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./redux/store";
+import {TaskType} from "./components/Todolist/Task";
 
 export type FilterType = 'All' | 'Active' | 'Completed';
 export type TodolistType = {
@@ -27,29 +28,28 @@ export type TasksType = {
     [key: string]: Array<TaskType>
 }
 
-function App() {
-
+const App = React.memo(() => {
     const dispatch = useDispatch();
 
     const todolists = useSelector<RootStateType, Array<TodolistType>>(
         state => state.todolists
     );
 
-    const addTodolist = (todolistTitle: string) => {
+    const addTodolist = useCallback((todolistTitle: string) => {
         dispatch(addTodolistAC(todolistTitle));
-    }
+    }, [dispatch]);
 
-    const removeTodolist = (todolistId: string) => {
+    const removeTodolist = useCallback((todolistId: string) => {
         dispatch(removeTodolistAC(todolistId));
-    }
+    }, [dispatch]);
 
-    const changeTodolistTitle = (todolistId: string, newTitle: string) => {
+    const changeTodolistTitle = useCallback((todolistId: string, newTitle: string) => {
         dispatch(changeTodolistTitleAC(todolistId, newTitle));
-    }
+    }, [dispatch]);
 
-    const changeFilter = (todolistId: string, filter: FilterType) => {
+    const changeFilter = useCallback((todolistId: string, filter: FilterType) => {
         dispatch(changeTodolistFilterAC(todolistId, filter));
-    }
+    }, [dispatch]);
 
     return (
         <div className={c.app}>
@@ -83,7 +83,6 @@ function App() {
                                     style={{padding: '20px', marginTop: '40px'}}
                                 >
                                     <Todolist
-                                        key={tl.id}
                                         todolistId={tl.id}
                                         title={tl.title}
                                         changeFilter={changeFilter}
@@ -99,6 +98,6 @@ function App() {
             </Container>
         </div>
     );
-}
+})
 
 export default App;

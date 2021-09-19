@@ -9,13 +9,12 @@ export type FilterButtonsType = {
     changeFilter: (todolistId: string, filter: FilterType) => void
     filter: FilterType
 }
-export const FilterButtons: React.FC<FilterButtonsType> = (
+export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
     {
         todolistId,
         changeFilter,
         filter
     }) => {
-
     const onAllFilterHandler = () => changeFilter(todolistId,'All');
     const onActiveFilterHandler = () => changeFilter(todolistId, 'Active');
     const onCompletedFilterHandler = () => changeFilter(todolistId, 'Completed');
@@ -51,4 +50,4 @@ export const FilterButtons: React.FC<FilterButtonsType> = (
             </Button>
         </div>
     );
-};
+});
