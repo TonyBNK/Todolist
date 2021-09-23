@@ -9,7 +9,7 @@ export type TaskType = {
     title: string
     isDone: boolean
 }
-type TaskPropsType = {
+export type TaskPropsType = {
     removeTask: (taskId: string) => void
     setTaskCompleted: (taskId: string, isChecked: boolean) => void
     changeTaskTitle: (taskId: string, newTitle: string) => void
@@ -31,9 +31,9 @@ export const Task: React.FC<TaskPropsType> = React.memo((
         setTaskCompleted(taskData.id, e.currentTarget.checked);
     }, [setTaskCompleted, taskData.id]);
 
-    const onChangeTaskTitleHandler = useCallback(() => {
-        changeTaskTitle(taskData.id, taskData.title);
-    }, [changeTaskTitle, taskData.id, taskData.title]);
+    const onChangeTaskTitleHandler = useCallback((newTitle: string) => {
+        changeTaskTitle(taskData.id, newTitle);
+    }, [changeTaskTitle, taskData.id]);
 
     return <div
         key={taskData.id}
