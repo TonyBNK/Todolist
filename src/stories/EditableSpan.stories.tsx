@@ -11,7 +11,7 @@ export default {
     component: EditableSpan,
     argTypes: {
         onChangeTitle: {
-            description: 'Title was changed'
+            description: 'Changes title of span'
         },
         title: {
             defaultValue: 'HTML',

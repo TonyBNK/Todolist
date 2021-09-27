@@ -1,5 +1,5 @@
 import {Provider} from "react-redux";
-import {RootStateType, store} from "../../redux/store";
+import {RootStateType} from "../../redux/store";
 import {combineReducers, createStore} from "redux";
 import {
     todolistId1,

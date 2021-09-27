@@ -10,8 +10,8 @@ export default {
     title: 'AddItemForm',
     component: AddItemForm,
     argTypes: {
-        onClick: {
-            description: 'Button inside form clicked'
+        addItem: {
+            description: 'Adds new item to form'
         }
     }
 } as Meta;
@@ -21,5 +21,5 @@ const Template: Story<AddItemFormPropsType> = (args) =>
 
 export const AddItemFormExample = Template.bind({});
 AddItemFormExample.args = {
-    addItem: action('Button inside form clicked')
+    addItem: action('Item was added')
 }
