@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {todolistsAPI} from "../api/todolists-api";
+import {Nullable, TaskType, todolistsAPI} from "../api/todolists-api";
 
 export default {
     title: 'API'
@@ -160,14 +160,36 @@ export const CreateTask = () => {
 
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null);
-    const [todolistId, setTodolistId] = useState<string>('');
-    const [taskId, setTaskId] = useState<string>('');
-    const [taskTitle, setTaskTitle] = useState<string>('');
+    const [todoListId, setTodoListId] = useState<string>('');
+    const [id, setId] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+    const [completed, setCompleted] = useState<boolean>(false);
+    const [status, setStatus] = useState<number>(0);
+    const [priority, setPriority] = useState<number>(0);
+    const [startDate, setStartDate] = useState<Nullable<string>>(null);
+    const [deadline, setDeadline] = useState<Nullable<string>>(null);
+    const [order, setOrder] = useState<number>(0);
+
+    const taskModel: TaskType = {
+        todoListId,
+        id,
+        title,
+        description,
+        completed,
+        status,
+        priority,
+        startDate,
+        deadline,
+        order,
+        addedDate: new Date()
+    }
 
     const updateTask = () => {
         todolistsAPI
-            .updateTask(todolistId, taskId, taskTitle)
+            .updateTask({...taskModel})
             .then(response => {
+                debugger;
                 setState(response.data.data.item);
             });
     }
@@ -175,21 +197,79 @@ export const UpdateTask = () => {
     return (
         <div>
             <div>{JSON.stringify(state)}</div>
-            <input
-                placeholder={'todolistId'}
-                value={todolistId}
-                onChange={(e) => setTodolistId(e.currentTarget.value)}
-            />
-            <input
-                placeholder={'taskId'}
-                value={taskId}
-                onChange={(e) => setTaskId(e.currentTarget.value)}
-            />
-            <input
-                placeholder={'title'}
-                value={taskTitle}
-                onChange={(e) => setTaskTitle(e.currentTarget.value)}
-            />
+            <div>
+                <input
+                    placeholder={'todolistId'}
+                    value={todoListId}
+                    onChange={(e) => setTodoListId(e.currentTarget.value)}
+                />
+            </div>
+            <div>
+                <input
+                    placeholder={'taskId'}
+                    value={id}
+                    onChange={(e) => setId(e.currentTarget.value)}
+                />
+            </div>
+            <div>
+                <input
+                    placeholder={'title'}
+                    value={title}
+                    onChange={(e) => setTitle(e.currentTarget.value)}
+                />
+            </div>
+            <div>
+                <input
+                    placeholder={'description'}
+                    value={description}
+                    onChange={(e) => setDescription(e.currentTarget.value)}
+                />
+            </div>
+            <div>
+                <input
+                    type={'checkbox'}
+                    onChange={(e) => setCompleted(e.currentTarget.checked)}
+                />
+                task completed
+            </div>
+            <div>
+                <input
+                    type={'number'}
+                    value={status}
+                    onChange={(e) => setStatus(+e.currentTarget.value)}
+                />
+                status
+            </div>
+            <div>
+                <input
+                    type={'number'}
+                    value={priority}
+                    onChange={(e) => setPriority(+e.currentTarget.value)}
+                />
+                priority
+            </div>
+            <div>
+                <input
+                    type={'date'}
+                    onChange={(e) => setStartDate(e.currentTarget.value)}
+                />
+                start date
+            </div>
+            <div>
+                <input
+                    type={'date'}
+                    onChange={(e) => setDeadline(e.currentTarget.value)}
+                />
+                deadline
+            </div>
+            <div>
+                <input
+                    type={'number'}
+                    value={order}
+                    onChange={(e) => setOrder(+e.currentTarget.value)}
+                />
+                order
+            </div>
             <button onClick={updateTask}>update task</button>
         </div>
     )

@@ -2,7 +2,6 @@ import {v1} from "uuid";
 import {
     addTodolistACType,
     removeTodolistACType,
-    todolistId1, todolistId2
 } from "./TodolistsReducer";
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>;

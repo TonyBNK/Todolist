@@ -8,6 +8,8 @@ const axiosInst = axios.create({
     }
 });
 
+export type Nullable<T> = T | null;
+
 type TodolistType = {
     id: string
     addedDate: string
@@ -21,18 +23,18 @@ type ResponseType<D> = {
     messages: Array<string>
 }
 
-type TaskType = {
-    description: string
+export type TaskType = {
+    todoListId: string
+    id: string
+    description: Nullable<string>
     title: string
     completed: boolean
     status: number
     priority: number
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
+    startDate: Nullable<string>
+    deadline: Nullable<string>
     order: number
-    addedDate: string
+    addedDate: Date
 }
 
 type ResponseGetTasksType = {
@@ -80,16 +82,10 @@ export const todolistsAPI = {
                title: taskTitle
             });
     },
-    updateTask: (todolistId: string, taskId: string, taskTitle: string) => {
+    updateTask: ({todoListId, id, ...restProps}: TaskType) => {
         return axiosInst
-            .put<ResponseCreateUpdateTasksType>(`todo-lists/${todolistId}/tasks/${taskId}`, {
-                title: `${taskTitle}`,
-                description: 'awfaserfaw',
-                completed: true,
-                status: 1,
-                priority: 2,
-                startDate: '',
-                deadline: ''
+            .put<ResponseCreateUpdateTasksType>(`todo-lists/${todoListId}/tasks/${id}`, {
+                ...restProps
             });
     },
     deleteTask: (todolistId: string, taskId: string) => {
