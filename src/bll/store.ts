@@ -1,6 +1,6 @@
 import {combineReducers, createStore} from "redux";
-import {TodolistsReducer} from "../reducers/TodolistsReducer";
-import {TasksReducer} from "../reducers/TasksReducer";
+import {TodolistsReducer} from "./reducers/TodolistsReducer";
+import {TasksReducer} from "./reducers/TasksReducer";
 
 
 const rootReducer = combineReducers({

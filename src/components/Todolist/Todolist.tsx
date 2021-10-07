@@ -1,19 +1,19 @@
 import React, {useCallback, useMemo} from "react";
 import c from './Todolist.module.css';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import {AddItemForm} from "./AddItemForm/AddItemForm";
+import {EditableSpan} from "./EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {
-    addTaskAC, changeTaskTitleAC,
-    removeTaskAC,
-    setCompletedAC
-} from "../../reducers/TasksReducer";
+    addTask, changeTaskTitle,
+    removeTask,
+    changeTaskStatus
+} from "../../bll/reducers/TasksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {RootStateType} from "../../redux/store";
+import {RootStateType} from "../../bll/store";
 import {FilterType} from "../../App";
-import {Task, TaskType} from "./Task";
+import {Task, TaskType} from "./Task/Task";
 
 
 type TodolistPropsType = {
@@ -58,19 +58,19 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [changeTodolistTitle, todolistId]);
 
     const onAddItemHandler = useCallback((newTitle: string) => {
-        dispatch(addTaskAC(todolistId, newTitle));
+        dispatch(addTask(todolistId, newTitle));
     }, [dispatch, todolistId]);
 
     const removeTask = useCallback((taskId: string) => {
-        dispatch(removeTaskAC(todolistId, taskId));
+        dispatch(removeTask(todolistId, taskId));
     }, [dispatch, todolistId]);
 
     const setTaskCompleted = useCallback((taskId: string, isChecked: boolean) => {
-        dispatch(setCompletedAC(todolistId, taskId, isChecked));
+        dispatch(changeTaskStatus(todolistId, taskId, isChecked));
     }, [dispatch, todolistId]);
 
     const changeTaskTitle = useCallback((taskId: string, newTitle: string) => {
-        dispatch(changeTaskTitleAC(todolistId, taskId, newTitle));
+        dispatch(changeTaskTitle(todolistId, taskId, newTitle));
     }, [dispatch, todolistId]);
 
 

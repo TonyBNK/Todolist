@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Nullable, TaskType, todolistsAPI} from "../api/todolists-api";
+import {todolistsAPI} from "../api/todolists-api";
+import {Nullable, TaskType} from "../types/types";
 
 export default {
     title: 'API'
@@ -164,7 +165,6 @@ export const UpdateTask = () => {
     const [id, setId] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [completed, setCompleted] = useState<boolean>(false);
     const [status, setStatus] = useState<number>(0);
     const [priority, setPriority] = useState<number>(0);
     const [startDate, setStartDate] = useState<Nullable<string>>(null);
@@ -176,12 +176,11 @@ export const UpdateTask = () => {
         id,
         title,
         description,
-        completed,
+        order,
         status,
         priority,
         startDate,
         deadline,
-        order,
         addedDate: new Date()
     }
 
@@ -189,7 +188,6 @@ export const UpdateTask = () => {
         todolistsAPI
             .updateTask({...taskModel})
             .then(response => {
-                debugger;
                 setState(response.data.data.item);
             });
     }
@@ -224,13 +222,6 @@ export const UpdateTask = () => {
                     value={description}
                     onChange={(e) => setDescription(e.currentTarget.value)}
                 />
-            </div>
-            <div>
-                <input
-                    type={'checkbox'}
-                    onChange={(e) => setCompleted(e.currentTarget.checked)}
-                />
-                task completed
             </div>
             <div>
                 <input

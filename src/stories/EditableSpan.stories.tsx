@@ -3,7 +3,7 @@ import {action} from "@storybook/addon-actions";
 import {
     EditableSpan,
     EditableSpanPropsType
-} from "../components/Todolist/EditableSpan";
+} from "../components/Todolist/EditableSpan/EditableSpan";
 
 
 export default {

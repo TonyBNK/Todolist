@@ -1,4 +1,4 @@
-import {FilterType, TodolistType} from "../App";
+import {FilterType, TodolistType} from "../../App";
 import {
     addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
     removeTodolistAC,

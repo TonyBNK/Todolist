@@ -1,9 +1,9 @@
-import {TasksType} from "../App";
+import {TasksType} from "../../App";
 import {v1} from "uuid";
 import {
-    addTaskAC,
-    changeTaskTitleAC,
-    removeTaskAC, setCompletedAC,
+    addTask,
+    changeTaskTitle,
+    removeTask, changeTaskStatus,
     TasksReducer
 } from "./TasksReducer";
 import {addTodolistAC, removeTodolistAC} from "./TodolistsReducer";
@@ -30,7 +30,7 @@ beforeEach(() => {
 });
 
 test('task 3 should be removed from todolist 1', () => {
-    let newTasks = TasksReducer(tasks, removeTaskAC(todolistId1, '3'));
+    let newTasks = TasksReducer(tasks, removeTask(todolistId1, '3'));
 
     expect(newTasks[todolistId1].length).toBe(5);
     expect(newTasks[todolistId2].length).toBe(3);
@@ -39,7 +39,7 @@ test('task 3 should be removed from todolist 1', () => {
 
 test('new task should be added', () => {
     const newTaskTitle = 'Butter';
-    let newTasks = TasksReducer(tasks, addTaskAC(todolistId2, newTaskTitle));
+    let newTasks = TasksReducer(tasks, addTask(todolistId2, newTaskTitle));
 
     expect(newTasks[todolistId2].length).toBe(4);
     expect(newTasks[todolistId2][0].title).toBe(newTaskTitle);
@@ -48,7 +48,7 @@ test('new task should be added', () => {
 
 test('task title should change', () => {
     const newTaskTitle = 'Beer';
-    let newTasks = TasksReducer(tasks, changeTaskTitleAC(todolistId2, '1', newTaskTitle));
+    let newTasks = TasksReducer(tasks, changeTaskTitle(todolistId2, '1', newTaskTitle));
 
     expect(newTasks[todolistId2].length).toBe(3);
     expect(newTasks[todolistId2][0].title).toBe(newTaskTitle);
@@ -56,7 +56,7 @@ test('task title should change', () => {
 });
 
 test('task completed status should be set', () => {
-    let newTasks = TasksReducer(tasks, setCompletedAC(todolistId2, '3', true));
+    let newTasks = TasksReducer(tasks, changeTaskStatus(todolistId2, '3', true));
 
     expect(newTasks[todolistId2].length).toBe(3);
     expect(newTasks[todolistId2][2].title).toBe('Chips');

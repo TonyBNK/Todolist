@@ -1,12 +1,12 @@
 import {Provider} from "react-redux";
-import {RootStateType} from "../../redux/store";
+import {RootStateType} from "../../bll/store";
 import {combineReducers, createStore} from "redux";
 import {
     todolistId1,
     todolistId2,
     TodolistsReducer
-} from "../../reducers/TodolistsReducer";
-import {TasksReducer} from "../../reducers/TasksReducer";
+} from "../../bll/reducers/TodolistsReducer";
+import {TasksReducer} from "../../bll/reducers/TasksReducer";
 import {v1} from "uuid";
 
 
