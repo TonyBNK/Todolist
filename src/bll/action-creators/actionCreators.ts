@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {
     FilterType,
     GetTodolistsType,
@@ -14,8 +13,7 @@ export const getAllTodolists = (todolists: GetTodolistsType) => ({
 
 export const addTodolist = (title: string) => ({
     type: 'ADD-TODOLIST',
-    title,
-    id: v1()
+    title
 } as const);
 
 export const changeTodolistTitle = (id: string, newTitle: string) => ({
@@ -35,8 +33,9 @@ export const removeTodolist = (id: string) => ({
     id
 } as const);
 
-export const getAllTasks = () => ({
-    type: 'GET-ALL-TASKS'
+export const getAllTasks = (tasks: Array<TaskType>) => ({
+    type: 'GET-ALL-TASKS',
+    tasks
 } as const);
 
 export const addTask = (taskModel: TaskType) => ({
@@ -56,7 +55,7 @@ export const changeTaskStatus = (taskModel: TaskType, newStatus: TaskStatuses) =
     newStatus
 } as const);
 
-export const removeTask = (id: string) => ({
+export const removeTask = (taskModel: TaskType) => ({
     type: "REMOVE-TASK",
-    id
+    ...taskModel
 } as const);

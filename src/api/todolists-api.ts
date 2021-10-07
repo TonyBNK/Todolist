@@ -46,10 +46,10 @@ export const todolistsAPI = {
                     title: title
                 });
         },
-        updateTask: ({todoListId, id, ...restProps}: TaskType) => {
+        updateTask: ({todoListId, id, ...updatableProps}: TaskType) => {
             return axiosInst
                 .put<ResponseType<{ item: TaskType }>>(`todo-lists/${todoListId}/tasks/${id}`, {
-                    ...restProps
+                    ...updatableProps
                 });
         },
         deleteTask: (todolistId: string, id: string) => {

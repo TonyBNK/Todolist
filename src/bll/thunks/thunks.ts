@@ -1,12 +1,14 @@
 import {todolistsAPI} from "../../api/todolists-api";
 import {
-    addTodolist,
-    changeTodolistTitle,
-    getAllTodolists, removeTodolist
+    addTask,
+    addTodolist, changeTaskTitle,
+    changeTodolistTitle, getAllTasks,
+    getAllTodolists, removeTask, removeTodolist
 } from "../action-creators/actionCreators";
 import {
-    CreateTodolistType, DeleteTodolistType,
-    GetAllTodolistsType,
+    CreateTaskType,
+    CreateTodolistType, DeleteTaskType, DeleteTodolistType, GetAllTasksType,
+    GetAllTodolistsType, UpdateTaskTitleType,
     UpdateTodolistType
 } from "../../types/types";
 
@@ -60,8 +62,56 @@ export const deleteTodolist: DeleteTodolistType = (id) => {
     }
 }
 
-export const getTasks: any = () => {
-    return (dispatch: any) => {
+export const getTasks: GetAllTasksType = (todoListId) => {
+    return (dispatch) => {
+        todolistsAPI
+            .tasksAPI
+            .getTasks(todoListId)
+            .then(response => {
+                dispatch(getAllTasks(response.data.items));
+            })
+            .catch(error => console.log(error));
+    }
+}
 
+export const createTask: CreateTaskType = (task) => {
+    return (dispatch) => {
+        todolistsAPI
+            .tasksAPI
+            .createTask(task.todoListId, task.title)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(addTask(task));
+                }
+            })
+            .catch(error => console.log(error));
+    }
+}
+
+export const updateTaskTitle: UpdateTaskTitleType = (task, newTitle) => {
+    return (dispatch) => {
+        todolistsAPI
+            .tasksAPI
+            .updateTask(task)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(changeTaskTitle(task, newTitle));
+                }
+            })
+            .catch(error => console.log(error));
+    }
+}
+
+export const deleteTask: DeleteTaskType = (task) => {
+    return (dispatch) => {
+        todolistsAPI
+            .tasksAPI
+            .deleteTask(task.todoListId, task.id)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(removeTask(task));
+                }
+            })
+            .catch(error => console.log(error));
     }
 }

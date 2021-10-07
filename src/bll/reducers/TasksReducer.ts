@@ -8,7 +8,7 @@ export const TasksReducer = (state = initialState, action: TaskActionType):
     switch (action.type) {
         case "GET-ALL-TASKS":
             return [
-                ...state
+                ...action.tasks
             ];
         case "ADD-TASK":
             return [

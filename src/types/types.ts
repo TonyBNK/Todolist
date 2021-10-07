@@ -96,7 +96,7 @@ export type CreateTodolistType = (title: string) => (dispatch: (action: Todolist
 export type UpdateTodolistType = (id: string, title: string) => (dispatch: (action: TodolistActionType) => void) => void
 export type DeleteTodolistType = (id: string) => (dispatch: (action: TodolistActionType) => void) => void
 
-export type GetAllTasksType = () => (dispatch: (action: TodolistActionType) => void) => void
-export type CreateTaskType = (title: string) => (dispatch: (action: TodolistActionType) => void) => void
-export type UpdateTaskType = (id: string, title: string) => (dispatch: (action: TodolistActionType) => void) => void
-export type DeleteTaskType = (id: string) => (dispatch: (action: TodolistActionType) => void) => void
+export type GetAllTasksType = (todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
+export type CreateTaskType = (taskModel: TaskType) => (dispatch: (action: TaskActionType) => void) => void
+export type UpdateTaskTitleType = (taskModel: TaskType, newTitle: string) => (dispatch: (action: TaskActionType) => void) => void
+export type DeleteTaskType = (taskModel: TaskType) => (dispatch: (action: TaskActionType) => void) => void
