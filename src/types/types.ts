@@ -8,6 +8,7 @@ import {
     removeTodolist
 } from "../bll/action-creators/actionCreators";
 
+
 export type Nullable<T> = T | null;
 
 export type FilterType = 'All' | 'Active' | 'Completed';
@@ -45,6 +46,10 @@ export type TaskType = {
     startDate: Nullable<string>
     deadline: Nullable<string>
     addedDate: Date
+}
+
+export type AllTasksType = {
+    [todolistId: string]: Array<TaskType>
 }
 
 export type GetTodolistsType = Array<TodolistType>;
@@ -93,7 +98,7 @@ export type TaskActionType =
 // Thunk Creators Types
 export type GetAllTodolistsType = () => (dispatch: (action: TodolistActionType) => void) => void
 export type CreateTodolistType = (title: string) => (dispatch: (action: TodolistActionType) => void) => void
-export type UpdateTodolistType = (id: string, title: string) => (dispatch: (action: TodolistActionType) => void) => void
+export type UpdateTodolistType = (todolistModel: TodolistType, newTitle: string) => (dispatch: (action: TodolistActionType) => void) => void
 export type DeleteTodolistType = (id: string) => (dispatch: (action: TodolistActionType) => void) => void
 
 export type GetAllTasksType = (todoListId: string) => (dispatch: (action: TaskActionType) => void) => void

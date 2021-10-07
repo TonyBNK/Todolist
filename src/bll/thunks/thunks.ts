@@ -20,6 +20,7 @@ export const getTodolists: GetAllTodolistsType = () => {
             .then(response => {
                 dispatch(getAllTodolists(response.data));
             })
+            .catch(error => console.log(error));
     }
 }
 
@@ -29,20 +30,20 @@ export const createTodolist: CreateTodolistType = (title) => {
             .createTodolist(title)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(addTodolist(response.data.data.item.title));
+                    dispatch(addTodolist(response.data.data.item));
                 }
             })
             .catch(error => console.log(error));
     }
 }
 
-export const updateTodolist: UpdateTodolistType = (id, newTitle) => {
+export const updateTodolist: UpdateTodolistType = (todolist, newTitle) => {
     return (dispatch) => {
         todolistsAPI
-            .updateTodolist(id, newTitle)
+            .updateTodolist(todolist.id, newTitle)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(changeTodolistTitle(id, newTitle));
+                    dispatch(changeTodolistTitle(todolist, newTitle));
                 }
             })
             .catch(error => console.log(error));
@@ -68,7 +69,7 @@ export const getTasks: GetAllTasksType = (todoListId) => {
             .tasksAPI
             .getTasks(todoListId)
             .then(response => {
-                dispatch(getAllTasks(response.data.items));
+                dispatch(getAllTasks(todoListId, response.data.items));
             })
             .catch(error => console.log(error));
     }

@@ -6,7 +6,8 @@ import {Provider} from "react-redux";
 import {store} from "./bll/store";
 import App from "./App";
 
-ReactDOM.render(<Provider store={store}>
+ReactDOM.render(
+    <Provider store={store}>
         <App/>
     </Provider>,
     document.getElementById('root')
@@ -16,3 +17,7 @@ ReactDOM.render(<Provider store={store}>
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+// @ts-ignore
+window.state = store.getState();

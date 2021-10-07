@@ -1,7 +1,7 @@
 import React from "react";
 import c from './FilterButtons.module.css';
 import {Button} from "@material-ui/core";
-import {FilterType} from "../../../App";
+import {FilterType} from "../../../types/types";
 
 
 export type FilterButtonsType = {

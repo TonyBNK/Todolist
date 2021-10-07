@@ -108,11 +108,11 @@ export const GetTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('');
 
     const getTasks = () => {
-        todolistsAPI
-            .getTasks(todolistId)
-            .then(response => {
-                setState(response.data.items);
-            });
+        // todolistsAPI
+        //     .getTasks(todolistId)
+        //     .then(response => {
+        //         setState(response.data.items);
+        //     });
     }
 
     return (
@@ -134,11 +134,11 @@ export const CreateTask = () => {
     const [title, setTitle] = useState<string>('');
 
     const createTask = () => {
-        todolistsAPI
-            .createTask(todolistId, title)
-            .then(response => {
-                setState(response.data.data.item);
-            });
+        // todolistsAPI
+        //     .createTask(todolistId, title)
+        //     .then(response => {
+        //         setState(response.data.data.item);
+        //     });
     }
 
     return (
@@ -185,11 +185,11 @@ export const UpdateTask = () => {
     }
 
     const updateTask = () => {
-        todolistsAPI
-            .updateTask({...taskModel})
-            .then(response => {
-                setState(response.data.data.item);
-            });
+        // todolistsAPI
+        //     .updateTask({...taskModel})
+        //     .then(response => {
+        //         setState(response.data.data.item);
+        //     });
     }
 
     return (
@@ -272,11 +272,11 @@ export const DeleteTask = () => {
     const [taskId, setTaskId] = useState<string>('');
 
     const deleteTask = () => {
-        todolistsAPI
-            .deleteTask(todolistId, taskId)
-            .then(response => {
-                setState(response.data.data);
-            });
+        // todolistsAPI
+        //     .deleteTask(todolistId, taskId)
+        //     .then(response => {
+        //         setState(response.data.data);
+        //     });
     }
 
     return (

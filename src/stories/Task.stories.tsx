@@ -27,12 +27,12 @@ export default {
 const Template: Story<TaskPropsType> = (args) =>
     <Task {...args}/>;
 
-export const TaskIsDoneExample = Template.bind({});
-TaskIsDoneExample.args = {
-    taskData: {id: '1', isDone: true, title: 'JS'},
-}
-
-export const TaskIsNotDoneExample = Template.bind({});
-TaskIsNotDoneExample.args = {
-    taskData: {id: '2', isDone: false, title: 'Saga'},
-}
+// export const TaskIsDoneExample = Template.bind({});
+// TaskIsDoneExample.args = {
+//     taskData: {id: '1', isDone: true, title: 'JS'},
+// }
+//
+// export const TaskIsNotDoneExample = Template.bind({});
+// TaskIsNotDoneExample.args = {
+//     taskData: {id: '2', isDone: false, title: 'Saga'},
+// }

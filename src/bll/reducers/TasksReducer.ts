@@ -8,33 +8,48 @@ export const TasksReducer = (state = initialState, action: TaskActionType):
     switch (action.type) {
         case "GET-ALL-TASKS":
             return [
+                ...state,
                 ...action.tasks
-            ];
-        case "ADD-TASK":
-            return [
-                ...state,
-                {
-                    ...action
-                }
             ]
-        case "CHANGE-TASK-TITLE":
-            return [
-                ...state,
-                {
-                    ...action,
-                    title: action.newTitle
-                }
-            ];
-        case "CHANGE-TASK-STATUS":
-            return [
-                ...state,
-                {
-                    ...action,
-                    status: action.newStatus
-                }
-            ];
-        case "REMOVE-TASK":
-            return state.filter(task => task.id !== action.id);
+        // case "ADD-TASK":
+        //     return {
+        //         ...state,
+        //         [action.taskModel.todoListId]: [
+        //             ...state[action.taskModel.todoListId],
+        //             {
+        //                 ...action.taskModel
+        //             }
+        //         ]
+        //     }
+        // case "CHANGE-TASK-TITLE":
+        //     return {
+        //         ...state,
+        //         [action.taskModel.todoListId]: [
+        //             ...state[action.taskModel.todoListId],
+        //             {
+        //                 ...action.taskModel,
+        //                 title: action.newTitle
+        //             }
+        //         ]
+        //     }
+        // case "CHANGE-TASK-STATUS":
+        //     return {
+        //         ...state,
+        //         [action.taskModel.todoListId]: [
+        //             ...state[action.taskModel.todoListId],
+        //             {
+        //                 ...action.taskModel,
+        //                 status: action.newStatus
+        //             }
+        //         ]
+        //     }
+        // case "REMOVE-TASK":
+        //     return {
+        //         ...state,
+        //         [action.taskModel.todoListId]: state[action.taskModel.todoListId].filter(task =>
+        //             task.id !== action.taskModel.id
+        //         )
+        //     }
         default:
             return state;
     }
