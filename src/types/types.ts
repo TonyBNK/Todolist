@@ -81,17 +81,6 @@ export type TaskActionType =
     | ReturnType<typeof addTodolist>
     | ReturnType<typeof removeTodolist>;
 
-// export type TodolistsStateType = {
-//     todolists: Array<TodolistType>
-// }
-//
-// export type TodolistsDispatchType = {
-//     addTodolist: (todolistTitle: string) => void,
-//     removeTodolist: (todolistId: string) => void,
-//     changeTodolistTitle: (todolistId: string, newTitle: string) => void,
-//     changeFilter: (todolistId: string, filter: FilterType) => void
-// }
-
 // Thunk Creators Types
 export type GetAllTodolistsType = () => (dispatch: (action: TodolistActionType) => void) => void
 export type CreateTodolistType = (title: string) => (dispatch: (action: TodolistActionType) => void) => void

@@ -45,9 +45,9 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         tasks = tasks.filter(t => t.status === TaskStatuses.Completed);
     }
 
-    const onRemoveTodolistHandler = () => {
+    const onRemoveTodolistHandler = useCallback(() => {
         dispatch(deleteTodolist(id));
-    }
+    }, [dispatch, id]);
 
     const addTask = useCallback((title: string) => {
         dispatch(createTask(title, id));

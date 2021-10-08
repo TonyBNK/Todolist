@@ -1,8 +1,4 @@
-import {
-    GetTodolistsType,
-    TaskStatuses,
-    TaskType, TodolistType
-} from "../../types/types";
+import {GetTodolistsType, TaskType, TodolistType} from "../../types/types";
 
 
 export const getAllTodolists = (todolists: GetTodolistsType) => ({
@@ -41,12 +37,6 @@ export const changeTask = (taskModel: TaskType) => ({
     type: 'CHANGE-TASK',
     taskModel
 } as const);
-
-// export const changeTaskStatus = (taskModel: TaskType, newStatus: TaskStatuses) => ({
-//     type: 'CHANGE-TASK-STATUS',
-//     taskModel,
-//     newStatus
-// } as const);
 
 export const removeTask = (id: string) => ({
     type: "REMOVE-TASK",

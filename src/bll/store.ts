@@ -12,7 +12,3 @@ const rootReducer = combineReducers({
 export type RootStateType = ReturnType<typeof rootReducer>;
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-
-
-// @ts-ignore
-window.store = store;

@@ -23,18 +23,7 @@ export const TasksReducer = (state = initialState, action: TaskActionType):
                 task.id === action.taskModel.id
                     ? {...action.taskModel}
                     : task
-            )
-        // case "CHANGE-TASK-STATUS":
-        //     return {
-        //         ...state,
-        //         [action.taskModel.todoListId]: [
-        //             ...state[action.taskModel.todoListId],
-        //             {
-        //                 ...action.taskModel,
-        //                 status: action.newStatus
-        //             }
-        //         ]
-        //     }
+            );
         case "REMOVE-TASK":
             return state.filter(tl => tl.id !== action.id);
         default:

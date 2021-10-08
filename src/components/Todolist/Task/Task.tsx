@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import c from "../Todolist.module.css";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -18,25 +18,26 @@ export const Task: React.FC<TaskPropsType> = React.memo((
 ) => {
     const dispatch = useDispatch();
 
-    const onRemoveTaskHandler = () => {
+    const onRemoveTaskHandler = useCallback(() => {
         dispatch(deleteTask(taskModel.id, taskModel.todoListId));
-    }
+    }, [dispatch, taskModel.id, taskModel.todoListId]);
 
-    const changeTitle = (newTitle: string) => {
+    const changeTitle = useCallback((newTitle: string) => {
         const payload = {...taskModel, title: newTitle};
         dispatch(updateTask(taskModel, payload));
-    };
+    }, [dispatch, taskModel]);
 
-    const changeStatus = (newStatus: TaskStatuses) => {
+    const changeStatus = useCallback((newStatus: TaskStatuses) => {
         const payload = {...taskModel, status: newStatus};
         dispatch(updateTask(taskModel, payload));
-    };
+    }, [dispatch, taskModel]);
 
-    const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeStatusHandler = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
         e.currentTarget.checked
             ? changeStatus(TaskStatuses.Completed)
             : changeStatus(TaskStatuses.New)
-    };
+    }, [changeStatus]);
 
     return <div
         key={taskModel.id}

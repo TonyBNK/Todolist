@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import c from './FilterButtons.module.css';
 import {Button} from "@material-ui/core";
 import {FilterType} from "../../../types/types";
@@ -13,9 +13,15 @@ export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
         changeFilter,
         filter
     }) => {
-    const onAllFilterHandler = () => changeFilter('All');
-    const onActiveFilterHandler = () => changeFilter('Active');
-    const onCompletedFilterHandler = () => changeFilter('Completed');
+    const onAllFilterHandler = useCallback(
+        () => changeFilter('All'), [changeFilter]
+    );
+    const onActiveFilterHandler = useCallback(
+        () => changeFilter('Active'), [changeFilter]
+    );
+    const onCompletedFilterHandler = useCallback(
+        () => changeFilter('Completed'), [changeFilter]
+    );
 
     return (
         <div className={c.filterButtons}>
