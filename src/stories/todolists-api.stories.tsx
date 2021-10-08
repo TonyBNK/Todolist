@@ -53,11 +53,11 @@ export const UpdateTodolist = () => {
     const [title, setTitle] = useState<string>('');
 
     const updateTodolist = () => {
-        todolistsAPI
-            .updateTodolist(id, title)
-            .then(response => {
-                setState(response.data);
-            });
+        // todolistsAPI
+        //     .updateTodolist(id, title)
+        //     .then(response => {
+        //         setState(response.data);
+        //     });
     }
 
     return (

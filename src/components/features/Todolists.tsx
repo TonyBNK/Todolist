@@ -38,8 +38,7 @@ export const Todolists = React.memo(() => {
                                     style={{padding: '20px', marginTop: '40px'}}
                                 >
                                     <Todolist
-                                        id={tl.id}
-                                        title={tl.title}
+                                        todolistModel={tl}
                                     />
                                 </Paper>
                             </Grid>

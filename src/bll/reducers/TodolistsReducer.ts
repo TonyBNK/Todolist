@@ -12,13 +12,13 @@ export const TodolistsReducer = (state = initialState, action: TodolistActionTyp
             ];
         case 'ADD-TODOLIST':
             return [
-                ...state,
                 {...action.todolist},
+                ...state,
             ];
-        case 'CHANGE-TODOLIST-TITLE':
+        case 'CHANGE-TODOLIST':
             return state.map(tl => {
-                return tl.id === action.id
-                    ? {...tl, title: action.newTitle}
+                return tl.id === action.todolist.id
+                    ? {...action.todolist}
                     : tl
             });
         case 'REMOVE-TODOLIST':

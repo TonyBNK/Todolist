@@ -7,7 +7,12 @@ import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../bll/store";
-import {FilterType, TaskStatuses, TaskType} from "../../../types/types";
+import {
+    FilterType,
+    TaskStatuses,
+    TaskType,
+    TodolistType
+} from "../../../types/types";
 import {
     createTask,
     deleteTodolist,
@@ -17,23 +22,21 @@ import {Task} from "./Task/Task";
 
 
 type TodolistPropsType = {
-    id: string
-    title: string
+    todolistModel: TodolistType
 }
 export const Todolist: React.FC<TodolistPropsType> = React.memo((
     {
-        id,
-        title
+        todolistModel
     }
 ) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getTasks(id));
-    }, [dispatch, id]);
+        dispatch(getTasks(todolistModel.id));
+    }, [dispatch, todolistModel.id]);
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
-        state => state.tasks.filter(task => task.todoListId === id)
+        state => state.tasks.filter(task => task.todoListId === todolistModel.id)
     );
 
     const [filter, setFilter] = useState<FilterType>('All');
@@ -46,16 +49,16 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }
 
     const onRemoveTodolistHandler = useCallback(() => {
-        dispatch(deleteTodolist(id));
-    }, [dispatch, id]);
+        dispatch(deleteTodolist(todolistModel.id));
+    }, [dispatch, todolistModel.id]);
 
     const addTask = useCallback((title: string) => {
-        dispatch(createTask(title, id));
-    }, [dispatch, id]);
+        dispatch(createTask(title, todolistModel.id));
+    }, [dispatch, todolistModel.id]);
 
-    const changeTitle = useCallback((newTitle: string) => {
-        dispatch(updateTodolist(id, newTitle));
-    }, [dispatch, id]);
+    const changeTodolist = useCallback((newTitle: string) => {
+        dispatch(updateTodolist({...todolistModel, title: newTitle}));
+    }, [dispatch, todolistModel]);
 
     const changeFilter = useCallback((newFilter: FilterType) => {
         setFilter(newFilter);
@@ -63,12 +66,12 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
 
     return (
         <div
-            key={id}
+            key={todolistModel.id}
             className={c.todolist}>
             <h3>
                 <EditableSpan
-                    title={title}
-                    onChangeTitle={changeTitle}
+                    title={todolistModel.title}
+                    onChangeTitle={changeTodolist}
                 />
                 <IconButton onClick={onRemoveTodolistHandler}>
                     <DeleteOutline color={"primary"}/>

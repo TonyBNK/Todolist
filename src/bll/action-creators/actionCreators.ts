@@ -11,10 +11,9 @@ export const addTodolist = (todolist: TodolistType) => ({
     todolist
 } as const);
 
-export const changeTodolistTitle = (id: string, newTitle: string) => ({
-    type: 'CHANGE-TODOLIST-TITLE',
-    id,
-    newTitle
+export const changeTodolist = (todolist: TodolistType) => ({
+    type: 'CHANGE-TODOLIST',
+    todolist
 } as const);
 
 export const removeTodolist = (id: string) => ({

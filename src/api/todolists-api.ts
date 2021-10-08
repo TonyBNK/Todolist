@@ -25,10 +25,10 @@ export const todolistsAPI = {
                 title: title
             });
     },
-    updateTodolist: (id: string, newTitle: string) => {
+    updateTodolist: ({id, ...updatableProps}: TodolistType) => {
         return axiosInst
             .put<ResponseType>(`todo-lists/${id}`, {
-                title: newTitle
+                ...updatableProps
             });
     },
     deleteTodolist: (id: string) => {

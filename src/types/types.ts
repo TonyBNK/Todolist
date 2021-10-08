@@ -2,7 +2,7 @@ import {
     addTask,
     addTodolist,
     changeTask,
-    changeTodolistTitle, getAllTasks, getAllTodolists,
+    changeTodolist, getAllTasks, getAllTodolists,
     removeTask,
     removeTodolist
 } from "../bll/action-creators/actionCreators";
@@ -72,20 +72,18 @@ export type TodolistActionType =
     ReturnType<typeof getAllTodolists>
     | ReturnType<typeof removeTodolist>
     | ReturnType<typeof addTodolist>
-    | ReturnType<typeof changeTodolistTitle>;
+    | ReturnType<typeof changeTodolist>;
 
 export type TaskActionType =
     ReturnType<typeof getAllTasks>
     | ReturnType<typeof removeTask>
     | ReturnType<typeof addTask>
-    | ReturnType<typeof changeTask>
-    | ReturnType<typeof addTodolist>
-    | ReturnType<typeof removeTodolist>;
+    | ReturnType<typeof changeTask>;
 
 // Thunk Creators Types
 export type GetAllTodolistsType = () => (dispatch: Dispatch<TodolistActionType>) => void
 export type CreateTodolistType = (title: string) => (dispatch: Dispatch<TodolistActionType>) => void
-export type UpdateTodolistType = (id: string, newTitle: string) => (dispatch: Dispatch<TodolistActionType>) => void
+export type UpdateTodolistType = (payload: TodolistType) => (dispatch: Dispatch<TodolistActionType>) => void
 export type DeleteTodolistType = (id: string) => (dispatch: Dispatch<TodolistActionType>) => void
 
 export type GetAllTasksType = (todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void

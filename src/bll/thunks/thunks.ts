@@ -2,7 +2,7 @@ import {todolistsAPI} from "../../api/todolists-api";
 import {
     addTask,
     addTodolist, changeTask,
-    changeTodolistTitle, getAllTasks,
+    changeTodolist, getAllTasks,
     getAllTodolists, removeTask, removeTodolist
 } from "../action-creators/actionCreators";
 import {
@@ -37,13 +37,13 @@ export const createTodolist: CreateTodolistType = (title) => {
     }
 }
 
-export const updateTodolist: UpdateTodolistType = (id, newTitle) => {
+export const updateTodolist: UpdateTodolistType = (payload) => {
     return (dispatch) => {
         todolistsAPI
-            .updateTodolist(id, newTitle)
+            .updateTodolist(payload)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(changeTodolistTitle(id, newTitle));
+                    dispatch(changeTodolist(payload));
                 }
             })
             .catch(error => console.log(error));
@@ -93,7 +93,7 @@ export const updateTask: UpdateTaskType = (task, payload) => {
     return (dispatch) => {
         todolistsAPI
             .tasksAPI
-            .updateTask({...payload})
+            .updateTask(payload)
             .then(response => {
                 if (response.data.resultCode === 0) {
                     dispatch(changeTask(response.data.data.item));

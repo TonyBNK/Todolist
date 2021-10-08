@@ -1,62 +1,67 @@
-import {
-    TodolistsReducer
-} from "./TodolistsReducer";
-import {v1} from "uuid";
 import {TodolistType} from "../../types/types";
-import {addTodolist, removeTodolist} from "../action-creators/actionCreators";
+import {
+    addTodolist,
+    changeTodolist,
+    removeTodolist
+} from "../action-creators/actionCreators";
+import {TodolistsReducer} from "./TodolistsReducer";
 
-const [todolistId1, todolistId2] = [v1(), v1()];
+
 let todolists: Array<TodolistType>;
+let newTodolist: TodolistType;
 
 beforeEach(() => {
     todolists = [
-        // {id: todolistId1, title: "What to learn", filter: 'All'},
-        // {id: todolistId2, title: "What to buy", filter: 'All'},
-    ]
+        {
+            id: "608a4deb-ec8c-4dd9-866d-50a3a5b15316",
+            title: "What to play",
+            addedDate: new Date("2021-09-27T16:55:44.577"),
+            order: -3
+        },
+        {
+            id: "4d51be01-6bf3-4432-be4f-77ac13dfc31a",
+            title: "What to buy",
+            addedDate: new Date("2021-09-27T13:38:39.897"),
+            order: -2
+        },
+        {
+            id: "404caf11-450d-4ac3-9375-61deeafe63b0",
+            title: "What to learn",
+            addedDate: new Date("2021-09-27T12:17:57.41"),
+            order: -1
+        }
+    ];
+    newTodolist = {
+        id: "asdfasdgasdf",
+        title: "What to listen",
+        addedDate: new Date("2021-09-27T12:17:57.41"),
+        order: 0
+    }
 });
 
-test.skip('first todolist should be removed', () => {
-    // const newTodolists = TodolistsReducer(todolists, removeTodolist(todolistId1));
-    //
-    // expect(newTodolists.length).toBe(1);
-    // expect(newTodolists[0].id).toBe(todolistId2);
-    // expect(newTodolists[0].title).toBe('What to buy');
+test('first todolist should be removed', () => {
+    const newTodolists = TodolistsReducer(todolists, removeTodolist(todolists[0].id));
+
+    expect(newTodolists.length).toBe(2);
+    expect(newTodolists[0].id).toBe(todolists[1].id);
+    expect(newTodolists[0].title).toBe('What to buy');
 });
 
-test.skip('second todolist should be removed', () => {
-    // const newTodolists = TodolistsReducer(todolists, removeTodolist(todolistId2));
-    //
-    // expect(newTodolists.length).toBe(1);
-    // expect(newTodolists[0].id).toBe(todolistId1);
-    // expect(newTodolists[0].title).toBe('What to learn');
+test('new todolist should be added', () => {
+    const newTodolists = TodolistsReducer(todolists, addTodolist(newTodolist));
+
+    expect(newTodolists.length).toBe(4);
+    expect(newTodolists[0].title).toBe(newTodolist.title);
 });
 
-test.skip('todolist should be added', () => {
-    // const todolistTitle = 'What to play';
-    //
-    // const newTodolists = TodolistsReducer(todolists, addTodolist(todolistTitle));
-    //
-    // expect(newTodolists.length).toBe(3);
-    // expect(newTodolists[0].title).toBe(todolistTitle);
-    // expect(newTodolists[0].filter).toBe('All');
-});
+test('todolist title should be changed', () => {
+    const newTitle = 'Something new';
 
-test.skip('todolist title should be changed', () => {
-    // const newTitle = 'What to play';
-    //
-    // const newTodolists = TodolistsReducer(todolists, changeTodolistTitleAC(todolistId2, newTitle));
-    //
-    // expect(newTodolists.length).toBe(2);
-    // expect(newTodolists[1].title).toBe(newTitle);
-    // expect(newTodolists[1].filter).toBe('All');
-});
+    const newTodolists = TodolistsReducer(todolists, changeTodolist({
+        ...todolists[0],
+        title: newTitle
+    }));
 
-test.skip('todolist filter should be changed', () => {
-    // const newFilter: FilterType = 'Completed';
-    //
-    // const newTodolists = TodolistsReducer(todolists, changeTodolistFilterAC(todolistId1, newFilter));
-    //
-    // expect(newTodolists.length).toBe(2);
-    // expect(newTodolists[0].filter).toBe(newFilter);
-    // expect(newTodolists[1].filter).toBe('All');
+    expect(newTodolists.length).toBe(3);
+    expect(newTodolists[0].title).toBe(newTitle);
 });
