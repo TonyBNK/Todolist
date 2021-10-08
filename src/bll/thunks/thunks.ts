@@ -1,7 +1,7 @@
 import {todolistsAPI} from "../../api/todolists-api";
 import {
     addTask,
-    addTodolist, changeTaskTitle,
+    addTodolist, changeTask,
     changeTodolistTitle, getAllTasks,
     getAllTodolists, removeTask, removeTodolist
 } from "../action-creators/actionCreators";
@@ -89,14 +89,14 @@ export const createTask: CreateTaskType = (title, todoListId) => {
     }
 }
 
-export const updateTaskTitle: UpdateTaskType = (task, newTitle) => {
+export const updateTask: UpdateTaskType = (task, payload) => {
     return (dispatch) => {
         todolistsAPI
             .tasksAPI
-            .updateTask(task)
+            .updateTask({...payload})
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(changeTaskTitle(task, newTitle));
+                    dispatch(changeTask(response.data.data.item));
                 }
             })
             .catch(error => console.log(error));

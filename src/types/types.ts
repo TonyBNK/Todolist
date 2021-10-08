@@ -1,7 +1,7 @@
 import {
     addTask,
-    addTodolist, changeTaskStatus,
-    changeTaskTitle,
+    addTodolist,
+    changeTask,
     changeTodolistTitle, getAllTasks, getAllTodolists,
     removeTask,
     removeTodolist
@@ -77,8 +77,7 @@ export type TaskActionType =
     ReturnType<typeof getAllTasks>
     | ReturnType<typeof removeTask>
     | ReturnType<typeof addTask>
-    | ReturnType<typeof changeTaskTitle>
-    | ReturnType<typeof changeTaskStatus>
+    | ReturnType<typeof changeTask>
     | ReturnType<typeof addTodolist>
     | ReturnType<typeof removeTodolist>;
 
@@ -101,5 +100,5 @@ export type DeleteTodolistType = (id: string) => (dispatch: (action: TodolistAct
 
 export type GetAllTasksType = (todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
 export type CreateTaskType = (title: string, todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
-export type UpdateTaskType = (taskModel: TaskType, newTitle: string) => (dispatch: (action: TaskActionType) => void) => void
+export type UpdateTaskType = (taskModel: TaskType, payload: TaskType) => (dispatch: (action: TaskActionType) => void) => void
 export type DeleteTaskType = (id: string, todoListId: string) => (dispatch: (action: TaskActionType) => void) => void

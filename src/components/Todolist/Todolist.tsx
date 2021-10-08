@@ -61,23 +61,6 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         setFilter(newFilter);
     }, []);
 
-    // const onChangeTodolistTitleHandler = useCallback((newTitle: string) => {
-    //     changeTodolistTitle(todolistId, newTitle);
-    // }, [changeTodolistTitle, todolistId]);
-    //
-    // const onAddItemHandler = useCallback((newTitle: string) => {
-    //     dispatch(addTask(todolistId, newTitle));
-    // }, [dispatch, todolistId]);
-    //
-    // const removeTask = useCallback((taskId: string) => {
-    //     dispatch(removeTask(todolistId, taskId));
-    // }, [dispatch, todolistId]);
-    //
-    // const setTaskCompleted = useCallback((taskId: string, isChecked: boolean) => {
-    //     dispatch(changeTaskStatus(todolistId, taskId, isChecked));
-    // }, [dispatch, todolistId]);
-    //
-
     return (
         <div
             key={id}

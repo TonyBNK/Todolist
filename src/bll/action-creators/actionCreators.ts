@@ -37,17 +37,16 @@ export const addTask = (taskModel: TaskType) => ({
     taskModel
 } as const);
 
-export const changeTaskTitle = (taskModel: TaskType, newTitle: string) => ({
-    type: 'CHANGE-TASK-TITLE',
-    taskModel,
-    newTitle
+export const changeTask = (taskModel: TaskType) => ({
+    type: 'CHANGE-TASK',
+    taskModel
 } as const);
 
-export const changeTaskStatus = (taskModel: TaskType, newStatus: TaskStatuses) => ({
-    type: 'CHANGE-TASK-STATUS',
-    taskModel,
-    newStatus
-} as const);
+// export const changeTaskStatus = (taskModel: TaskType, newStatus: TaskStatuses) => ({
+//     type: 'CHANGE-TASK-STATUS',
+//     taskModel,
+//     newStatus
+// } as const);
 
 export const removeTask = (id: string) => ({
     type: "REMOVE-TASK",
