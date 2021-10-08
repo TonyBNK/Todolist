@@ -6,6 +6,7 @@ import {
     removeTask,
     removeTodolist
 } from "../bll/action-creators/actionCreators";
+import {Dispatch} from "redux";
 
 
 export type Nullable<T> = T | null;
@@ -82,12 +83,12 @@ export type TaskActionType =
     | ReturnType<typeof removeTodolist>;
 
 // Thunk Creators Types
-export type GetAllTodolistsType = () => (dispatch: (action: TodolistActionType) => void) => void
-export type CreateTodolistType = (title: string) => (dispatch: (action: TodolistActionType) => void) => void
-export type UpdateTodolistType = (id: string, newTitle: string) => (dispatch: (action: TodolistActionType) => void) => void
-export type DeleteTodolistType = (id: string) => (dispatch: (action: TodolistActionType) => void) => void
+export type GetAllTodolistsType = () => (dispatch: Dispatch<TodolistActionType>) => void
+export type CreateTodolistType = (title: string) => (dispatch: Dispatch<TodolistActionType>) => void
+export type UpdateTodolistType = (id: string, newTitle: string) => (dispatch: Dispatch<TodolistActionType>) => void
+export type DeleteTodolistType = (id: string) => (dispatch: Dispatch<TodolistActionType>) => void
 
-export type GetAllTasksType = (todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
-export type CreateTaskType = (title: string, todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
-export type UpdateTaskType = (taskModel: TaskType, payload: TaskType) => (dispatch: (action: TaskActionType) => void) => void
-export type DeleteTaskType = (id: string, todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
+export type GetAllTasksType = (todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void
+export type CreateTaskType = (title: string, todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void
+export type UpdateTaskType = (taskModel: TaskType, payload: TaskType) => (dispatch: Dispatch<TaskActionType>) => void
+export type DeleteTaskType = (id: string, todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void

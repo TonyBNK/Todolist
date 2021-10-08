@@ -25,7 +25,7 @@ export const TasksReducer = (state = initialState, action: TaskActionType):
                     : task
             );
         case "REMOVE-TASK":
-            return state.filter(tl => tl.id !== action.id);
+            return state.filter(task => task.id !== action.id);
         default:
             return state;
     }

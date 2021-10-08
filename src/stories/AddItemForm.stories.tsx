@@ -1,7 +1,7 @@
 import {
     AddItemForm,
     AddItemFormPropsType
-} from "../components/Todolist/AddItemForm/AddItemForm";
+} from "../components/common/AddItemForm/AddItemForm";
 import {Meta, Story} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 
