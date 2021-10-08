@@ -2,7 +2,6 @@ import {
     addTask,
     addTodolist, changeTaskStatus,
     changeTaskTitle,
-    changeTodolistFilter,
     changeTodolistTitle, getAllTasks, getAllTodolists,
     removeTask,
     removeTodolist
@@ -72,8 +71,7 @@ export type TodolistActionType =
     ReturnType<typeof getAllTodolists>
     | ReturnType<typeof removeTodolist>
     | ReturnType<typeof addTodolist>
-    | ReturnType<typeof changeTodolistTitle>
-    | ReturnType<typeof changeTodolistFilter>;
+    | ReturnType<typeof changeTodolistTitle>;
 
 export type TaskActionType =
     ReturnType<typeof getAllTasks>
@@ -98,10 +96,10 @@ export type TaskActionType =
 // Thunk Creators Types
 export type GetAllTodolistsType = () => (dispatch: (action: TodolistActionType) => void) => void
 export type CreateTodolistType = (title: string) => (dispatch: (action: TodolistActionType) => void) => void
-export type UpdateTodolistType = (todolistModel: TodolistType, newTitle: string) => (dispatch: (action: TodolistActionType) => void) => void
+export type UpdateTodolistType = (id: string, newTitle: string) => (dispatch: (action: TodolistActionType) => void) => void
 export type DeleteTodolistType = (id: string) => (dispatch: (action: TodolistActionType) => void) => void
 
 export type GetAllTasksType = (todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
-export type CreateTaskType = (taskModel: TaskType) => (dispatch: (action: TaskActionType) => void) => void
-export type UpdateTaskTitleType = (taskModel: TaskType, newTitle: string) => (dispatch: (action: TaskActionType) => void) => void
-export type DeleteTaskType = (taskModel: TaskType) => (dispatch: (action: TaskActionType) => void) => void
+export type CreateTaskType = (title: string, todoListId: string) => (dispatch: (action: TaskActionType) => void) => void
+export type UpdateTaskType = (taskModel: TaskType, newTitle: string) => (dispatch: (action: TaskActionType) => void) => void
+export type DeleteTaskType = (id: string, todoListId: string) => (dispatch: (action: TaskActionType) => void) => void

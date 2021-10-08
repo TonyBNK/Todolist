@@ -1,5 +1,4 @@
 import {
-    FilterType,
     GetTodolistsType,
     TaskStatuses,
     TaskType, TodolistType
@@ -13,19 +12,13 @@ export const getAllTodolists = (todolists: GetTodolistsType) => ({
 
 export const addTodolist = (todolist: TodolistType) => ({
     type: 'ADD-TODOLIST',
-    ...todolist
+    todolist
 } as const);
 
-export const changeTodolistTitle = (todolist: TodolistType, newTitle: string) => ({
+export const changeTodolistTitle = (id: string, newTitle: string) => ({
     type: 'CHANGE-TODOLIST-TITLE',
-    ...todolist,
-    newTitle
-} as const);
-
-export const changeTodolistFilter = (id: string, filter: FilterType) => ({
-    type: 'CHANGE-TODOLIST-FILTER',
     id,
-    filter
+    newTitle
 } as const);
 
 export const removeTodolist = (id: string) => ({
@@ -56,7 +49,7 @@ export const changeTaskStatus = (taskModel: TaskType, newStatus: TaskStatuses) =
     newStatus
 } as const);
 
-export const removeTask = (taskModel: TaskType) => ({
+export const removeTask = (id: string) => ({
     type: "REMOVE-TASK",
-    taskModel
+    id
 } as const);

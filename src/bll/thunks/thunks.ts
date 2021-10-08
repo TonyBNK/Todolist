@@ -8,7 +8,7 @@ import {
 import {
     CreateTaskType,
     CreateTodolistType, DeleteTaskType, DeleteTodolistType, GetAllTasksType,
-    GetAllTodolistsType, UpdateTaskTitleType,
+    GetAllTodolistsType, UpdateTaskType,
     UpdateTodolistType
 } from "../../types/types";
 
@@ -37,13 +37,13 @@ export const createTodolist: CreateTodolistType = (title) => {
     }
 }
 
-export const updateTodolist: UpdateTodolistType = (todolist, newTitle) => {
+export const updateTodolist: UpdateTodolistType = (id, newTitle) => {
     return (dispatch) => {
         todolistsAPI
-            .updateTodolist(todolist.id, newTitle)
+            .updateTodolist(id, newTitle)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(changeTodolistTitle(todolist, newTitle));
+                    dispatch(changeTodolistTitle(id, newTitle));
                 }
             })
             .catch(error => console.log(error));
@@ -75,21 +75,21 @@ export const getTasks: GetAllTasksType = (todoListId) => {
     }
 }
 
-export const createTask: CreateTaskType = (task) => {
+export const createTask: CreateTaskType = (title, todoListId) => {
     return (dispatch) => {
         todolistsAPI
             .tasksAPI
-            .createTask(task.todoListId, task.title)
+            .createTask(title, todoListId)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(addTask(task));
+                    dispatch(addTask(response.data.data.item));
                 }
             })
             .catch(error => console.log(error));
     }
 }
 
-export const updateTaskTitle: UpdateTaskTitleType = (task, newTitle) => {
+export const updateTaskTitle: UpdateTaskType = (task, newTitle) => {
     return (dispatch) => {
         todolistsAPI
             .tasksAPI
@@ -103,14 +103,14 @@ export const updateTaskTitle: UpdateTaskTitleType = (task, newTitle) => {
     }
 }
 
-export const deleteTask: DeleteTaskType = (task) => {
+export const deleteTask: DeleteTaskType = (id, todoListId) => {
     return (dispatch) => {
         todolistsAPI
             .tasksAPI
-            .deleteTask(task.todoListId, task.id)
+            .deleteTask(id, todoListId)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(removeTask(task));
+                    dispatch(removeTask(id));
                 }
             })
             .catch(error => console.log(error));

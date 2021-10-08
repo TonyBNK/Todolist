@@ -3,7 +3,7 @@ import {IconButton, TextField} from "@material-ui/core";
 import {AddCircleOutline} from "@material-ui/icons";
 
 export type AddItemFormPropsType = {
-    addItem: (newTitle: string) => void
+    addItem: (newTitle: string, todoListId?: string) => void
 }
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
     {
@@ -21,9 +21,11 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
             setError("Title is required!");
         }
     }, [addItem, newItem]);
+
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setNewItem(e.currentTarget.value);
     }, []);
+
     const onEnterPressHandler = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             if (newItem.trim()) {

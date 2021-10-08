@@ -1,8 +1,4 @@
-import {
-    GetTodolistsType,
-    TodolistActionType,
-    TodolistType
-} from "../../types/types";
+import {GetTodolistsType, TodolistActionType,} from "../../types/types";
 
 
 const initialState: GetTodolistsType = [];
@@ -15,15 +11,9 @@ export const TodolistsReducer = (state = initialState, action: TodolistActionTyp
                 ...action.todolists
             ];
         case 'ADD-TODOLIST':
-            const newTodolist: TodolistType = {
-                id: action.id,
-                title: action.title,
-                addedDate: new Date(),
-                order: 0
-            };
             return [
-                newTodolist,
                 ...state,
+                {...action.todolist},
             ];
         case 'CHANGE-TODOLIST-TITLE':
             return state.map(tl => {
@@ -31,12 +21,6 @@ export const TodolistsReducer = (state = initialState, action: TodolistActionTyp
                     ? {...tl, title: action.newTitle}
                     : tl
             });
-        case "CHANGE-TODOLIST-FILTER":
-            return state.map(tl =>
-                tl.id === action.id
-                    ? {...tl, filter: action.filter}
-                    : tl
-            );
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id);
         default:

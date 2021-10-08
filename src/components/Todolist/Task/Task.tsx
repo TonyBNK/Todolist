@@ -5,6 +5,7 @@ import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {RemoveCircleOutline} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../types/types";
 import {deleteTask} from "../../../bll/thunks/thunks";
+import {useDispatch} from "react-redux";
 
 
 export type TaskPropsType = {
@@ -15,9 +16,15 @@ export const Task: React.FC<TaskPropsType> = React.memo((
         taskModel
     }
 ) => {
+    const dispatch = useDispatch();
+
     const onRemoveTaskHandler = () => {
-        deleteTask(taskModel);
+        dispatch(deleteTask(taskModel.id, taskModel.todoListId));
     }
+
+    // const changeTaskTitle = (taskId: string, newTitle: string) => {
+    //     dispatch(changeTaskTitle(todolistId, taskId, newTitle));
+    // };
 
     // const onSetTaskCompletedHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     //     setTaskCompleted(taskData.id, e.currentTarget.checked);
@@ -32,11 +39,13 @@ export const Task: React.FC<TaskPropsType> = React.memo((
         className={taskModel.status === TaskStatuses.Completed ? c.completed : ''}>
         <Checkbox
             color={'primary'}
-            onChange={() => {}}
+            onChange={() => {
+            }}
         />
         <EditableSpan
             title={taskModel.title}
-            onChangeTitle={()=>{}}
+            onChangeTitle={() => {
+            }}
         />
         <IconButton
             onClick={onRemoveTaskHandler}

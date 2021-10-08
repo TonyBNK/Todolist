@@ -10,17 +10,14 @@ export const TasksReducer = (state = initialState, action: TaskActionType):
             return [
                 ...state,
                 ...action.tasks
-            ]
-        // case "ADD-TASK":
-        //     return {
-        //         ...state,
-        //         [action.taskModel.todoListId]: [
-        //             ...state[action.taskModel.todoListId],
-        //             {
-        //                 ...action.taskModel
-        //             }
-        //         ]
-        //     }
+            ];
+        case "ADD-TASK":
+            return [
+                {
+                    ...action.taskModel
+                },
+                ...state
+            ];
         // case "CHANGE-TASK-TITLE":
         //     return {
         //         ...state,
@@ -43,13 +40,8 @@ export const TasksReducer = (state = initialState, action: TaskActionType):
         //             }
         //         ]
         //     }
-        // case "REMOVE-TASK":
-        //     return {
-        //         ...state,
-        //         [action.taskModel.todoListId]: state[action.taskModel.todoListId].filter(task =>
-        //             task.id !== action.taskModel.id
-        //         )
-        //     }
+        case "REMOVE-TASK":
+            return state.filter(tl => tl.id !== action.id);
         default:
             return state;
     }

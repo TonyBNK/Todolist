@@ -8,7 +8,11 @@ import {DeleteOutline} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../bll/store";
 import {FilterType, TaskStatuses, TaskType} from "../../types/types";
-import {deleteTodolist, getTasks} from "../../bll/thunks/thunks";
+import {
+    createTask,
+    deleteTodolist,
+    getTasks, updateTodolist
+} from "../../bll/thunks/thunks";
 import {Task} from "./Task/Task";
 
 
@@ -42,8 +46,20 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }
 
     const onRemoveTodolistHandler = () => {
-        deleteTodolist(id);
+        dispatch(deleteTodolist(id));
     }
+
+    const addTask = useCallback((title: string) => {
+        dispatch(createTask(title, id));
+    }, [dispatch, id]);
+
+    const changeTitle = useCallback((newTitle: string) => {
+        dispatch(updateTodolist(id, newTitle));
+    }, [dispatch, id]);
+
+    const changeFilter = useCallback((newFilter: FilterType) => {
+        setFilter(newFilter);
+    }, []);
 
     // const onChangeTodolistTitleHandler = useCallback((newTitle: string) => {
     //     changeTodolistTitle(todolistId, newTitle);
@@ -61,9 +77,6 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     //     dispatch(changeTaskStatus(todolistId, taskId, isChecked));
     // }, [dispatch, todolistId]);
     //
-    // const changeTaskTitle = useCallback((taskId: string, newTitle: string) => {
-    //     dispatch(changeTaskTitle(todolistId, taskId, newTitle));
-    // }, [dispatch, todolistId]);
 
     return (
         <div
@@ -72,15 +85,13 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
             <h3>
                 <EditableSpan
                     title={title}
-                    onChangeTitle={() => {
-                    }}
+                    onChangeTitle={changeTitle}
                 />
                 <IconButton onClick={onRemoveTodolistHandler}>
                     <DeleteOutline color={"primary"}/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={() => {
-            }}/>
+            <AddItemForm addItem={addTask}/>
             <div>
                 {
                     useMemo(() => {
@@ -92,9 +103,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
                 }
             </div>
             <FilterButtons
-                todolistId={id}
-                changeFilter={() => {
-                }}
+                changeFilter={changeFilter}
                 filter={filter}
             />
         </div>

@@ -40,7 +40,7 @@ export const todolistsAPI = {
             return axiosInst
                 .get<GetTasksType>(`todo-lists/${todolistId}/tasks`);
         },
-        createTask: (todolistId: string, title: string) => {
+        createTask: (title: string, todolistId: string) => {
             return axiosInst
                 .post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {
                     title: title
@@ -52,9 +52,9 @@ export const todolistsAPI = {
                     ...updatableProps
                 });
         },
-        deleteTask: (todolistId: string, id: string) => {
+        deleteTask: (id: string, todoListId: string) => {
             return axiosInst
-                .delete<ResponseType>(`todo-lists/${todolistId}/tasks/${id}`);
+                .delete<ResponseType>(`todo-lists/${todoListId}/tasks/${id}`);
         }
     }
 }

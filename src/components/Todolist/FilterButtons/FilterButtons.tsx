@@ -5,19 +5,17 @@ import {FilterType} from "../../../types/types";
 
 
 export type FilterButtonsType = {
-    todolistId: string
-    changeFilter: (todolistId: string, filter: FilterType) => void
+    changeFilter: (filter: FilterType) => void
     filter: FilterType
 }
 export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
     {
-        todolistId,
         changeFilter,
         filter
     }) => {
-    const onAllFilterHandler = () => changeFilter(todolistId,'All');
-    const onActiveFilterHandler = () => changeFilter(todolistId, 'Active');
-    const onCompletedFilterHandler = () => changeFilter(todolistId, 'Completed');
+    const onAllFilterHandler = () => changeFilter('All');
+    const onActiveFilterHandler = () => changeFilter('Active');
+    const onCompletedFilterHandler = () => changeFilter('Completed');
 
     return (
         <div className={c.filterButtons}>
