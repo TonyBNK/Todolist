@@ -23,13 +23,11 @@ export const Task: React.FC<TaskPropsType> = React.memo((
     }, [dispatch, taskModel.id, taskModel.todoListId]);
 
     const changeTitle = useCallback((newTitle: string) => {
-        const payload = {...taskModel, title: newTitle};
-        dispatch(updateTask(payload));
+        dispatch(updateTask({...taskModel, title: newTitle}));
     }, [dispatch, taskModel]);
 
     const changeStatus = useCallback((newStatus: TaskStatuses) => {
-        const payload = {...taskModel, status: newStatus};
-        dispatch(updateTask(payload));
+        dispatch(updateTask({...taskModel, status: newStatus}));
     }, [dispatch, taskModel]);
 
     const onChangeStatusHandler = useCallback(
