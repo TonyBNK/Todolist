@@ -67,7 +67,7 @@ export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistTy
     resultCode: number
 }
 
-// Actions types
+// Action Creators types
 export type TodolistActionType =
     ReturnType<typeof getAllTodolists>
     | ReturnType<typeof removeTodolist>
@@ -88,5 +88,5 @@ export type DeleteTodolistType = (id: string) => (dispatch: Dispatch<TodolistAct
 
 export type GetAllTasksType = (todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void
 export type CreateTaskType = (title: string, todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void
-export type UpdateTaskType = (taskModel: TaskType, payload: TaskType) => (dispatch: Dispatch<TaskActionType>) => void
+export type UpdateTaskType = (payload: TaskType) => (dispatch: Dispatch<TaskActionType>) => void
 export type DeleteTaskType = (id: string, todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void

@@ -24,12 +24,12 @@ export const Task: React.FC<TaskPropsType> = React.memo((
 
     const changeTitle = useCallback((newTitle: string) => {
         const payload = {...taskModel, title: newTitle};
-        dispatch(updateTask(taskModel, payload));
+        dispatch(updateTask(payload));
     }, [dispatch, taskModel]);
 
     const changeStatus = useCallback((newStatus: TaskStatuses) => {
         const payload = {...taskModel, status: newStatus};
-        dispatch(updateTask(taskModel, payload));
+        dispatch(updateTask(payload));
     }, [dispatch, taskModel]);
 
     const onChangeStatusHandler = useCallback(

@@ -89,7 +89,7 @@ export const createTask: CreateTaskType = (title, todoListId) => {
     }
 }
 
-export const updateTask: UpdateTaskType = (task, payload) => {
+export const updateTask: UpdateTaskType = (payload) => {
     return (dispatch) => {
         todolistsAPI
             .tasksAPI

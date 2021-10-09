@@ -1,6 +1,8 @@
 import {Meta, Story} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 import {Task, TaskPropsType} from "../components/features/Todolist/Task/Task";
+import {TaskPriorities, TaskStatuses} from "../types/types";
+import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
 
 
 export default {
@@ -10,29 +12,51 @@ export default {
         removeTask: {
             description: 'Removes task from todolist'
         },
-        setTaskCompleted: {
-            description: 'Makes task complete or active'
-        },
         changeTaskTitle: {
             description: "Changes task's title"
-        }
+        },
+        changeTaskStatus: {
+            description: "Changes task's status"
+        },
     },
     args: {
         removeTask: action('Task was removed'),
-        setTaskCompleted: action('Task status was changed'),
-        changeTaskTitle: action("Tasks's title was changed")
-    }
+        changeTask: action("Tasks was changed")
+    },
+    decorators: [ReduxStoreProviderDecorator]
 } as Meta;
 
 const Template: Story<TaskPropsType> = (args) =>
     <Task {...args}/>;
 
-// export const TaskIsDoneExample = Template.bind({});
-// TaskIsDoneExample.args = {
-//     taskData: {id: '1', isDone: true, title: 'JS'},
-// }
-//
-// export const TaskIsNotDoneExample = Template.bind({});
-// TaskIsNotDoneExample.args = {
-//     taskData: {id: '2', isDone: false, title: 'Saga'},
-// }
+export const TaskIsDoneExample = Template.bind({});
+TaskIsDoneExample.args = {
+    taskModel: {
+        id: 'asdfiopaksg',
+        title: 'Thunk',
+        status: TaskStatuses.Completed,
+        startDate: null,
+        deadline: null,
+        description: '',
+        priority: TaskPriorities.Middle,
+        todoListId: 'asdfasdtetast',
+        addedDate: new Date(),
+        order: 0
+    }
+}
+
+export const TaskIsNotDoneExample = Template.bind({});
+TaskIsNotDoneExample.args = {
+    taskModel: {
+        id: 'asdfiopaksg',
+        title: 'Saga',
+        status: TaskStatuses.New,
+        startDate: null,
+        deadline: null,
+        description: '',
+        priority: TaskPriorities.Middle,
+        todoListId: 'asdfasdtetast',
+        addedDate: new Date(),
+        order: 0
+    }
+}
