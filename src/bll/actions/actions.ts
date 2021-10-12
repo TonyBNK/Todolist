@@ -1,4 +1,9 @@
-import {GetTodolistsType, TaskType, TodolistType} from "../../types/types";
+import {
+    GetTodolistsType,
+    RequestStatusType,
+    TaskType,
+    TodolistType
+} from "../../types/types";
 
 
 export const getAllTodolists = (todolists: GetTodolistsType) => ({
@@ -13,7 +18,7 @@ export const addTodolist = (todolist: TodolistType) => ({
 
 export const changeTodolist = (todolist: TodolistType) => ({
     type: 'CHANGE-TODOLIST',
-    todolist
+    todolist,
 } as const);
 
 export const removeTodolist = (id: string) => ({
@@ -40,4 +45,14 @@ export const changeTask = (taskModel: TaskType) => ({
 export const removeTask = (id: string) => ({
     type: "REMOVE-TASK",
     id
+} as const);
+
+export const setRequestStatus = (status: RequestStatusType) => ({
+    type: "APP/SET-REQUEST-STATUS",
+    status
+} as const);
+
+export const setRequestError = (error: string | null) => ({
+    type: "APP/SET-REQUEST-ERROR",
+    error
 } as const);

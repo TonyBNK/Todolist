@@ -4,7 +4,7 @@ import {
     addTask,
     changeTask,
     removeTask
-} from "../action-creators/actionCreators";
+} from "../actions/actions";
 
 
 let tasks: Array<TaskType>;

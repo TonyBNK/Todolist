@@ -6,9 +6,8 @@ import {
     getAllTasks,
     getAllTodolists,
     removeTask,
-    removeTodolist
-} from "../bll/action-creators/actionCreators";
-import {Dispatch} from "redux";
+    removeTodolist, setRequestError, setRequestStatus
+} from "../bll/actions/actions";
 import {ThunkAction} from "redux-thunk";
 import {rootReducer} from "../bll/store";
 
@@ -17,11 +16,21 @@ export type Nullable<T> = T | null;
 
 export type FilterType = 'All' | 'Active' | 'Completed';
 
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
+
+export type AppRequestType = {
+    status: RequestStatusType
+    error: string | null
+}
+
 export type TodolistType = {
     id: string
     addedDate: Date
     order: number
     title: string
+} & {
+    filter: FilterType
+    entityStatus: RequestStatusType
 }
 
 export enum TaskStatuses {
@@ -37,6 +46,11 @@ export enum TaskPriorities {
     High,
     Urgently,
     Later
+}
+
+export enum ResultCodes {
+    Success,
+    Error
 }
 
 export type TaskType = {
@@ -68,7 +82,7 @@ export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistTy
     data: T
     messages: Array<string>
     fieldsErrors: Array<string>
-    resultCode: number
+    resultCode: ResultCodes
 }
 
 // Root State Type
@@ -87,7 +101,11 @@ export type TaskActionType =
     | ReturnType<typeof addTask>
     | ReturnType<typeof changeTask>;
 
-export type ActionsType = TodolistActionType | TaskActionType;
+export type AppActionType =
+    ReturnType<typeof setRequestStatus>
+    | ReturnType<typeof setRequestError>;
+
+export type ActionsType = TodolistActionType | TaskActionType | AppActionType;
 
 // Thunk Creators Types
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, ActionsType>

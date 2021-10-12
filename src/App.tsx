@@ -9,11 +9,20 @@ import {
 } from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {Todolists} from "./components/features/Todolists";
+import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
+import {useSelector} from "react-redux";
+import {RequestStatusType, RootStateType} from "./types/types";
+import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
 
 
 const App = React.memo(() => {
+    const status = useSelector<RootStateType, RequestStatusType>(
+        state => state.app.status
+    );
+
     return (
         <div className={c.app}>
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -29,6 +38,7 @@ const App = React.memo(() => {
                         Login
                     </Button>
                 </Toolbar>
+                {status === 'loading' && <ProgressBar/>}
             </AppBar>
             <Todolists/>
         </div>

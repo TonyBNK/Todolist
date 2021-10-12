@@ -3,7 +3,7 @@ import {
     addTodolist,
     changeTodolist,
     removeTodolist
-} from "../action-creators/actionCreators";
+} from "../actions/actions";
 import {TodolistsReducer} from "./TodolistsReducer";
 
 
