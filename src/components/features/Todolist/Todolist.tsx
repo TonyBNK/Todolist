@@ -6,9 +6,8 @@ import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
-import {RootStateType} from "../../../bll/store";
 import {
-    FilterType,
+    FilterType, RootStateType,
     TaskStatuses,
     TaskType,
     TodolistType

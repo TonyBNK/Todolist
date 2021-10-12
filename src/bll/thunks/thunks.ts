@@ -1,20 +1,19 @@
 import {todolistsAPI} from "../../api/todolists-api";
 import {
     addTask,
-    addTodolist, changeTask,
-    changeTodolist, getAllTasks,
-    getAllTodolists, removeTask, removeTodolist
+    addTodolist,
+    changeTask,
+    changeTodolist,
+    getAllTasks,
+    getAllTodolists,
+    removeTask,
+    removeTodolist
 } from "../action-creators/actionCreators";
-import {
-    CreateTaskType,
-    CreateTodolistType, DeleteTaskType, DeleteTodolistType, GetAllTasksType,
-    GetAllTodolistsType, UpdateTaskType,
-    UpdateTodolistType
-} from "../../types/types";
+import {AppThunkType, TaskType, TodolistType} from "../../types/types";
 
 
-export const getTodolists: GetAllTodolistsType = () => {
-    return (dispatch) => {
+export const getTodolists = (): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .getTodolists()
             .then(response => {
@@ -22,10 +21,9 @@ export const getTodolists: GetAllTodolistsType = () => {
             })
             .catch(error => console.log(error));
     }
-}
 
-export const createTodolist: CreateTodolistType = (title) => {
-    return (dispatch) => {
+export const createTodolist = (title: string): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .createTodolist(title)
             .then(response => {
@@ -35,10 +33,9 @@ export const createTodolist: CreateTodolistType = (title) => {
             })
             .catch(error => console.log(error));
     }
-}
 
-export const updateTodolist: UpdateTodolistType = (payload) => {
-    return (dispatch) => {
+export const updateTodolist = (payload: TodolistType): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .updateTodolist(payload)
             .then(response => {
@@ -48,10 +45,9 @@ export const updateTodolist: UpdateTodolistType = (payload) => {
             })
             .catch(error => console.log(error));
     }
-}
 
-export const deleteTodolist: DeleteTodolistType = (id) => {
-    return (dispatch) => {
+export const deleteTodolist = (id: string): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .deleteTodolist(id)
             .then(response => {
@@ -61,10 +57,9 @@ export const deleteTodolist: DeleteTodolistType = (id) => {
             })
             .catch(error => console.log(error));
     }
-}
 
-export const getTasks: GetAllTasksType = (todoListId) => {
-    return (dispatch) => {
+export const getTasks = (todoListId: string): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .tasksAPI
             .getTasks(todoListId)
@@ -73,10 +68,9 @@ export const getTasks: GetAllTasksType = (todoListId) => {
             })
             .catch(error => console.log(error));
     }
-}
 
-export const createTask: CreateTaskType = (title, todoListId) => {
-    return (dispatch) => {
+export const createTask = (title: string, todoListId: string): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .tasksAPI
             .createTask(title, todoListId)
@@ -87,10 +81,9 @@ export const createTask: CreateTaskType = (title, todoListId) => {
             })
             .catch(error => console.log(error));
     }
-}
 
-export const updateTask: UpdateTaskType = (payload) => {
-    return (dispatch) => {
+export const updateTask = (payload: TaskType): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .tasksAPI
             .updateTask(payload)
@@ -101,10 +94,9 @@ export const updateTask: UpdateTaskType = (payload) => {
             })
             .catch(error => console.log(error));
     }
-}
 
-export const deleteTask: DeleteTaskType = (id, todoListId) => {
-    return (dispatch) => {
+export const deleteTask = (id: string, todoListId: string): AppThunkType =>
+    (dispatch) => {
         todolistsAPI
             .tasksAPI
             .deleteTask(id, todoListId)
@@ -115,4 +107,3 @@ export const deleteTask: DeleteTaskType = (id, todoListId) => {
             })
             .catch(error => console.log(error));
     }
-}

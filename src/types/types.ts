@@ -2,11 +2,15 @@ import {
     addTask,
     addTodolist,
     changeTask,
-    changeTodolist, getAllTasks, getAllTodolists,
+    changeTodolist,
+    getAllTasks,
+    getAllTodolists,
     removeTask,
     removeTodolist
 } from "../bll/action-creators/actionCreators";
 import {Dispatch} from "redux";
+import {ThunkAction} from "redux-thunk";
+import {rootReducer} from "../bll/store";
 
 
 export type Nullable<T> = T | null;
@@ -67,6 +71,9 @@ export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistTy
     resultCode: number
 }
 
+// Root State Type
+export type RootStateType = ReturnType<typeof rootReducer>;
+
 // Action Creators types
 export type TodolistActionType =
     ReturnType<typeof getAllTodolists>
@@ -80,13 +87,7 @@ export type TaskActionType =
     | ReturnType<typeof addTask>
     | ReturnType<typeof changeTask>;
 
-// Thunk Creators Types
-export type GetAllTodolistsType = () => (dispatch: Dispatch<TodolistActionType>) => void
-export type CreateTodolistType = (title: string) => (dispatch: Dispatch<TodolistActionType>) => void
-export type UpdateTodolistType = (payload: TodolistType) => (dispatch: Dispatch<TodolistActionType>) => void
-export type DeleteTodolistType = (id: string) => (dispatch: Dispatch<TodolistActionType>) => void
+export type ActionsType = TodolistActionType | TaskActionType;
 
-export type GetAllTasksType = (todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void
-export type CreateTaskType = (title: string, todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void
-export type UpdateTaskType = (payload: TaskType) => (dispatch: Dispatch<TaskActionType>) => void
-export type DeleteTaskType = (id: string, todoListId: string) => (dispatch: Dispatch<TaskActionType>) => void
+// Thunk Creators Types
+export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, ActionsType>

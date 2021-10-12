@@ -1,11 +1,11 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useMemo} from "react";
 import {createTodolist, getTodolists} from "../../bll/thunks/thunks";
-import {RootStateType} from "../../bll/store";
-import {TodolistType} from "../../types/types";
+import {RootStateType, TodolistType} from "../../types/types";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
+
 
 export const Todolists = React.memo(() => {
     const dispatch = useDispatch();
