@@ -1,14 +1,17 @@
 import React, {ChangeEvent, useCallback, useState} from "react";
 import {TextField} from "@material-ui/core";
+import {RequestStatusType} from "../../../types/types";
 
 export type EditableSpanPropsType = {
     title: string
     onChangeTitle: (newTitle: string) => void
+    entityStatus?: RequestStatusType
 }
 export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((
     {
         title,
-        onChangeTitle
+        onChangeTitle,
+        entityStatus
     }
 ) => {
     const [editMode, setEditMode] = useState(false);
@@ -28,7 +31,7 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((
         setItemTitle(e.currentTarget.value);
     }, [])
 
-    return editMode
+    return editMode && entityStatus !== 'loading'
         ? <TextField
             value={itemTitle}
             onBlur={onSetViewModeHandler}

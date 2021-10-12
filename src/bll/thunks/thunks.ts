@@ -4,10 +4,10 @@ import {
     addTodolist,
     changeTask,
     changeTodolist,
-    getAllTasks,
-    getAllTodolists,
+    setTasks,
+    setTodolists,
     removeTask,
-    removeTodolist, setRequestError, setRequestStatus
+    removeTodolist, setAppError, setAppStatus
 } from "../actions/actions";
 import {
     AppThunkType,
@@ -21,30 +21,30 @@ const {Success} = ResultCodes;
 
 export const getTodolists = (): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .getTodolists()
             .then(response => {
-                dispatch(setRequestStatus('succeeded'));
-                dispatch(getAllTodolists(response.data));
+                dispatch(setAppStatus('succeeded'));
+                dispatch(setTodolists(response.data));
             })
             .catch(error => console.log(error));
     }
 
 export const createTodolist = (title: string): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .createTodolist(title)
             .then(response => {
                 if (response.data.resultCode === Success) {
-                    dispatch(setRequestStatus('succeeded'));
+                    dispatch(setAppStatus('succeeded'));
                     dispatch(addTodolist(response.data.data.item));
                 } else {
-                    dispatch(setRequestStatus('failed'));
+                    dispatch(setAppStatus('failed'));
                     response.data.messages.length
-                        ? dispatch(setRequestError(response.data.messages[0]))
-                        : dispatch(setRequestError('Some error occurred'));
+                        ? dispatch(setAppError(response.data.messages[0]))
+                        : dispatch(setAppError('Some error occurred'));
                 }
             })
             .catch(error => console.log(error));
@@ -52,18 +52,18 @@ export const createTodolist = (title: string): AppThunkType =>
 
 export const updateTodolist = (payload: TodolistType): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .updateTodolist(payload)
             .then(response => {
                 if (response.data.resultCode === Success) {
-                    dispatch(setRequestStatus('succeeded'));
+                    dispatch(setAppStatus('succeeded'));
                     dispatch(changeTodolist(payload));
                 } else {
-                    dispatch(setRequestStatus('failed'));
+                    dispatch(setAppStatus('failed'));
                     response.data.messages.length
-                        ? dispatch(setRequestError(response.data.messages[0]))
-                        : dispatch(setRequestError('Some error occurred'));
+                        ? dispatch(setAppError(response.data.messages[0]))
+                        : dispatch(setAppError('Some error occurred'));
                 }
             })
             .catch(error => console.log(error));
@@ -71,18 +71,18 @@ export const updateTodolist = (payload: TodolistType): AppThunkType =>
 
 export const deleteTodolist = (id: string): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .deleteTodolist(id)
             .then(response => {
                 if (response.data.resultCode === Success) {
-                    dispatch(setRequestStatus('succeeded'));
+                    dispatch(setAppStatus('succeeded'));
                     dispatch(removeTodolist(id));
                 } else {
-                    dispatch(setRequestStatus('failed'));
+                    dispatch(setAppStatus('failed'));
                     response.data.messages.length
-                        ? dispatch(setRequestError(response.data.messages[0]))
-                        : dispatch(setRequestError('Some error occurred'));
+                        ? dispatch(setAppError(response.data.messages[0]))
+                        : dispatch(setAppError('Some error occurred'));
                 }
             })
             .catch(error => console.log(error));
@@ -90,32 +90,32 @@ export const deleteTodolist = (id: string): AppThunkType =>
 
 export const getTasks = (todoListId: string): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .tasksAPI
             .getTasks(todoListId)
             .then(response => {
-                dispatch(setRequestStatus('succeeded'));
-                dispatch(getAllTasks(todoListId, response.data.items));
+                dispatch(setAppStatus('succeeded'));
+                dispatch(setTasks(todoListId, response.data.items));
             })
             .catch(error => console.log(error));
     }
 
 export const createTask = (title: string, todoListId: string): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .tasksAPI
             .createTask(title, todoListId)
             .then(response => {
                 if (response.data.resultCode === Success) {
-                    dispatch(setRequestStatus('succeeded'));
+                    dispatch(setAppStatus('succeeded'));
                     dispatch(addTask(response.data.data.item));
                 } else {
-                    dispatch(setRequestStatus('failed'));
+                    dispatch(setAppStatus('failed'));
                     response.data.messages.length
-                        ? dispatch(setRequestError(response.data.messages[0]))
-                        : dispatch(setRequestError('Some error occurred'));
+                        ? dispatch(setAppError(response.data.messages[0]))
+                        : dispatch(setAppError('Some error occurred'));
                 }
             })
             .catch(error => console.log(error));
@@ -123,19 +123,19 @@ export const createTask = (title: string, todoListId: string): AppThunkType =>
 
 export const updateTask = (payload: TaskType): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .tasksAPI
             .updateTask(payload)
             .then(response => {
                 if (response.data.resultCode === Success) {
-                    dispatch(setRequestStatus('succeeded'));
+                    dispatch(setAppStatus('succeeded'));
                     dispatch(changeTask(response.data.data.item));
                 } else {
-                    dispatch(setRequestStatus('failed'));
+                    dispatch(setAppStatus('failed'));
                     response.data.messages.length
-                        ? dispatch(setRequestError(response.data.messages[0]))
-                        : dispatch(setRequestError('Some error occurred'));
+                        ? dispatch(setAppError(response.data.messages[0]))
+                        : dispatch(setAppError('Some error occurred'));
                 }
             })
             .catch(error => console.log(error));
@@ -143,19 +143,19 @@ export const updateTask = (payload: TaskType): AppThunkType =>
 
 export const deleteTask = (id: string, todoListId: string): AppThunkType =>
     (dispatch) => {
-        dispatch(setRequestStatus('loading'));
+        dispatch(setAppStatus('loading'));
         todolistsAPI
             .tasksAPI
             .deleteTask(id, todoListId)
             .then(response => {
                 if (response.data.resultCode === Success) {
-                    dispatch(setRequestStatus('succeeded'));
-                    dispatch(removeTask(id));
+                    dispatch(setAppStatus('succeeded'));
+                    dispatch(removeTask(id, todoListId));
                 } else {
-                    dispatch(setRequestStatus('failed'));
+                    dispatch(setAppStatus('failed'));
                     response.data.messages.length
-                        ? dispatch(setRequestError(response.data.messages[0]))
-                        : dispatch(setRequestError('Some error occurred'));
+                        ? dispatch(setAppError(response.data.messages[0]))
+                        : dispatch(setAppError('Some error occurred'));
                 }
             })
             .catch(error => console.log(error));

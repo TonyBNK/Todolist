@@ -4,7 +4,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {AppActionType, RootStateType} from "../../../types/types";
 import {Dispatch} from "redux";
-import {setRequestError} from "../../../bll/actions/actions";
+import {setAppError} from "../../../bll/actions/actions";
 
 
 export const ErrorSnackbar = () => {
@@ -27,7 +27,7 @@ export const ErrorSnackbar = () => {
             return;
         }
 
-        dispatch(setRequestError(null));
+        dispatch(setAppError(null));
     };
 
     return (

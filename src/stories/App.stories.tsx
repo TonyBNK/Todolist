@@ -12,4 +12,6 @@ export default {
 const Template: Story = (args) => <App {...args} />;
 
 export const AppExample = Template.bind({});
-AppExample.args = {};
+AppExample.args = {
+    demo: true
+};

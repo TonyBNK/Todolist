@@ -1,31 +1,52 @@
-import {TaskActionType, TaskStatuses, TaskType} from "../../types/types";
+import {TaskActionType, TasksType} from "../../types/types";
 
 
-const initialState: Array<TaskType> = [];
+const initialState: TasksType = {};
 
 export const TasksReducer = (state = initialState, action: TaskActionType):
-    Array<TaskType> => {
+    TasksType => {
     switch (action.type) {
-        case "GET-ALL-TASKS":
-            return [
+        case "SET-TODOLISTS":
+            const newState = {...state};
+            action.todolists.forEach(tl => newState[tl.id] = []);
+            return newState;
+        case "ADD-TODOLIST":
+            return {
+                [action.todolist.id]: [],
                 ...state,
-                ...action.tasks
-            ];
+            };
+        case "REMOVE-TODOLIST":
+            const copyState = {...state};
+            delete copyState[action.id];
+            return copyState;
+        case "SET-TASKS":
+            return {
+                ...state,
+                [action.todolistId]: action.tasks
+            };
         case "ADD-TASK":
-            return [
-                {
-                    ...action.taskModel
-                },
-                ...state
-            ];
+            return {
+                ...state,
+                [action.taskModel.todoListId]: [
+                    {...action.taskModel},
+                    ...state[action.taskModel.todoListId]
+                ]
+            };
         case "CHANGE-TASK":
-            return state.map(task =>
-                task.id === action.taskModel.id
-                    ? {...action.taskModel}
-                    : task
-            );
+            return {
+                ...state,
+                [action.taskModel.todoListId]: state[action.taskModel.todoListId]
+                    .map(task => task.id === action.taskModel.id
+                        ? {...action.taskModel}
+                        : task
+                    )
+            };
         case "REMOVE-TASK":
-            return state.filter(task => task.id !== action.id);
+            return {
+                ...state,
+                [action.todoListId]: state[action.todoListId]
+                    .filter(task => task.id !== action.id)
+            };
         default:
             return state;
     }

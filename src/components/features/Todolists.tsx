@@ -6,13 +6,22 @@ import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 
-
-export const Todolists = React.memo(() => {
+type TodolistsPropsType = {
+    demo?: boolean
+}
+export const Todolists: React.FC<TodolistsPropsType> = React.memo((
+    {
+        demo = false
+    }
+) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(getTodolists());
-    }, [dispatch]);
+    }, []);
 
     const todolists = useSelector<RootStateType, Array<TodolistType>>(
         state => state.todolists
@@ -39,11 +48,12 @@ export const Todolists = React.memo(() => {
                                 >
                                     <Todolist
                                         todolistModel={tl}
+                                        demo={demo}
                                     />
                                 </Paper>
                             </Grid>
                         )
-                    }, [todolists])
+                    }, [todolists, demo])
                 }
             </Grid>
         </Container>

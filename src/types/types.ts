@@ -3,10 +3,10 @@ import {
     addTodolist,
     changeTask,
     changeTodolist,
-    getAllTasks,
-    getAllTodolists,
+    setTasks,
+    setTodolists,
     removeTask,
-    removeTodolist, setRequestError, setRequestStatus
+    removeTodolist, setAppError, setAppStatus
 } from "../bll/actions/actions";
 import {ThunkAction} from "redux-thunk";
 import {rootReducer} from "../bll/store";
@@ -66,7 +66,7 @@ export type TaskType = {
     addedDate: Date
 }
 
-export type AllTasksType = {
+export type TasksType = {
     [todolistId: string]: Array<TaskType>
 }
 
@@ -90,20 +90,23 @@ export type RootStateType = ReturnType<typeof rootReducer>;
 
 // Action Creators types
 export type TodolistActionType =
-    ReturnType<typeof getAllTodolists>
+    ReturnType<typeof setTodolists>
     | ReturnType<typeof removeTodolist>
     | ReturnType<typeof addTodolist>
     | ReturnType<typeof changeTodolist>;
 
 export type TaskActionType =
-    ReturnType<typeof getAllTasks>
+    ReturnType<typeof setTodolists>
+    | ReturnType<typeof addTodolist>
+    | ReturnType<typeof removeTodolist>
+    | ReturnType<typeof setTasks>
     | ReturnType<typeof removeTask>
     | ReturnType<typeof addTask>
     | ReturnType<typeof changeTask>;
 
 export type AppActionType =
-    ReturnType<typeof setRequestStatus>
-    | ReturnType<typeof setRequestError>;
+    ReturnType<typeof setAppStatus>
+    | ReturnType<typeof setAppError>;
 
 export type ActionsType = TodolistActionType | TaskActionType | AppActionType;
 

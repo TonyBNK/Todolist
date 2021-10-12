@@ -9,12 +9,12 @@ const initialState: AppRequestType = {
 export const AppReducer = (state = initialState, action: AppActionType):
     AppRequestType => {
     switch (action.type) {
-        case "APP/SET-REQUEST-STATUS":
+        case "SET-APP-STATUS":
             return {
                 ...state,
                 status: action.status
             }
-        case "APP/SET-REQUEST-ERROR":
+        case "SET-APP-ERROR":
             return {
                 ...state,
                 error: action.error

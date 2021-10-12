@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import c from './Todolist.module.css';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
 import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
@@ -7,7 +7,8 @@ import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    FilterType, RootStateType,
+    FilterType,
+    RootStateType,
     TaskStatuses,
     TaskType,
     TodolistType
@@ -15,27 +16,33 @@ import {
 import {
     createTask,
     deleteTodolist,
-    getTasks, updateTodolist
+    getTasks,
+    updateTodolist
 } from "../../../bll/thunks/thunks";
 import {Task} from "./Task/Task";
 
 
 type TodolistPropsType = {
     todolistModel: TodolistType
+    demo?: boolean
 }
 export const Todolist: React.FC<TodolistPropsType> = React.memo((
     {
-        todolistModel
+        todolistModel,
+        demo = false
     }
 ) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(getTasks(todolistModel.id));
-    }, [dispatch, todolistModel.id]);
+    }, []);
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
-        state => state.tasks.filter(task => task.todoListId === todolistModel.id)
+        state => state.tasks[todolistModel.id]
     );
 
     const filter = todolistModel.filter;
@@ -49,7 +56,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
 
     const onRemoveTodolistHandler = useCallback(() => {
         dispatch(deleteTodolist(todolistModel.id));
-    }, [dispatch, todolistModel.id]);
+    }, [dispatch, todolistModel]);
 
     const addTask = useCallback((title: string) => {
         dispatch(createTask(title, todolistModel.id));
@@ -71,25 +78,30 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
                 <EditableSpan
                     title={todolistModel.title}
                     onChangeTitle={changeTodolist}
+                    entityStatus={todolistModel.entityStatus}
                 />
-                <IconButton onClick={onRemoveTodolistHandler}>
+                <IconButton
+                    onClick={onRemoveTodolistHandler}
+                    disabled={todolistModel.entityStatus === 'loading'}
+                >
                     <DeleteOutline color={"primary"}/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm
+                addItem={addTask}
+                entityStatus={todolistModel.entityStatus}
+            />
             <div>
                 {
                     useMemo(() => {
-                        return tasks.map(t => <Task
-                                taskModel={t}
-                            />
-                        )
+                        return tasks.map(t => <Task taskModel={t}/>)
                     }, [tasks])
                 }
             </div>
             <FilterButtons
                 filter={todolistModel.filter}
                 changeFilter={changeFilter}
+                entityStatus={todolistModel.entityStatus}
             />
         </div>
     );

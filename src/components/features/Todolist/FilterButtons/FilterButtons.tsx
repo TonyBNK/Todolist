@@ -1,17 +1,19 @@
 import React, {useCallback} from "react";
 import c from './FilterButtons.module.css';
 import {Button} from "@material-ui/core";
-import {FilterType} from "../../../../types/types";
+import {FilterType, RequestStatusType} from "../../../../types/types";
 
 
 export type FilterButtonsType = {
     changeFilter: (filter: FilterType) => void
     filter: FilterType
+    entityStatus?: RequestStatusType
 }
 export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
     {
         changeFilter,
-        filter
+        filter,
+        entityStatus
     }) => {
     const onAllFilterHandler = useCallback(
         () => changeFilter('All'), [changeFilter]
@@ -31,6 +33,7 @@ export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
                 color={'primary'}
                 variant={filter === "All" ? 'contained' : 'outlined'}
                 size={'small'}
+                disabled={entityStatus === 'loading'}
             >
                 All
             </Button>
@@ -40,6 +43,7 @@ export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
                 color={"primary"}
                 variant={filter === "Active" ? 'contained' : 'outlined'}
                 size={'small'}
+                disabled={entityStatus === 'loading'}
             >
                 Active
             </Button>
@@ -49,6 +53,7 @@ export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
                 variant={filter === "Completed" ? 'contained' : 'outlined'}
                 color={'primary'}
                 size={'small'}
+                disabled={entityStatus === 'loading'}
             >
                 Completed
             </Button>

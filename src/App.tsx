@@ -15,7 +15,15 @@ import {RequestStatusType, RootStateType} from "./types/types";
 import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
 
 
-const App = React.memo(() => {
+type AppPropsType = {
+    demo?: boolean
+}
+
+const App: React.FC<AppPropsType> = React.memo((
+    {
+        demo = false
+    }
+) => {
     const status = useSelector<RootStateType, RequestStatusType>(
         state => state.app.status
     );
@@ -40,7 +48,7 @@ const App = React.memo(() => {
                 </Toolbar>
                 {status === 'loading' && <ProgressBar/>}
             </AppBar>
-            <Todolists/>
+            <Todolists demo={demo}/>
         </div>
     );
 })
