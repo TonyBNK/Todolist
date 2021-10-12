@@ -1,4 +1,4 @@
-import {TaskActionType, TaskType} from "../../types/types";
+import {TaskActionType, TaskStatuses, TaskType} from "../../types/types";
 
 
 const initialState: Array<TaskType> = [];

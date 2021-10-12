@@ -1,4 +1,5 @@
 import {
+    FilterType,
     GetTodolistsType,
     RequestStatusType,
     TaskType,

@@ -38,7 +38,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         state => state.tasks.filter(task => task.todoListId === todolistModel.id)
     );
 
-    const [filter, setFilter] = useState<FilterType>('All');
+    const filter = todolistModel.filter;
 
     if (filter === 'Active') {
         tasks = tasks.filter(t => t.status === TaskStatuses.New);
@@ -60,8 +60,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [dispatch, todolistModel]);
 
     const changeFilter = useCallback((newFilter: FilterType) => {
-        setFilter(newFilter);
-    }, []);
+        dispatch(updateTodolist({...todolistModel, filter: newFilter}));
+    }, [dispatch, todolistModel]);
 
     return (
         <div
@@ -88,8 +88,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
                 }
             </div>
             <FilterButtons
+                filter={todolistModel.filter}
                 changeFilter={changeFilter}
-                filter={filter}
             />
         </div>
     );
