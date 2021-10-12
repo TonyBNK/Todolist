@@ -16,26 +16,34 @@ beforeEach(() => {
             id: "608a4deb-ec8c-4dd9-866d-50a3a5b15316",
             title: "What to play",
             addedDate: new Date("2021-09-27T16:55:44.577"),
-            order: -3
+            order: -3,
+            filter: "All",
+            entityStatus: "idle"
         },
         {
             id: "4d51be01-6bf3-4432-be4f-77ac13dfc31a",
             title: "What to buy",
             addedDate: new Date("2021-09-27T13:38:39.897"),
-            order: -2
+            order: -2,
+            filter: "All",
+            entityStatus: "idle"
         },
         {
             id: "404caf11-450d-4ac3-9375-61deeafe63b0",
             title: "What to learn",
             addedDate: new Date("2021-09-27T12:17:57.41"),
-            order: -1
+            order: -1,
+            filter: "All",
+            entityStatus: "idle"
         }
     ];
     newTodolist = {
         id: "asdfasdgasdf",
         title: "What to listen",
         addedDate: new Date("2021-09-27T12:17:57.41"),
-        order: 0
+        order: 0,
+        filter: "All",
+        entityStatus: "idle"
     }
 });
 
@@ -64,4 +72,16 @@ test('todolist title should be changed', () => {
 
     expect(newTodolists.length).toBe(3);
     expect(newTodolists[0].title).toBe(newTitle);
+});
+
+test('todolist filter should be changed', () => {
+    const newFilter = 'Active';
+
+    const newTodolists = TodolistsReducer(todolists, changeTodolist({
+        ...todolists[0],
+        filter: newFilter
+    }));
+
+    expect(newTodolists.length).toBe(3);
+    expect(newTodolists[0].filter).toBe(newFilter);
 });
