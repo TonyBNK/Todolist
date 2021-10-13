@@ -6,7 +6,7 @@ import {
     setTasks,
     setTodolists,
     removeTask,
-    removeTodolist, setAppError, setAppStatus
+    removeTodolist, setAppError, setAppStatus, changeTodolistStatus
 } from "../bll/actions/actions";
 import {ThunkAction} from "redux-thunk";
 import {rootReducer} from "../bll/store";
@@ -93,7 +93,8 @@ export type TodolistActionType =
     ReturnType<typeof setTodolists>
     | ReturnType<typeof removeTodolist>
     | ReturnType<typeof addTodolist>
-    | ReturnType<typeof changeTodolist>;
+    | ReturnType<typeof changeTodolist>
+    | ReturnType<typeof changeTodolistStatus>;
 
 export type TaskActionType =
     ReturnType<typeof setTodolists>

@@ -23,6 +23,12 @@ export const TodolistsReducer = (state = initialState, action: TodolistActionTyp
                     ? {...action.todolist}
                     : tl
             });
+        case "CHANGE-TODOLIST-STATUS":
+            return state.map(tl => {
+                return tl.id === action.id
+                    ? {...tl, entityStatus: action.entityStatus}
+                    : tl
+            })
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id);
         default:

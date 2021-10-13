@@ -1,7 +1,7 @@
 import {TodolistType} from "../../types/types";
 import {
     addTodolist,
-    changeTodolist,
+    changeTodolist, changeTodolistStatus,
     removeTodolist
 } from "../actions/actions";
 import {TodolistsReducer} from "./TodolistsReducer";
@@ -84,4 +84,13 @@ test('todolist filter should be changed', () => {
 
     expect(newTodolists.length).toBe(3);
     expect(newTodolists[0].filter).toBe(newFilter);
+});
+
+test('todolist status should be changed', () => {
+    const newStatus = 'loading';
+
+    const newTodolists = TodolistsReducer(todolists, changeTodolistStatus(todolists[0].id, 'loading'));
+
+    expect(newTodolists.length).toBe(3);
+    expect(newTodolists[0].entityStatus).toBe(newStatus);
 });

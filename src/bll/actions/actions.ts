@@ -21,6 +21,12 @@ export const changeTodolist = (todolist: TodolistType) => ({
     todolist,
 } as const);
 
+export const changeTodolistStatus = (id: string, entityStatus: RequestStatusType) => ({
+    type: 'CHANGE-TODOLIST-STATUS',
+    id,
+    entityStatus
+} as const);
+
 export const removeTodolist = (id: string) => ({
     type: 'REMOVE-TODOLIST',
     id
