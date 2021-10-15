@@ -1,4 +1,4 @@
-import {todolistsAPI} from "../../api/todolists-api";
+import {authAPI, todolistsAPI} from "../../api/todolists-api";
 import {
     addTask,
     addTodolist,
@@ -7,13 +7,13 @@ import {
     changeTodolistStatus,
     removeTask,
     removeTodolist,
-    setAppError,
     setAppStatus,
     setTasks,
     setTodolists
 } from "../actions/actions";
 import {
     AppThunkType,
+    LoginDataType,
     ResultCodes,
     TaskType,
     TodolistType
@@ -166,3 +166,21 @@ export const deleteTask = (id: string, todoListId: string): AppThunkType =>
                 handleServerNetworkError(dispatch, error.message);
             });
     }
+
+export const login = (loginData: LoginDataType): AppThunkType =>
+    (dispatch) => {
+        dispatch(setAppStatus('loading'));
+        authAPI
+            .login(loginData)
+            .then(response => {
+                if (response.data.resultCode === Success) {
+                    dispatch(setAppStatus('succeeded'));
+                } else {
+                    handleServerAppError(dispatch, response.data.messages);
+                }
+            })
+            .catch(error => {
+                handleServerNetworkError(dispatch, error.message);
+            });
+    }
+

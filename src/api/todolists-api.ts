@@ -3,7 +3,7 @@ import {
     TodolistType,
     ResponseType,
     GetTasksType,
-    TaskType, GetTodolistsType
+    TaskType, GetTodolistsType, LoginDataType
 } from "../types/types";
 
 
@@ -14,6 +14,15 @@ const axiosInst = axios.create({
         'api-key': 'c71ad832-d3a7-49e4-81f5-4b21198b07fd'
     }
 });
+
+export const authAPI = {
+    login: (loginData: LoginDataType) => {
+        return axiosInst
+            .post<ResponseType<{userId: number}>>('auth/login', {
+                ...loginData
+            });
+    },
+}
 
 export const todolistsAPI = {
     getTodolists: () => {

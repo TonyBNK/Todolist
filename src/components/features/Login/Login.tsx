@@ -1,3 +1,4 @@
+import React from "react";
 import {
     Button,
     Checkbox,
@@ -8,15 +9,13 @@ import {
     TextField
 } from "@material-ui/core";
 import {useFormik} from "formik";
+import {useDispatch} from "react-redux";
+import {login} from "../../../bll/thunks/thunks";
 
 
-type InitialValuesType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha?: string
-}
 export const Login = () => {
+    const dispatch = useDispatch();
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -24,30 +23,27 @@ export const Login = () => {
             rememberMe: false
         },
         validate: values => {
-            const errors = {
-                email: '',
-                password: ''
-            };
-
             if (!values.email) {
-                errors.email = 'Email is required';
+                return {
+                    email: 'Email is required'
+                }
             }
 
             if (!values.password) {
-                errors.password = 'Password is required';
+                return {
+                    password: 'Password is required'
+                }
             }
-
-            return errors;
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            dispatch(login(values));
         },
     });
 
     return (
         <Grid container justify={'center'}>
-            <Grid item xs={4} justify={'center'}>
-                <form>
+            <Grid item xs={4}>
+                <form onSubmit={formik.handleSubmit}>
                     <FormControl>
                         <FormLabel>
                             <p>
@@ -74,8 +70,8 @@ export const Login = () => {
                             />
                             {
                                 formik.touched.email && formik.errors.email
-                                ? <div>{formik.errors.email}</div>
-                                : null
+                                    ? <div>{formik.errors.email}</div>
+                                    : null
                             }
                             <TextField
                                 type={'password'}
@@ -89,10 +85,11 @@ export const Login = () => {
                                     : null
                             }
                             <FormControlLabel
-                                control={<Checkbox/>}
+                                control={<Checkbox
+                                    {...formik.getFieldProps('rememberMe')}
+                                    checked={formik.values.rememberMe}
+                                />}
                                 label={'RememberMe'}
-                                {...formik.getFieldProps('rememberMe')}
-                                checked={formik.values.rememberMe}
                             />
                             <Button
                                 type={'submit'}

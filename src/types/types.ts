@@ -23,6 +23,13 @@ export type AppRequestType = {
     error: string | null
 }
 
+export type LoginDataType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+
 export type TodolistType = {
     id: string
     addedDate: Date
