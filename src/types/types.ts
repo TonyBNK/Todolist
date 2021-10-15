@@ -29,6 +29,10 @@ export type AppRequestType = {
     isInitialized: boolean
 }
 
+export type AuthStateType = {
+    isLogged: boolean
+}
+
 export type LoginDataType = {
     email: string
     password: string

@@ -1,8 +1,8 @@
-import {AuthActionType} from "../../types/types";
+import {AuthActionType, AuthStateType} from "../../types/types";
 
 
-const initialState = {
-    isLoggedIn: false
+const initialState: AuthStateType = {
+    isLogged: false
 }
 
 export const AuthReducer = (state = initialState, action: AuthActionType) => {
@@ -10,7 +10,7 @@ export const AuthReducer = (state = initialState, action: AuthActionType) => {
         case "SET-LOGGED":
             return {
                 ...state,
-                isLoggedIn: action.isLoggedIn
+                isLogged: action.isLogged
             }
         default:
             return state;
