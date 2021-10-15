@@ -30,8 +30,8 @@ const App: React.FC<AppPropsType> = React.memo((
     const {status, isInitialized} = useSelector<RootStateType, AppRequestType>(
         state => state.app
     );
-    const isLoggedIn = useSelector<RootStateType, boolean>(
-        state => state.auth.isLoggedIn
+    const isLogged = useSelector<RootStateType, boolean>(
+        state => state.auth.isLogged
     );
     const dispatch = useDispatch();
 
@@ -72,7 +72,7 @@ const App: React.FC<AppPropsType> = React.memo((
                         News
                     </Typography>
                     {
-                        isLoggedIn
+                        isLogged
                             && <Button
                                 color="inherit"
                                 style={{position: 'absolute', right: 0}}

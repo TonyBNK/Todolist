@@ -95,7 +95,7 @@ const initialGlobalState: RootStateType = {
         isInitialized: false
     },
     auth: {
-        isLoggedIn: false
+        isLogged: false
     }
 }
 

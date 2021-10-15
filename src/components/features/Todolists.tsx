@@ -16,12 +16,12 @@ export const Todolists: React.FC<TodolistsPropsType> = React.memo((
     }
 ) => {
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector<RootStateType, boolean>(
-        state => state.auth.isLoggedIn
+    const isLogged = useSelector<RootStateType, boolean>(
+        state => state.auth.isLogged
     );
 
     useEffect(() => {
-        if (demo || !isLoggedIn) {
+        if (demo || !isLogged) {
             return
         }
         dispatch(getTodolists());
@@ -50,7 +50,7 @@ export const Todolists: React.FC<TodolistsPropsType> = React.memo((
         dispatch(createTodolist(title));
     }, [dispatch]);
 
-    if (!isLoggedIn) {
+    if (!isLogged) {
         return <Redirect to={'/login'}/>
     }
 
