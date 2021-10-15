@@ -9,12 +9,17 @@ import {
     TextField
 } from "@material-ui/core";
 import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
-import {login} from "../../../bll/thunks/thunks";
+import {useDispatch, useSelector} from "react-redux";
+import {logIn} from "../../../bll/thunks/thunks";
+import {RootStateType} from "../../../types/types";
+import {Redirect} from "react-router-dom";
 
 
 export const Login = () => {
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector<RootStateType, boolean>(
+        state => state.auth.isLoggedIn
+    );
 
     const formik = useFormik({
         initialValues: {
@@ -24,26 +29,30 @@ export const Login = () => {
         },
         validate: values => {
             if (!values.email) {
-                return {
+                return{
                     email: 'Email is required'
                 }
             }
-
             if (!values.password) {
-                return {
+                return{
                     password: 'Password is required'
                 }
             }
         },
         onSubmit: values => {
-            dispatch(login(values));
+            dispatch(logIn(values));
         },
     });
+
+    if (isLoggedIn){
+        return <Redirect to={'/'}/>
+    }
 
     return (
         <Grid container justify={'center'}>
             <Grid item xs={4}>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit}
+                      style={{display: 'flex', justifyContent: 'center'}}>
                     <FormControl>
                         <FormLabel>
                             <p>

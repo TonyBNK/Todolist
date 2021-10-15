@@ -63,3 +63,13 @@ export const setAppError = (error: string | null) => ({
     type: "SET-APP-ERROR",
     error
 } as const);
+
+export const setAppInitialized = (isInitialized: boolean) => ({
+    type: "SET-APP-INITIALIZED",
+    isInitialized
+} as const);
+
+export const setLogged = (isLoggedIn: boolean) => ({
+    type: "SET-LOGGED",
+    isLoggedIn
+} as const);

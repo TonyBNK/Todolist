@@ -5,6 +5,7 @@ import {RootStateType, TodolistType} from "../../types/types";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
+import {Redirect} from "react-router-dom";
 
 type TodolistsPropsType = {
     demo?: boolean
@@ -15,9 +16,12 @@ export const Todolists: React.FC<TodolistsPropsType> = React.memo((
     }
 ) => {
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector<RootStateType, boolean>(
+        state => state.auth.isLoggedIn
+    );
 
     useEffect(() => {
-        if (demo) {
+        if (demo || !isLoggedIn) {
             return
         }
         dispatch(getTodolists());
@@ -27,9 +31,28 @@ export const Todolists: React.FC<TodolistsPropsType> = React.memo((
         state => state.todolists
     );
 
+    const listOfTodolists = useMemo(() => {
+        return todolists.map(tl => <Grid item>
+                <Paper
+                    elevation={3}
+                    style={{padding: '20px', marginTop: '40px'}}
+                >
+                    <Todolist
+                        todolistModel={tl}
+                        demo={demo}
+                    />
+                </Paper>
+            </Grid>
+        )
+    }, [todolists, demo]);
+
     const addTodolist = useCallback((title: string) => {
         dispatch(createTodolist(title));
     }, [dispatch]);
+
+    if (!isLoggedIn) {
+        return <Redirect to={'/login'}/>
+    }
 
     return (
         <Container>
@@ -40,20 +63,7 @@ export const Todolists: React.FC<TodolistsPropsType> = React.memo((
             </Grid>
             <Grid container spacing={7}>
                 {
-                    useMemo(() => {
-                        return todolists.map(tl => <Grid item>
-                                <Paper
-                                    elevation={3}
-                                    style={{padding: '20px', marginTop: '40px'}}
-                                >
-                                    <Todolist
-                                        todolistModel={tl}
-                                        demo={demo}
-                                    />
-                                </Paper>
-                            </Grid>
-                        )
-                    }, [todolists, demo])
+                    listOfTodolists
                 }
             </Grid>
         </Container>

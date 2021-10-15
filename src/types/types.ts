@@ -6,7 +6,12 @@ import {
     setTasks,
     setTodolists,
     removeTask,
-    removeTodolist, setAppError, setAppStatus, changeTodolistStatus
+    removeTodolist,
+    setAppError,
+    setAppStatus,
+    changeTodolistStatus,
+    setLogged,
+    setAppInitialized
 } from "../bll/actions/actions";
 import {ThunkAction} from "redux-thunk";
 import {rootReducer} from "../bll/store";
@@ -21,6 +26,7 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 export type AppRequestType = {
     status: RequestStatusType
     error: string | null
+    isInitialized: boolean
 }
 
 export type LoginDataType = {
@@ -114,9 +120,12 @@ export type TaskActionType =
 
 export type AppActionType =
     ReturnType<typeof setAppStatus>
-    | ReturnType<typeof setAppError>;
+    | ReturnType<typeof setAppError>
+    | ReturnType<typeof setAppInitialized>;
 
-export type ActionsType = TodolistActionType | TaskActionType | AppActionType;
+export type AuthActionType = ReturnType<typeof setLogged>;
+
+export type ActionsType = TodolistActionType | TaskActionType | AppActionType | AuthActionType;
 
 // Thunk Creators Types
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, ActionsType>

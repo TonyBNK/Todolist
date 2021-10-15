@@ -6,8 +6,8 @@ import {
     changeTodolist,
     changeTodolistStatus,
     removeTask,
-    removeTodolist,
-    setAppStatus,
+    removeTodolist, setAppInitialized,
+    setAppStatus, setLogged,
     setTasks,
     setTodolists
 } from "../actions/actions";
@@ -167,14 +167,51 @@ export const deleteTask = (id: string, todoListId: string): AppThunkType =>
             });
     }
 
-export const login = (loginData: LoginDataType): AppThunkType =>
+export const setAppInitialize = (): AppThunkType =>
     (dispatch) => {
-        dispatch(setAppStatus('loading'));
         authAPI
-            .login(loginData)
+            .me()
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus('succeeded'));
+                    dispatch(setLogged(true));
+                } else {
+                    handleServerAppError(dispatch, response.data.messages);
+                }
+                dispatch(setAppInitialized(true));
+            })
+            .catch(error => {
+                handleServerNetworkError(dispatch, error.message);
+            });
+    }
+
+export const logIn = (loginData: LoginDataType): AppThunkType =>
+    (dispatch) => {
+        dispatch(setAppStatus('loading'));
+        authAPI
+            .logIn(loginData)
+            .then(response => {
+                if (response.data.resultCode === Success) {
+                    dispatch(setAppStatus('succeeded'));
+                    dispatch(setLogged(true));
+                } else {
+                    handleServerAppError(dispatch, response.data.messages);
+                }
+            })
+            .catch(error => {
+                handleServerNetworkError(dispatch, error.message);
+            });
+    }
+
+export const logOut = (): AppThunkType =>
+    (dispatch) => {
+        dispatch(setAppStatus('loading'));
+        authAPI
+            .logOut()
+            .then(response => {
+                if (response.data.resultCode === Success) {
+                    dispatch(setAppStatus('succeeded'));
+                    dispatch(setLogged(false));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }

@@ -16,12 +16,20 @@ const axiosInst = axios.create({
 });
 
 export const authAPI = {
-    login: (loginData: LoginDataType) => {
+    me: () => {
         return axiosInst
-            .post<ResponseType<{userId: number}>>('auth/login', {
+            .get<ResponseType<{ id: number, email: string, login: string }>>('auth/me');
+    },
+    logIn: (loginData: LoginDataType) => {
+        return axiosInst
+            .post<ResponseType<{ userId: number }>>('auth/login', {
                 ...loginData
             });
     },
+    logOut: () => {
+        return axiosInst
+            .delete<ResponseType>('auth/login');
+    }
 }
 
 export const todolistsAPI = {
