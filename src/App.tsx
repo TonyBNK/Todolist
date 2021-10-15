@@ -13,6 +13,8 @@ import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
 import {useSelector} from "react-redux";
 import {RequestStatusType, RootStateType} from "./types/types";
 import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
+import {Route} from "react-router-dom";
+import {Login} from "./components/features/Login/Login";
 
 
 type AppPropsType = {
@@ -48,7 +50,14 @@ const App: React.FC<AppPropsType> = React.memo((
                 </Toolbar>
                 {status === 'loading' && <ProgressBar/>}
             </AppBar>
-            <Todolists demo={demo}/>
+            <Route
+                exact path={'/'}
+                render={() => <Todolists demo={demo}/>}
+            />
+            <Route
+                path={'/login'}
+                render={() => <Login/>}
+            />
         </div>
     );
 })
