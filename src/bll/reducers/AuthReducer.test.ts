@@ -1,6 +1,5 @@
 import {AuthStateType} from "../../types/types";
-import {setLogged} from "../actions/actions";
-import {AuthReducer} from "./AuthReducer";
+import {AuthReducer, setLogged} from "./AuthReducer";
 
 
 let initialState: AuthStateType;
@@ -12,6 +11,6 @@ beforeEach(() => {
 })
 
 test('auth login state should be changed', () => {
-    const newState = AuthReducer(initialState, setLogged(true));
+    const newState = AuthReducer(initialState, setLogged({isLogged: true}));
     expect(newState.isLogged).toBeTruthy();
 });

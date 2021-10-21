@@ -1,37 +1,54 @@
 import {
     GetTodolistsType,
-    TodolistActionType,
+    RequestStatusType,
     TodolistType,
 } from "../../types/types";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 const initialState: GetTodolistsType = [];
 
-export const TodolistsReducer = (state = initialState, action: TodolistActionType):
-    Array<TodolistType> => {
-    switch (action.type) {
-        case "SET-TODOLISTS":
-            return action.todolists.map(tl => ({...tl, filter: "All"}));
-        case 'ADD-TODOLIST':
-            return [
-                {...action.todolist},
-                ...state,
-            ];
-        case 'CHANGE-TODOLIST':
-            return state.map(tl => {
-                return tl.id === action.todolist.id
-                    ? {...action.todolist}
-                    : tl
+const todolistsSlice = createSlice({
+    name: 'todolists',
+    initialState: initialState,
+    reducers: {
+        setTodolists(state, action: PayloadAction<GetTodolistsType>) {
+            state = action.payload;
+        },
+        addTodolist(state, action: PayloadAction<TodolistType>) {
+            state.push({
+                ...action.payload,
+                filter: 'All',
+                entityStatus: 'idle'
             });
-        case "CHANGE-TODOLIST-STATUS":
-            return state.map(tl => {
-                return tl.id === action.id
-                    ? {...tl, entityStatus: action.entityStatus}
-                    : tl
-            })
-        case 'REMOVE-TODOLIST':
-            return state.filter(tl => tl.id !== action.id);
-        default:
-            return state;
+        },
+        changeTodolist(state, action: PayloadAction<TodolistType>) {
+            const index = state.findIndex(todo => todo.id === action.payload.id);
+            if (index > -1) {
+                state[index] = action.payload
+            }
+        },
+        changeTodolistStatus(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {
+            const index = state.findIndex(todo => todo.id === action.payload.id);
+            if (index > -1) {
+                state[index].entityStatus = action.payload.entityStatus
+            }
+        },
+        removeTodolist(state, action: PayloadAction<{ id: string }>) {
+            const index = state.findIndex(todo => todo.id === action.payload.id);
+            if (index > -1) {
+                state.splice(index, 1);
+            }
+        }
     }
-}
+});
+
+export const TodolistsReducer = todolistsSlice.reducer;
+
+export const {
+    setTodolists,
+    addTodolist,
+    changeTodolist,
+    changeTodolistStatus,
+    removeTodolist
+} = todolistsSlice.actions;

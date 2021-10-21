@@ -1,16 +1,5 @@
 import {authAPI, todolistsAPI} from "../../api/todolists-api";
 import {
-    addTask,
-    addTodolist,
-    changeTask,
-    changeTodolist,
-    changeTodolistStatus,
-    removeTask,
-    removeTodolist,
-    setTasks,
-    setTodolists
-} from "../actions/actions";
-import {
     AppThunkType,
     LoginDataType,
     ResultCodes,
@@ -23,6 +12,17 @@ import {
 } from "../../utils/utils";
 import {setLogged} from "../reducers/AuthReducer";
 import {setAppInitialized, setAppStatus} from "../reducers/AppReducer";
+import {
+    addTodolist,
+    changeTodolist, changeTodolistStatus, removeTodolist,
+    setTodolists
+} from "../reducers/TodolistsReducer";
+import {
+    addTask,
+    changeTask,
+    removeTask,
+    setTasks
+} from "../reducers/TasksReducer";
 
 
 const {Success} = ResultCodes;
@@ -80,13 +80,13 @@ export const updateTodolist = (payload: TodolistType): AppThunkType =>
 export const deleteTodolist = (id: string): AppThunkType =>
     (dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
-        dispatch(changeTodolistStatus(id, 'loading'));
+        dispatch(changeTodolistStatus({id, entityStatus: 'loading'}));
         todolistsAPI
             .deleteTodolist(id)
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(removeTodolist(id));
+                    dispatch(removeTodolist({id}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
@@ -104,7 +104,7 @@ export const getTasks = (todoListId: string): AppThunkType =>
             .getTasks(todoListId)
             .then(response => {
                 dispatch(setAppStatus({status: 'succeeded'}));
-                dispatch(setTasks(todoListId, response.data.items));
+                dispatch(setTasks({tasks: response.data.items, todoListId}));
             })
             .catch(error => {
                 handleServerNetworkError(dispatch, error.message);
@@ -120,7 +120,7 @@ export const createTask = (title: string, todoListId: string): AppThunkType =>
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(addTask(response.data.data.item));
+                    dispatch(addTask({taskModel: response.data.data.item}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
@@ -139,7 +139,7 @@ export const updateTask = (payload: TaskType): AppThunkType =>
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(changeTask(response.data.data.item));
+                    dispatch(changeTask({taskModel: response.data.data.item}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
@@ -158,7 +158,7 @@ export const deleteTask = (id: string, todoListId: string): AppThunkType =>
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(removeTask(id, todoListId));
+                    dispatch(removeTask({id, todoListId}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }

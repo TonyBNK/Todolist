@@ -1,6 +1,10 @@
 import {AppRequestType} from "../../types/types";
-import {setAppError, setAppInitialized, setAppStatus} from "../actions/actions";
-import {AppReducer} from "./AppReducer";
+import {
+    AppReducer,
+    setAppError,
+    setAppInitialized,
+    setAppStatus
+} from "./AppReducer";
 
 
 let initialState: AppRequestType;
@@ -14,17 +18,17 @@ beforeEach(() => {
 });
 
 test('request status should be changed', () => {
-    const newState = AppReducer(initialState, setAppStatus('loading'));
+    const newState = AppReducer(initialState, setAppStatus({status: 'loading'}));
     expect(newState.status).toBe('loading');
 });
 
 test('request error should be changed', () => {
-    const newState = AppReducer(initialState, setAppError('Some error occurred'));
+    const newState = AppReducer(initialState, setAppError({error: 'Some error occurred'}));
     expect(newState.error).toBe('Some error occurred');
 });
 
 test('app initialization should be changed', () => {
-    const newState = AppReducer(initialState, setAppInitialized(true));
+    const newState = AppReducer(initialState, setAppInitialized({isInitialized: true}));
     expect(newState.isInitialized).toBeTruthy();
 });
 
