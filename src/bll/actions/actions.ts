@@ -53,18 +53,3 @@ export const removeTask = (id: string, todoListId: string) => ({
     id,
     todoListId
 } as const);
-
-export const setAppStatus = (status: RequestStatusType) => ({
-    type: "SET-APP-STATUS",
-    status
-} as const);
-
-export const setAppError = (error: string | null) => ({
-    type: "SET-APP-ERROR",
-    error
-} as const);
-
-export const setAppInitialized = (isInitialized: boolean) => ({
-    type: "SET-APP-INITIALIZED",
-    isInitialized
-} as const);

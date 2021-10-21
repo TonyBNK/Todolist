@@ -7,14 +7,16 @@ import {
     setTodolists,
     removeTask,
     removeTodolist,
-    setAppError,
-    setAppStatus,
-    changeTodolistStatus,
-    setAppInitialized
+    changeTodolistStatus
 } from "../bll/actions/actions";
 import {ThunkAction} from "redux-thunk";
 import {rootReducer} from "../bll/store";
 import {setLogged} from "../bll/reducers/AuthReducer";
+import {
+    setAppError,
+    setAppInitialized,
+    setAppStatus
+} from "../bll/reducers/AppReducer";
 
 
 export type Nullable<T> = T | null;
