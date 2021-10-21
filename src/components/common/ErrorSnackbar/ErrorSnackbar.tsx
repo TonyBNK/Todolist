@@ -1,8 +1,8 @@
 import React from "react";
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useDispatch, useSelector} from "react-redux";
-import {AppActionType, RootStateType} from "../../../types/types";
+import {RootStateType} from "../../../types/types";
 import {Dispatch} from "redux";
 import {setAppError} from "../../../bll/reducers/AppReducer";
 
@@ -11,7 +11,7 @@ export const ErrorSnackbar = () => {
     const error = useSelector<RootStateType, string | null>(
         state => state.app.error
     );
-    const dispatch = useDispatch<Dispatch<AppActionType>>();
+    const dispatch = useDispatch<Dispatch>();
 
     const isOpen = error !== null;
 

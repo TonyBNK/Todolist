@@ -1,5 +1,5 @@
 import {ThunkAction} from "redux-thunk";
-import {rootReducer} from "../bll/store";
+import {rootReducer, store} from "../bll/store";
 import {setLogged} from "../bll/reducers/AuthReducer";
 import {
     setAppError,
@@ -106,32 +106,7 @@ export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistTy
 
 // Root State Type
 export type RootStateType = ReturnType<typeof rootReducer>;
+export type AppDispatchType = typeof store.dispatch;
 
 // Action Creators types
-export type TodolistActionType =
-    ReturnType<typeof setTodolists>
-    | ReturnType<typeof removeTodolist>
-    | ReturnType<typeof addTodolist>
-    | ReturnType<typeof changeTodolist>
-    | ReturnType<typeof changeTodolistStatus>;
-
-export type TaskActionType =
-    ReturnType<typeof setTodolists>
-    | ReturnType<typeof addTodolist>
-    | ReturnType<typeof removeTodolist>
-    | ReturnType<typeof setTasks>
-    | ReturnType<typeof removeTask>
-    | ReturnType<typeof addTask>
-    | ReturnType<typeof changeTask>;
-
-export type AppActionType =
-    ReturnType<typeof setAppStatus>
-    | ReturnType<typeof setAppError>
-    | ReturnType<typeof setAppInitialized>;
-
 export type AuthActionType = ReturnType<typeof setLogged>;
-
-export type ActionsType = TodolistActionType | TaskActionType | AppActionType | AuthActionType;
-
-// Thunk Creators Types
-export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootStateType, unknown, ActionsType>

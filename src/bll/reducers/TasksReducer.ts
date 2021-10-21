@@ -5,6 +5,7 @@ import {
     TodolistType
 } from "../../types/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {addTodolist, removeTodolist, setTodolists} from "./TodolistsReducer";
 
 
 const initialState: TasksType = {};
@@ -17,27 +18,33 @@ const tasksSlice = createSlice({
             state[action.payload.todoListId] = action.payload.tasks;
         },
         addTask(state, action: PayloadAction<{ taskModel: TaskType }>) {
-            state[action.payload.taskModel.todoListId].push(action.payload.taskModel);
+            state[action.payload.taskModel.todoListId].unshift(action.payload.taskModel);
         },
         changeTask(state, action: PayloadAction<{ taskModel: TaskType }>) {
-            state[action.payload.taskModel.todoListId] = state[action.payload.taskModel.todoListId]
-                .map(task => task.id === action.payload.taskModel.id
-                    ? action.payload.taskModel
-                    : task
-                )
+            const tasks = state[action.payload.taskModel.todoListId];
+            const index = tasks.findIndex(task => task.id === action.payload.taskModel.id);
+            if (index > -1) {
+                tasks[index] = action.payload.taskModel
+            }
         },
         removeTask(state, action: PayloadAction<{ id: string, todoListId: string }>) {
-            state[action.payload.todoListId].filter(task => task.id !== action.payload.id);
-        },
-        setTodolists(state, action: PayloadAction<GetTodolistsType>) {
-            action.payload.forEach(todo => state[todo.id] = []);
-        },
-        addTodolist(state, action: PayloadAction<TodolistType>) {
-            state = {[action.payload.id]: [], ...state}
-        },
-        removeTodolist(state, action: PayloadAction<{ id: string }>) {
-            delete state[action.payload.id];
+            const tasks = state[action.payload.todoListId];
+            const index = tasks.findIndex(task => task.id === action.payload.id);
+            if (index > -1) {
+                tasks.splice(index, 1);
+            }
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(setTodolists, (state, action) => {
+            action.payload.todolists.forEach(todo => state[todo.id] = []);
+        });
+        builder.addCase(addTodolist, (state, action) => {
+            state[action.payload.todolist.id] = [];
+        });
+        builder.addCase(removeTodolist, (state, action) => {
+            delete state[action.payload.id];
+        });
     }
 })
 
@@ -47,8 +54,5 @@ export const {
     setTasks,
     addTask,
     changeTask,
-    removeTask,
-    setTodolists,
-    addTodolist,
-    removeTodolist
+    removeTask
 } = tasksSlice.actions;

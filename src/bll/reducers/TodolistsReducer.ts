@@ -12,20 +12,20 @@ const todolistsSlice = createSlice({
     name: 'todolists',
     initialState: initialState,
     reducers: {
-        setTodolists(state, action: PayloadAction<GetTodolistsType>) {
-            state = action.payload;
+        setTodolists(state, action: PayloadAction<{todolists: GetTodolistsType}>) {
+            return action.payload.todolists.map(todo => ({...todo, filter: 'All', entityStatus: 'idle'}))
         },
-        addTodolist(state, action: PayloadAction<TodolistType>) {
-            state.push({
-                ...action.payload,
+        addTodolist(state, action: PayloadAction<{todolist: TodolistType}>) {
+            state.unshift({
+                ...action.payload.todolist,
                 filter: 'All',
                 entityStatus: 'idle'
             });
         },
-        changeTodolist(state, action: PayloadAction<TodolistType>) {
-            const index = state.findIndex(todo => todo.id === action.payload.id);
+        changeTodolist(state, action: PayloadAction<{todolist: TodolistType}>) {
+            const index = state.findIndex(todo => todo.id === action.payload.todolist.id);
             if (index > -1) {
-                state[index] = action.payload
+                state[index] = action.payload.todolist;
             }
         },
         changeTodolistStatus(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {

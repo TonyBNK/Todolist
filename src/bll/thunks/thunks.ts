@@ -1,6 +1,5 @@
 import {authAPI, todolistsAPI} from "../../api/todolists-api";
 import {
-    AppThunkType,
     LoginDataType,
     ResultCodes,
     TaskType,
@@ -23,33 +22,34 @@ import {
     removeTask,
     setTasks
 } from "../reducers/TasksReducer";
+import {Dispatch} from "redux";
 
 
 const {Success} = ResultCodes;
 
-export const getTodolists = (): AppThunkType =>
-    (dispatch) => {
+export const getTodolists = () =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .getTodolists()
             .then(response => {
                 dispatch(setAppStatus({status: 'succeeded'}));
-                dispatch(setTodolists(response.data));
+                dispatch(setTodolists({todolists: response.data}));
             })
             .catch(error => {
                 handleServerNetworkError(dispatch, error.message);
             });
     }
 
-export const createTodolist = (title: string): AppThunkType =>
-    (dispatch) => {
+export const createTodolist = (title: string) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .createTodolist(title)
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(addTodolist(response.data.data.item));
+                    dispatch(addTodolist({todolist: response.data.data.item}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
@@ -59,15 +59,15 @@ export const createTodolist = (title: string): AppThunkType =>
             });
     }
 
-export const updateTodolist = (payload: TodolistType): AppThunkType =>
-    (dispatch) => {
+export const updateTodolist = (payload: TodolistType) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .updateTodolist(payload)
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(changeTodolist(payload));
+                    dispatch(changeTodolist({todolist: payload}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
@@ -77,8 +77,8 @@ export const updateTodolist = (payload: TodolistType): AppThunkType =>
             });
     }
 
-export const deleteTodolist = (id: string): AppThunkType =>
-    (dispatch) => {
+export const deleteTodolist = (id: string) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         dispatch(changeTodolistStatus({id, entityStatus: 'loading'}));
         todolistsAPI
@@ -96,8 +96,8 @@ export const deleteTodolist = (id: string): AppThunkType =>
             });
     }
 
-export const getTasks = (todoListId: string): AppThunkType =>
-    (dispatch) => {
+export const getTasks = (todoListId: string) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .tasksAPI
@@ -111,8 +111,8 @@ export const getTasks = (todoListId: string): AppThunkType =>
             });
     }
 
-export const createTask = (title: string, todoListId: string): AppThunkType =>
-    (dispatch) => {
+export const createTask = (title: string, todoListId: string) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .tasksAPI
@@ -130,8 +130,8 @@ export const createTask = (title: string, todoListId: string): AppThunkType =>
             });
     }
 
-export const updateTask = (payload: TaskType): AppThunkType =>
-    (dispatch) => {
+export const updateTask = (payload: TaskType) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .tasksAPI
@@ -149,8 +149,8 @@ export const updateTask = (payload: TaskType): AppThunkType =>
             });
     }
 
-export const deleteTask = (id: string, todoListId: string): AppThunkType =>
-    (dispatch) => {
+export const deleteTask = (id: string, todoListId: string) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .tasksAPI
@@ -168,8 +168,8 @@ export const deleteTask = (id: string, todoListId: string): AppThunkType =>
             });
     }
 
-export const setAppInitialize = (): AppThunkType =>
-    (dispatch) => {
+export const setAppInitialize = () =>
+    (dispatch: Dispatch) => {
         authAPI
             .me()
             .then(response => {
@@ -186,8 +186,8 @@ export const setAppInitialize = (): AppThunkType =>
             });
     }
 
-export const logIn = (loginData: LoginDataType): AppThunkType =>
-    (dispatch) => {
+export const logIn = (loginData: LoginDataType) =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         authAPI
             .logIn(loginData)
@@ -204,8 +204,8 @@ export const logIn = (loginData: LoginDataType): AppThunkType =>
             });
     }
 
-export const logOut = (): AppThunkType =>
-    (dispatch) => {
+export const logOut = () =>
+    (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
         authAPI
             .logOut()
