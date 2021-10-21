@@ -68,8 +68,3 @@ export const setAppInitialized = (isInitialized: boolean) => ({
     type: "SET-APP-INITIALIZED",
     isInitialized
 } as const);
-
-export const setLogged = (isLogged: boolean) => ({
-    type: "SET-LOGGED",
-    isLogged
-} as const);

@@ -7,7 +7,7 @@ import {
     changeTodolistStatus,
     removeTask,
     removeTodolist, setAppInitialized,
-    setAppStatus, setLogged,
+    setAppStatus,
     setTasks,
     setTodolists
 } from "../actions/actions";
@@ -22,6 +22,7 @@ import {
     handleServerAppError,
     handleServerNetworkError
 } from "../../utils/utils";
+import {setLogged} from "../reducers/AuthReducer";
 
 
 const {Success} = ResultCodes;
@@ -174,7 +175,7 @@ export const setAppInitialize = (): AppThunkType =>
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus('succeeded'));
-                    dispatch(setLogged(true));
+                    dispatch(setLogged({isLogged: true}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
@@ -193,7 +194,7 @@ export const logIn = (loginData: LoginDataType): AppThunkType =>
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus('succeeded'));
-                    dispatch(setLogged(true));
+                    dispatch(setLogged({isLogged: true}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
@@ -211,7 +212,7 @@ export const logOut = (): AppThunkType =>
             .then(response => {
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus('succeeded'));
-                    dispatch(setLogged(false));
+                    dispatch(setLogged({isLogged: false}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }

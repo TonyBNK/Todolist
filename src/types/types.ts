@@ -10,11 +10,11 @@ import {
     setAppError,
     setAppStatus,
     changeTodolistStatus,
-    setLogged,
     setAppInitialized
 } from "../bll/actions/actions";
 import {ThunkAction} from "redux-thunk";
 import {rootReducer} from "../bll/store";
+import {setLogged} from "../bll/reducers/AuthReducer";
 
 
 export type Nullable<T> = T | null;
