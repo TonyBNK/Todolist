@@ -1,10 +1,9 @@
 import {TodolistType} from "../../types/types";
 import {
-    addTodolist,
-    changeTodolist, changeTodolistStatus,
-    removeTodolist
-} from "../actions/actions";
-import {TodolistsReducer} from "./TodolistsReducer";
+    addTodolist, changeTodolist, changeTodolistStatus,
+    removeTodolist,
+    TodolistsReducer
+} from "./TodolistsReducer";
 
 
 let todolists: Array<TodolistType>;
@@ -48,7 +47,7 @@ beforeEach(() => {
 });
 
 test('first todolist should be removed', () => {
-    const newTodolists = TodolistsReducer(todolists, removeTodolist(todolists[0].id));
+    const newTodolists = TodolistsReducer(todolists, removeTodolist({id: todolists[0].id}));
 
     expect(newTodolists.length).toBe(2);
     expect(newTodolists[0].id).toBe(todolists[1].id);
@@ -56,7 +55,7 @@ test('first todolist should be removed', () => {
 });
 
 test('new todolist should be added', () => {
-    const newTodolists = TodolistsReducer(todolists, addTodolist(newTodolist));
+    const newTodolists = TodolistsReducer(todolists, addTodolist({todolist: newTodolist}));
 
     expect(newTodolists.length).toBe(4);
     expect(newTodolists[0].title).toBe(newTodolist.title);
@@ -66,8 +65,10 @@ test('todolist title should be changed', () => {
     const newTitle = 'Something new';
 
     const newTodolists = TodolistsReducer(todolists, changeTodolist({
-        ...todolists[0],
-        title: newTitle
+        todolist: {
+            ...todolists[0],
+            title: newTitle
+        }
     }));
 
     expect(newTodolists.length).toBe(3);
@@ -78,8 +79,10 @@ test('todolist filter should be changed', () => {
     const newFilter = 'Active';
 
     const newTodolists = TodolistsReducer(todolists, changeTodolist({
-        ...todolists[0],
-        filter: newFilter
+        todolist: {
+            ...todolists[0],
+            filter: newFilter
+        }
     }));
 
     expect(newTodolists.length).toBe(3);
@@ -89,7 +92,10 @@ test('todolist filter should be changed', () => {
 test('todolist status should be changed', () => {
     const newStatus = 'loading';
 
-    const newTodolists = TodolistsReducer(todolists, changeTodolistStatus(todolists[0].id, 'loading'));
+    const newTodolists = TodolistsReducer(todolists, changeTodolistStatus({
+        id: todolists[0].id,
+        entityStatus: 'loading'
+    }));
 
     expect(newTodolists.length).toBe(3);
     expect(newTodolists[0].entityStatus).toBe(newStatus);

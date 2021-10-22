@@ -13,7 +13,7 @@ import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRequestType, RootStateType} from "./types/types";
 import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
-import {Route} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import {Login} from "./components/features/Login/Login";
 import {logOut, setAppInitialize} from "./bll/thunks/thunks";
 
@@ -73,25 +73,32 @@ const App: React.FC<AppPropsType> = React.memo((
                     </Typography>
                     {
                         isLogged
-                            && <Button
-                                color="inherit"
-                                style={{position: 'absolute', right: 0}}
-                                onClick={onLogOutClickHandler}
-                            >
-                                Log Out
-                            </Button>
+                        && <Button
+                            color="inherit"
+                            style={{position: 'absolute', right: 0}}
+                            onClick={onLogOutClickHandler}
+                        >
+                            Log Out
+                        </Button>
                     }
                 </Toolbar>
                 {status === 'loading' && <ProgressBar/>}
             </AppBar>
-            <Route
-                exact path={'/'}
-                render={() => <Todolists demo={demo}/>}
-            />
-            <Route
-                path={'/login'}
-                render={() => <Login/>}
-            />
+            <Switch>
+                <Route
+                    exact path={'/'}
+                    render={() => <Todolists demo={demo}/>}
+                />
+                <Route
+                    path={'/login'}
+                    render={() => <Login/>}
+                />
+                <Route
+                    path={'/404'}
+                    render={() => <h1>Error: 404 not found</h1>}
+                />
+                <Redirect from={'*'} to={'/404'}/>
+            </Switch>
         </div>
     );
 })
