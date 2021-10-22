@@ -10,7 +10,7 @@ import {Redirect} from "react-router-dom";
 type TodolistsPropsType = {
     demo?: boolean
 }
-export const Todolists: React.FC<TodolistsPropsType> = React.memo((
+export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
     {
         demo = false
     }

@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useMemo} from "react";
 import c from './Todolist.module.css';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
 import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
-import {IconButton} from "@material-ui/core";
+import {CircularProgress, IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -16,7 +16,6 @@ import {
 import {
     createTask,
     deleteTodolist,
-    getTasks,
     updateTodolist
 } from "../../../bll/thunks/thunks";
 import {Task} from "./Task/Task";
@@ -33,13 +32,6 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }
 ) => {
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (demo) {
-            return
-        }
-        dispatch(getTasks(todolistModel.id));
-    }, []);
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
@@ -70,6 +62,24 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         dispatch(updateTodolist({...todolistModel, filter: newFilter}));
     }, [dispatch, todolistModel]);
 
+    const tasksList = useMemo(() => {
+        if (tasks){
+            return tasks.map(t => <Task taskModel={t}/>)
+        }
+        return null;
+    }, [tasks]);
+
+    if (!tasksList){
+        return <div style={{
+            position: 'fixed',
+            width: '100%',
+            top: '30%',
+            textAlign: 'center'
+        }}>
+            <CircularProgress/>
+        </div>
+    }
+
     return (
         <div
             key={todolistModel.id}
@@ -93,9 +103,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
             />
             <div>
                 {
-                    useMemo(() => {
-                        return tasks.map(t => <Task taskModel={t}/>)
-                    }, [tasks])
+                    tasksList
                 }
             </div>
             <FilterButtons

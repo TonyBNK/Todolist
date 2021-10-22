@@ -23,4 +23,4 @@ reportWebVitals();
 
 
 // @ts-ignore
-window.state = store.getState();
+window.store = store;

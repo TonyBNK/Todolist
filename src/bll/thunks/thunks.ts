@@ -13,7 +13,7 @@ import {setLogged} from "../reducers/AuthReducer";
 import {setAppInitialized, setAppStatus} from "../reducers/AppReducer";
 import {
     addTodolist,
-    changeTodolist, changeTodolistStatus, removeTodolist,
+    changeTodolist, changeTodolistStatus, clearTodolistsData, removeTodolist,
     setTodolists
 } from "../reducers/TodolistsReducer";
 import {
@@ -28,13 +28,19 @@ import {Dispatch} from "redux";
 const {Success} = ResultCodes;
 
 export const getTodolists = () =>
-    (dispatch: Dispatch) => {
+    (dispatch: Dispatch<any>) => {
         dispatch(setAppStatus({status: 'loading'}));
         todolistsAPI
             .getTodolists()
             .then(response => {
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(setTodolists({todolists: response.data}));
+                return response.data;
+            })
+            .then((todolists) => {
+                todolists.forEach(todo => {
+                    dispatch(getTasks(todo.id));
+                })
             })
             .catch(error => {
                 handleServerNetworkError(dispatch, error.message);
@@ -179,10 +185,12 @@ export const setAppInitialize = () =>
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }
-                dispatch(setAppInitialized({isInitialized: true}));
             })
             .catch(error => {
                 handleServerNetworkError(dispatch, error.message);
+            })
+            .finally(() => {
+                dispatch(setAppInitialized({isInitialized: true}));
             });
     }
 
@@ -213,6 +221,7 @@ export const logOut = () =>
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
                     dispatch(setLogged({isLogged: false}));
+                    dispatch(clearTodolistsData());
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }

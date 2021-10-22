@@ -1,22 +1,5 @@
-import {ThunkAction} from "redux-thunk";
 import {rootReducer, store} from "../bll/store";
 import {setLogged} from "../bll/reducers/AuthReducer";
-import {
-    setAppError,
-    setAppInitialized,
-    setAppStatus
-} from "../bll/reducers/AppReducer";
-import {
-    addTodolist, changeTodolist, changeTodolistStatus,
-    removeTodolist,
-    setTodolists
-} from "../bll/reducers/TodolistsReducer";
-import {
-    addTask,
-    changeTask,
-    removeTask,
-    setTasks
-} from "../bll/reducers/TasksReducer";
 
 
 export type Nullable<T> = T | null;
@@ -24,6 +7,12 @@ export type Nullable<T> = T | null;
 export type FilterType = 'All' | 'Active' | 'Completed';
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
+
+export type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
 
 export type AppRequestType = {
     status: RequestStatusType

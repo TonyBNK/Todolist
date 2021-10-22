@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {
     TodolistType,
     ResponseType,
@@ -22,7 +22,7 @@ export const authAPI = {
     },
     logIn: (loginData: LoginDataType) => {
         return axiosInst
-            .post<ResponseType<{ userId: number }>>('auth/login', {
+            .post<LoginDataType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', {
                 ...loginData
             });
     },
@@ -39,40 +39,40 @@ export const todolistsAPI = {
     },
     createTodolist: (title: string) => {
         return axiosInst
-            .post<ResponseType<{ item: TodolistType }>>('/todo-lists', {
+            .post<string, AxiosResponse<ResponseType<{ item: TodolistType }>>>('/todo-lists', {
                 title: title
             });
     },
     updateTodolist: ({id, ...updatableProps}: TodolistType) => {
         return axiosInst
-            .put<ResponseType>(`todo-lists/${id}`, {
+            .put<TodolistType, AxiosResponse<ResponseType>>(`todo-lists/${id}`, {
                 ...updatableProps
             });
     },
     deleteTodolist: (id: string) => {
         return axiosInst
-            .delete<ResponseType>(`todo-lists/${id}`);
+            .delete<string, AxiosResponse<ResponseType>>(`todo-lists/${id}`);
     },
     tasksAPI: {
         getTasks: (todolistId: string) => {
             return axiosInst
-                .get<GetTasksType>(`todo-lists/${todolistId}/tasks`);
+                .get<string, AxiosResponse<GetTasksType>>(`todo-lists/${todolistId}/tasks`);
         },
         createTask: (title: string, todolistId: string) => {
             return axiosInst
-                .post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {
+                .post<{title: string, todolistId: string}, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {
                     title: title
                 });
         },
         updateTask: ({todoListId, id, ...updatableProps}: TaskType) => {
             return axiosInst
-                .put<ResponseType<{ item: TaskType }>>(`todo-lists/${todoListId}/tasks/${id}`, {
+                .put<TaskType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todoListId}/tasks/${id}`, {
                     ...updatableProps
                 });
         },
         deleteTask: (id: string, todoListId: string) => {
             return axiosInst
-                .delete<ResponseType>(`todo-lists/${todoListId}/tasks/${id}`);
+                .delete<{id: string, todoListId: string}, AxiosResponse<ResponseType>>(`todo-lists/${todoListId}/tasks/${id}`);
         }
     }
 }

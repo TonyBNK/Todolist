@@ -11,7 +11,7 @@ import {
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {logIn} from "../../../bll/thunks/thunks";
-import {RootStateType} from "../../../types/types";
+import {FormikErrorType, RootStateType} from "../../../types/types";
 import {Redirect} from "react-router-dom";
 
 
@@ -27,24 +27,39 @@ export const Login = () => {
             password: '',
             rememberMe: false
         },
-        validate: values => {
+        validate: (values) => {
+            const errors: FormikErrorType = {};
             if (!values.email) {
-                return{
-                    email: 'Email is required'
-                }
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
             }
+
             if (!values.password) {
-                return{
-                    password: 'Password is required'
-                }
+                errors.password = 'Required';
+            } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{3,}$/.test(values.password)) {
+                errors.password = 'Invalid password';
             }
-        },
+
+            return errors;
+        }
+        ,
         onSubmit: values => {
             dispatch(logIn(values));
         },
     });
 
-    if (isLogged){
+    const errorStyle = {
+        borderBottom: '2px solid red',
+        outlined: false
+    }
+
+    const [emailError, passwordError] = [
+        formik.touched.email && formik.errors.email,
+        formik.touched.password && formik.errors.password
+    ];
+
+    if (isLogged) {
         return <Redirect to={'/'}/>
     }
 
@@ -76,10 +91,12 @@ export const Login = () => {
                                 label={'Email'}
                                 margin={'normal'}
                                 {...formik.getFieldProps('email')}
+                                style={emailError ? errorStyle : {}}
                             />
                             {
-                                formik.touched.email && formik.errors.email
-                                    ? <div>{formik.errors.email}</div>
+                                emailError
+                                    ? <div
+                                        style={{color: 'red'}}>{formik.errors.email}</div>
                                     : null
                             }
                             <TextField
@@ -87,17 +104,21 @@ export const Login = () => {
                                 label={'Password'}
                                 margin={'normal'}
                                 {...formik.getFieldProps('password')}
+                                style={passwordError ? errorStyle : {}}
                             />
                             {
-                                formik.touched.password && formik.errors.password
-                                    ? <div>{formik.errors.password}</div>
+                                passwordError
+                                    ? <div
+                                        style={{color: 'red'}}>{formik.errors.password}</div>
                                     : null
                             }
                             <FormControlLabel
-                                control={<Checkbox
-                                    {...formik.getFieldProps('rememberMe')}
-                                    checked={formik.values.rememberMe}
-                                />}
+                                control={
+                                    <Checkbox
+                                        {...formik.getFieldProps('rememberMe')}
+                                        checked={formik.values.rememberMe}
+                                    />
+                                }
                                 label={'RememberMe'}
                             />
                             <Button

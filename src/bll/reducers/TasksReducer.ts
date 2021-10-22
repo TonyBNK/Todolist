@@ -1,11 +1,11 @@
-import {
-    GetTodolistsType,
-    TasksType,
-    TaskType,
-    TodolistType
-} from "../../types/types";
+import {TasksType, TaskType} from "../../types/types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {addTodolist, removeTodolist, setTodolists} from "./TodolistsReducer";
+import {
+    addTodolist,
+    clearTodolistsData,
+    removeTodolist,
+    setTodolists
+} from "./TodolistsReducer";
 
 
 const initialState: TasksType = {};
@@ -44,6 +44,9 @@ const tasksSlice = createSlice({
         });
         builder.addCase(removeTodolist, (state, action) => {
             delete state[action.payload.id];
+        });
+        builder.addCase(clearTodolistsData, (state, action) => {
+            return {};
         });
     }
 })

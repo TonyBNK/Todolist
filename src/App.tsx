@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {Todolists} from "./components/features/Todolists";
+import {TodolistsList} from "./components/features/TodolistsList";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRequestType, RootStateType} from "./types/types";
@@ -87,7 +87,7 @@ const App: React.FC<AppPropsType> = React.memo((
             <Switch>
                 <Route
                     exact path={'/'}
-                    render={() => <Todolists demo={demo}/>}
+                    render={() => <TodolistsList demo={demo}/>}
                 />
                 <Route
                     path={'/login'}
