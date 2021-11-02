@@ -9,7 +9,6 @@ import {
     handleServerAppError,
     handleServerNetworkError
 } from "../../utils/utils";
-import {setLogged} from "../reducers/AuthReducer";
 import {setAppInitialized, setAppStatus} from "../reducers/AppReducer";
 import {
     addTodolist,
@@ -18,6 +17,7 @@ import {
 } from "../reducers/TodolistsReducer";
 import {getTasks} from "../reducers/TasksReducer";
 import {Dispatch} from "redux";
+import {setLogged} from "../reducers/AuthReducer";
 
 
 const {Success} = ResultCodes;
@@ -41,23 +41,23 @@ export const setAppInitialize = () =>
                 dispatch(setAppInitialized({isInitialized: true}));
             });
     }
-export const logIn = (loginData: LoginDataType) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        authAPI
-            .logIn(loginData)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(setLogged({isLogged: true}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
+// export const logIn = (loginData: LoginDataType) =>
+//     (dispatch: Dispatch) => {
+//         dispatch(setAppStatus({status: 'loading'}));
+//         authAPI
+//             .logIn(loginData)
+//             .then(response => {
+//                 if (response.data.resultCode === Success) {
+//                     dispatch(setAppStatus({status: 'succeeded'}));
+//                     dispatch(setLogged({isLogged: true}));
+//                 } else {
+//                     handleServerAppError(dispatch, response.data.messages);
+//                 }
+//             })
+//             .catch(error => {
+//                 handleServerNetworkError(dispatch, error.message);
+//             });
+//     }
 export const logOut = () =>
     (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));

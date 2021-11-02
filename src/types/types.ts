@@ -18,15 +18,20 @@ export type FormikErrorType = {
     password?: string
     rememberMe?: boolean
 }
+export type FieldErrorType = {
+    field: string
+    error: string
+}
 export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistType}
     data: T
     messages: Array<string>
-    fieldsErrors: Array<string>
+    fieldsErrors?: Array<FieldErrorType>
     resultCode: ResultCodes
 }
 
-// Root State Type
+// Root Type
 export type RootStateType = ReturnType<typeof rootReducer>;
+export type RootDispatchType = typeof store.dispatch;
 export type AppDispatchType = typeof store.dispatch;
 
 // App, Auth, Login types
@@ -107,4 +112,15 @@ export type UpdateTaskRejected = {}
 export type DeleteTaskResolved = {
     id: string
     todoListId: string
+}
+export type DeleteTaskRejected = {}
+export type LogInResolved = AuthStateType;
+export type LogInConfig = {
+    dispatch?: undefined
+    state?: undefined
+    extra?: undefined
+    rejectValue: {
+        fieldsErrors?: Array<FieldErrorType>
+        messages: Array<string>
+    }
 }

@@ -10,13 +10,17 @@ import {
 } from "@material-ui/core";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {logIn} from "../../../bll/thunks/thunks";
-import {FormikErrorType, RootStateType} from "../../../types/types";
+import {
+    FormikErrorType,
+    RootDispatchType,
+    RootStateType
+} from "../../../types/types";
 import {Redirect} from "react-router-dom";
+import {logIn} from "../../../bll/reducers/AuthReducer";
 
 
 export const Login = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<RootDispatchType>();
     const isLogged = useSelector<RootStateType, boolean>(
         state => state.auth.isLogged
     );
@@ -44,8 +48,16 @@ export const Login = () => {
             return errors;
         }
         ,
-        onSubmit: values => {
-            dispatch(logIn(values));
+        onSubmit: async (values, formikHelpers) => {
+            const action = await dispatch(logIn(values));
+            if (logIn.rejected.match(action)) {
+                if (action.payload?.fieldsErrors?.length) {
+                    formikHelpers.setFieldError(
+                        action.payload.fieldsErrors[0].field,
+                        action.payload.fieldsErrors[0].error
+                    );
+                }
+            }
         },
     });
 

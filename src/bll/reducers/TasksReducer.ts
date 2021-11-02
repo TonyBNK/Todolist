@@ -20,32 +20,23 @@ import {
 } from "../../utils/utils";
 
 
-const initialState: TasksType = {};
-
 export const getTasks = createAsyncThunk(
     'tasks/getTasks',
     async (
         todoListId: string,
-        {dispatch}
+        {
+            dispatch,
+            rejectWithValue
+        }
     ): Promise<GetTasksResolved> => {
         // try {
-        //     dispatch(setAppStatus({status: 'loading'}));
-        //     const response = await todolistsAPI.tasksAPI.getTasks(todoListId);
-        //     dispatch(setAppStatus({status: 'succeeded'}));
-        //     return {tasks: response.data.items, todoListId};
+            dispatch(setAppStatus({status: 'loading'}));
+            const response = await todolistsAPI.tasksAPI.getTasks(todoListId);
+            dispatch(setAppStatus({status: 'succeeded'}));
+            return {tasks: response.data.items, todoListId};
         // } catch (e: any) {
-        //     return handleServerNetworkError(dispatch, e.message);
+        //     return rejectWithValue(handleServerNetworkError(dispatch, e.message));
         // }
-        dispatch(setAppStatus({status: 'loading'}));
-        return todolistsAPI.tasksAPI.getTasks(todoListId)
-            .then(response => {
-                dispatch(setAppStatus({status: 'succeeded'}));
-                //dispatch(setTasks({tasks: response.data.items, todoListId}));
-                return {tasks: response.data.items, todoListId};
-            })
-        // .catch(error => {
-        //     handleServerNetworkError(dispatch, error.message);
-        // });
     });
 export const createTask = createAsyncThunk(
     'tasks/createTask',
@@ -92,29 +83,29 @@ export const updateTask = createAsyncThunk(
 export const deleteTask = createAsyncThunk(
     'tasks/deleteTask',
     (
-        arg: {id: string, todoListId: string},
+        arg: { id: string, todoListId: string },
         {dispatch}
     ): Promise<DeleteTaskResolved> => {
         dispatch(setAppStatus({status: 'loading'}));
         return todolistsAPI.tasksAPI.deleteTask(arg.id, arg.todoListId)
             .then(response => {
                 // if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    //dispatch(removeTask({id, todoListId}));
+                dispatch(setAppStatus({status: 'succeeded'}));
+                //dispatch(removeTask({id, todoListId}));
                 const [id, todoListId] = [arg.id, arg.todoListId];
-                    return {id, todoListId};
+                return {id, todoListId};
                 // } else {
                 //     handleServerAppError(dispatch, response.data.messages);
                 // }
             })
-            // .catch(error => {
-            //     handleServerNetworkError(dispatch, error.message);
-            // });
+        // .catch(error => {
+        //     handleServerNetworkError(dispatch, error.message);
+        // });
     });
 
 const tasksSlice = createSlice({
     name: 'tasks',
-    initialState: initialState,
+    initialState: {} as TasksType,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(setTodolists, (state, action) => {
