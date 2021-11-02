@@ -16,10 +16,7 @@ import {
     changeTodolist, changeTodolistStatus, clearTodolistsData, removeTodolist,
     setTodolists
 } from "../reducers/TodolistsReducer";
-import {
-    getTasks,
-    removeTask
-} from "../reducers/TasksReducer";
+import {getTasks} from "../reducers/TasksReducer";
 import {Dispatch} from "redux";
 
 

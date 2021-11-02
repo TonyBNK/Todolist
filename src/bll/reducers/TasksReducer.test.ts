@@ -1,9 +1,8 @@
 import {
-    addTask,
-    changeTask,
+    createTask,
+    deleteTask,
     getTasks,
-    removeTask,
-    TasksReducer
+    TasksReducer, updateTask
 } from "./TasksReducer";
 import {
     TaskPriorities,
@@ -96,7 +95,13 @@ beforeEach(() => {
 });
 
 test('tasks should be added to todolist', () => {
-    const action = getTasks.fulfilled({tasks: tasks['todolist1Id'], todoListId: 'todolist1Id'}, '', 'todolist1Id');
+    const action = getTasks.fulfilled({
+            tasks: tasks['todolist1Id'],
+            todoListId: 'todolist1Id'
+        },
+        '',
+        'todolist1Id'
+    );
 
     const newState = TasksReducer({
         'todolist1Id': [],
@@ -110,10 +115,16 @@ test('tasks should be added to todolist', () => {
 test('task HTML&CSS should be removed from tasks', () => {
     expect(tasks['todolist1Id'].length).toBe(2);
 
-    let newTasks = TasksReducer(tasks, removeTask({
-        id: tasks['todolist1Id'][0].id,
-        todoListId: 'todolist1Id'
-    }));
+    let newTasks = TasksReducer(tasks, deleteTask.fulfilled({
+            id: tasks['todolist1Id'][0].id,
+            todoListId: 'todolist1Id'
+        },
+        '',
+        {
+            id: tasks['todolist1Id'][0].id,
+            todoListId: 'todolist1Id'
+        }
+    ));
 
     expect(newTasks['todolist1Id'].length).toBe(1);
     expect(newTasks['todolist1Id'].every(t => t.id !== '962539f3-5ded-43de-b97c-b276c376692f')).toBeTruthy();
@@ -122,12 +133,18 @@ test('task HTML&CSS should be removed from tasks', () => {
 test('new task should be added', () => {
     const newTaskTitle = 'GraphQL';
 
-    let newTasks = TasksReducer(tasks, addTask({
-        taskModel: {
-            ...newTask,
-            title: newTaskTitle
+    let newTasks = TasksReducer(tasks, createTask.fulfilled({
+            taskModel: {
+                ...newTask,
+                title: newTaskTitle
+            }
+        },
+        '',
+        {
+            title: newTaskTitle,
+            todoListId: 'todolist2Id'
         }
-    }));
+    ));
 
     expect(newTasks['todolist2Id'].length).toBe(3);
     expect(newTasks['todolist2Id'][0].title).toBe(newTaskTitle);
@@ -136,12 +153,18 @@ test('new task should be added', () => {
 
 test('task status should be changed', () => {
     const newTaskStatus = TaskStatuses.Completed;
-    let newTasks = TasksReducer(tasks, changeTask({
-        taskModel: {
+    let newTasks = TasksReducer(tasks, updateTask.fulfilled({
+            taskModel: {
+                ...tasks['todolist1Id'][0],
+                status: newTaskStatus
+            }
+        },
+        '',
+        {
             ...tasks['todolist1Id'][0],
             status: newTaskStatus
         }
-    }));
+    ));
 
     expect(newTasks['todolist1Id'].length).toBe(2);
     expect(newTasks['todolist1Id'][0].title).toBe('HTML&CSS');
@@ -150,12 +173,18 @@ test('task status should be changed', () => {
 
 test('task title should be changed', () => {
     const newTaskTitle = 'MobX';
-    let newTasks = TasksReducer(tasks, changeTask({
-        taskModel: {
+    let newTasks = TasksReducer(tasks, updateTask.fulfilled({
+            taskModel: {
+                ...tasks['todolist2Id'][1],
+                title: newTaskTitle
+            }
+        },
+        '',
+        {
             ...tasks['todolist2Id'][1],
             title: newTaskTitle
         }
-    }));
+    ));
 
     expect(newTasks['todolist2Id'].length).toBe(2);
     expect(newTasks['todolist2Id'][1].status).toBe(TaskStatuses.New);

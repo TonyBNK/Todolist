@@ -115,15 +115,7 @@ export const deleteTask = createAsyncThunk(
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState: initialState,
-    reducers: {
-        removeTask(state, action: PayloadAction<{ id: string, todoListId: string }>) {
-            const tasks = state[action.payload.todoListId];
-            const index = tasks.findIndex(task => task.id === action.payload.id);
-            if (index > -1) {
-                tasks.splice(index, 1);
-            }
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(setTodolists, (state, action) => {
             action.payload.todolists.forEach(todo => state[todo.id] = []);
@@ -161,7 +153,3 @@ const tasksSlice = createSlice({
 })
 
 export const TasksReducer = tasksSlice.reducer;
-
-export const {
-    removeTask
-} = tasksSlice.actions;
