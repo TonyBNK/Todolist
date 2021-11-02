@@ -19,8 +19,7 @@ import {
 import {
     addTask,
     changeTask, getTasks,
-    removeTask,
-    setTasks
+    removeTask
 } from "../reducers/TasksReducer";
 import {Dispatch} from "redux";
 

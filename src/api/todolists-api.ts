@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from "axios";
 import {
     TodolistType,
     ResponseType,
-    GetTasksType,
+    GetTasksResponseType,
     TaskType, GetTodolistsType, LoginDataType
 } from "../types/types";
 
@@ -56,7 +56,7 @@ export const todolistsAPI = {
     tasksAPI: {
         getTasks: (todolistId: string) => {
             return axiosInst
-                .get<string, AxiosResponse<GetTasksType>>(`todo-lists/${todolistId}/tasks`);
+                .get<string, AxiosResponse<GetTasksResponseType>>(`todo-lists/${todolistId}/tasks`);
         },
         createTask: (title: string, todolistId: string) => {
             return axiosInst

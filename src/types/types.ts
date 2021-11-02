@@ -2,28 +2,43 @@ import {rootReducer, store} from "../bll/store";
 import {setLogged} from "../bll/reducers/AuthReducer";
 
 
+// Common types
 export type Nullable<T> = T | null;
 
 export type FilterType = 'All' | 'Active' | 'Completed';
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
+export enum ResultCodes {
+    Success,
+    Error
+}
+
 export type FormikErrorType = {
     email?: string
     password?: string
     rememberMe?: boolean
 }
+export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistType}
+    data: T
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    resultCode: ResultCodes
+}
 
+// Root State Type
+export type RootStateType = ReturnType<typeof rootReducer>;
+export type AppDispatchType = typeof store.dispatch;
+
+// App, Auth, Login types
 export type AppRequestType = {
     status: RequestStatusType
     error: string | null
     isInitialized: boolean
 }
-
 export type AuthStateType = {
     isLogged: boolean
 }
-
 export type LoginDataType = {
     email: string
     password: string
@@ -31,6 +46,7 @@ export type LoginDataType = {
     captcha?: string
 }
 
+// Todolist types
 export type TodolistType = {
     id: string
     addedDate: Date
@@ -40,14 +56,15 @@ export type TodolistType = {
     filter: FilterType
     entityStatus: RequestStatusType
 }
+export type GetTodolistsType = Array<TodolistType>;
 
+// Task types
 export enum TaskStatuses {
     New,
     InProgress,
     Completed,
     Draft
 }
-
 export enum TaskPriorities {
     Low,
     Middle,
@@ -55,12 +72,6 @@ export enum TaskPriorities {
     Urgently,
     Later
 }
-
-export enum ResultCodes {
-    Success,
-    Error
-}
-
 export type TaskType = {
     todoListId: string
     id: string
@@ -73,29 +84,18 @@ export type TaskType = {
     deadline: Nullable<string>
     addedDate: Date
 }
-
 export type TasksType = {
     [todolistId: string]: Array<TaskType>
 }
-
-export type GetTodolistsType = Array<TodolistType>;
-
-export type GetTasksType = {
+export type GetTasksResponseType = {
     items: Array<TaskType>,
     totalCount: number,
     error: Nullable<string>
 }
-
-export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistType}
-    data: T
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    resultCode: ResultCodes
+export type GetTasksResolved = {
+    tasks: Array<TaskType>,
+    todoListId: string
 }
-
-// Root State Type
-export type RootStateType = ReturnType<typeof rootReducer>;
-export type AppDispatchType = typeof store.dispatch;
-
-// Action Creators types
-export type AuthActionType = ReturnType<typeof setLogged>;
+export type GetTasksRejected = {
+    error: string
+}

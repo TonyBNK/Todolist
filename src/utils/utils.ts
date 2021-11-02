@@ -9,6 +9,7 @@ export const handleServerAppError = (dispatch: Dispatch, errorMessages: Array<st
         : dispatch(setAppError({error: 'Some error occurred'}));
 }
 export const handleServerNetworkError = (dispatch: Dispatch, errorMessage: string) => {
-    dispatch(setAppError({error: errorMessage ? errorMessage : 'Some error occurred'}));
     dispatch(setAppStatus({status: 'failed'}));
+    dispatch(setAppError({error: errorMessage ? errorMessage : 'Some error occurred'}));
+    // return {error: errorMessage ? errorMessage : 'Some error occurred'};
 }
