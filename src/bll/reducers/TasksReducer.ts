@@ -1,14 +1,33 @@
 import {TasksType, TaskType} from "../../types/types";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
     addTodolist,
     clearTodolistsData,
     removeTodolist,
     setTodolists
 } from "./TodolistsReducer";
+import {setAppStatus} from "./AppReducer";
+import {todolistsAPI} from "../../api/todolists-api";
+import {handleServerNetworkError} from "../../utils/utils";
 
 
 const initialState: TasksType = {};
+
+export const getTasks = createAsyncThunk(
+    'tasks/getTasks',
+    (todoListId: string, {dispatch}) => {
+        dispatch(setAppStatus({status: 'loading'}));
+        todolistsAPI
+            .tasksAPI
+            .getTasks(todoListId)
+            .then(response => {
+                dispatch(setAppStatus({status: 'succeeded'}));
+                dispatch(setTasks({tasks: response.data.items, todoListId}));
+            })
+            .catch(error => {
+                handleServerNetworkError(dispatch, error.message);
+            });
+});
 
 const tasksSlice = createSlice({
     name: 'tasks',
