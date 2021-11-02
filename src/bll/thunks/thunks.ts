@@ -17,8 +17,7 @@ import {
     setTodolists
 } from "../reducers/TodolistsReducer";
 import {
-    addTask,
-    changeTask, getTasks,
+    getTasks,
     removeTask
 } from "../reducers/TasksReducer";
 import {Dispatch} from "redux";
@@ -167,57 +166,55 @@ export const deleteTodolist = (id: string) =>
 //                 handleServerNetworkError(dispatch, error.message);
 //             });
 //     }
-export const createTask = (title: string, todoListId: string) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .tasksAPI
-            .createTask(title, todoListId)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(addTask({taskModel: response.data.data.item}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
-export const updateTask = (payload: TaskType) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .tasksAPI
-            .updateTask(payload)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(changeTask({taskModel: response.data.data.item}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
-export const deleteTask = (id: string, todoListId: string) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .tasksAPI
-            .deleteTask(id, todoListId)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(removeTask({id, todoListId}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
+// export const createTask = (title: string, todoListId: string) =>
+//     (dispatch: Dispatch) => {
+//         dispatch(setAppStatus({status: 'loading'}));
+//         todolistsAPI
+//             .tasksAPI
+//             .createTask(title, todoListId)
+//             .then(response => {
+//                 if (response.data.resultCode === Success) {
+//                     dispatch(setAppStatus({status: 'succeeded'}));
+//                     dispatch(addTask({taskModel: response.data.data.item}));
+//                 } else {
+//                     handleServerAppError(dispatch, response.data.messages);
+//                 }
+//             })
+//             .catch(error => {
+//                 handleServerNetworkError(dispatch, error.message);
+//             });
+//     }
+// export const updateTask = (payload: TaskType) =>
+//     (dispatch: Dispatch) => {
+//         dispatch(setAppStatus({status: 'loading'}));
+//         todolistsAPI.tasksAPI.updateTask(payload)
+//             .then(response => {
+//                 if (response.data.resultCode === Success) {
+//                     dispatch(setAppStatus({status: 'succeeded'}));
+//                     dispatch(changeTask({taskModel: response.data.data.item}));
+//                 } else {
+//                     handleServerAppError(dispatch, response.data.messages);
+//                 }
+//             })
+//             .catch(error => {
+//                 handleServerNetworkError(dispatch, error.message);
+//             });
+//     }
+// export const deleteTask = (id: string, todoListId: string) =>
+//     (dispatch: Dispatch) => {
+//         dispatch(setAppStatus({status: 'loading'}));
+//         todolistsAPI
+//             .tasksAPI
+//             .deleteTask(id, todoListId)
+//             .then(response => {
+//                 if (response.data.resultCode === Success) {
+//                     dispatch(setAppStatus({status: 'succeeded'}));
+//                     dispatch(removeTask({id, todoListId}));
+//                 } else {
+//                     handleServerAppError(dispatch, response.data.messages);
+//                 }
+//             })
+//             .catch(error => {
+//                 handleServerNetworkError(dispatch, error.message);
+//             });
+//     }

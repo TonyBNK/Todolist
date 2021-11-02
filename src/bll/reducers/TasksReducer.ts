@@ -1,8 +1,9 @@
 import {
-    GetTasksRejected,
+    CreateTaskResolved, DeleteTaskResolved,
     GetTasksResolved,
+    ResultCodes,
     TasksType,
-    TaskType
+    TaskType, UpdateTaskResolved
 } from "../../types/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
@@ -13,14 +14,19 @@ import {
 } from "./TodolistsReducer";
 import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
-import {handleServerNetworkError} from "../../utils/utils";
+import {
+    handleServerAppError,
+    handleServerNetworkError
+} from "../../utils/utils";
 
 
 const initialState: TasksType = {};
 
 export const getTasks = createAsyncThunk(
     'tasks/getTasks',
-    async (todoListId: string, {dispatch}
+    async (
+        todoListId: string,
+        {dispatch}
     ): Promise<GetTasksResolved> => {
         // try {
         //     dispatch(setAppStatus({status: 'loading'}));
@@ -41,24 +47,75 @@ export const getTasks = createAsyncThunk(
         //     handleServerNetworkError(dispatch, error.message);
         // });
     });
+export const createTask = createAsyncThunk(
+    'tasks/createTask',
+    (
+        arg: { title: string, todoListId: string },
+        {dispatch}
+    ): Promise<CreateTaskResolved> => {
+        dispatch(setAppStatus({status: 'loading'}));
+        return todolistsAPI.tasksAPI.createTask(arg.title, arg.todoListId)
+            .then(response => {
+                // if (response.data.resultCode === ResultCodes.Success) {
+                dispatch(setAppStatus({status: 'succeeded'}));
+                //dispatch(addTask({taskModel: response.data.data.item}));
+                return {taskModel: response.data.data.item};
+                // } else {
+                //     handleServerAppError(dispatch, response.data.messages);
+                // }
+            })
+        // .catch(error => {
+        //     handleServerNetworkError(dispatch, error.message);
+        // });
+    });
+export const updateTask = createAsyncThunk(
+    'tasks/updateTask',
+    (
+        payload: TaskType,
+        {dispatch}
+    ): Promise<UpdateTaskResolved> => {
+        dispatch(setAppStatus({status: 'loading'}));
+        return todolistsAPI.tasksAPI.updateTask(payload)
+            .then(response => {
+                // if (response.data.resultCode === Success) {
+                dispatch(setAppStatus({status: 'succeeded'}));
+                //dispatch(changeTask({taskModel: response.data.data.item}));
+                return {taskModel: response.data.data.item};
+                //     } else {
+                //         handleServerAppError(dispatch, response.data.messages);
+                //     }
+            })
+        // .catch(error => {
+        //     handleServerNetworkError(dispatch, error.message);
+        // });
+    });
+export const deleteTask = createAsyncThunk(
+    'tasks/deleteTask',
+    (
+        arg: {id: string, todoListId: string},
+        {dispatch}
+    ): Promise<DeleteTaskResolved> => {
+        dispatch(setAppStatus({status: 'loading'}));
+        return todolistsAPI.tasksAPI.deleteTask(arg.id, arg.todoListId)
+            .then(response => {
+                // if (response.data.resultCode === Success) {
+                    dispatch(setAppStatus({status: 'succeeded'}));
+                    //dispatch(removeTask({id, todoListId}));
+                const [id, todoListId] = [arg.id, arg.todoListId];
+                    return {id, todoListId};
+                // } else {
+                //     handleServerAppError(dispatch, response.data.messages);
+                // }
+            })
+            // .catch(error => {
+            //     handleServerNetworkError(dispatch, error.message);
+            // });
+    });
 
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState: initialState,
     reducers: {
-        // setTasks(state, action: PayloadAction<{ todoListId: string, tasks: Array<TaskType> }>) {
-        //     state[action.payload.todoListId] = action.payload.tasks;
-        // },
-        addTask(state, action: PayloadAction<{ taskModel: TaskType }>) {
-            state[action.payload.taskModel.todoListId].unshift(action.payload.taskModel);
-        },
-        changeTask(state, action: PayloadAction<{ taskModel: TaskType }>) {
-            const tasks = state[action.payload.taskModel.todoListId];
-            const index = tasks.findIndex(task => task.id === action.payload.taskModel.id);
-            if (index > -1) {
-                tasks[index] = action.payload.taskModel
-            }
-        },
         removeTask(state, action: PayloadAction<{ id: string, todoListId: string }>) {
             const tasks = state[action.payload.todoListId];
             const index = tasks.findIndex(task => task.id === action.payload.id);
@@ -81,7 +138,24 @@ const tasksSlice = createSlice({
             return {};
         });
         builder.addCase(getTasks.fulfilled, (state, action) => {
-                state[action.payload.todoListId] = action.payload.tasks;
+            state[action.payload.todoListId] = action.payload.tasks;
+        });
+        builder.addCase(createTask.fulfilled, (state, action) => {
+            state[action.payload.taskModel.todoListId].unshift(action.payload.taskModel);
+        });
+        builder.addCase(updateTask.fulfilled, (state, action) => {
+            const tasks = state[action.payload.taskModel.todoListId];
+            const index = tasks.findIndex(task => task.id === action.payload.taskModel.id);
+            if (index > -1) {
+                tasks[index] = action.payload.taskModel
+            }
+        });
+        builder.addCase(deleteTask.fulfilled, (state, action) => {
+            const tasks = state[action.payload.todoListId];
+            const index = tasks.findIndex(task => task.id === action.payload.id);
+            if (index > -1) {
+                tasks.splice(index, 1);
+            }
         });
     }
 })
@@ -89,7 +163,5 @@ const tasksSlice = createSlice({
 export const TasksReducer = tasksSlice.reducer;
 
 export const {
-    addTask,
-    changeTask,
     removeTask
 } = tasksSlice.actions;

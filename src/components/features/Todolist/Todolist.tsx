@@ -14,11 +14,11 @@ import {
     TodolistType
 } from "../../../types/types";
 import {
-    createTask,
     deleteTodolist,
     updateTodolist
 } from "../../../bll/thunks/thunks";
 import {Task} from "./Task/Task";
+import {createTask} from "../../../bll/reducers/TasksReducer";
 
 
 type TodolistPropsType = {
@@ -51,7 +51,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [dispatch, todolistModel]);
 
     const addTask = useCallback((title: string) => {
-        dispatch(createTask(title, todolistModel.id));
+        const todoListId = todolistModel.id;
+        dispatch(createTask({title, todoListId}));
     }, [dispatch, todolistModel.id]);
 
     const changeTodolist = useCallback((newTitle: string) => {

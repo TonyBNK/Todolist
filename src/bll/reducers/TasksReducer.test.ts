@@ -1,4 +1,10 @@
-import {addTask, changeTask, removeTask, TasksReducer} from "./TasksReducer";
+import {
+    addTask,
+    changeTask,
+    getTasks,
+    removeTask,
+    TasksReducer
+} from "./TasksReducer";
 import {
     TaskPriorities,
     TaskStatuses,
@@ -87,6 +93,18 @@ beforeEach(() => {
         filter: "All",
         entityStatus: 'idle'
     };
+});
+
+test('tasks should be added to todolist', () => {
+    const action = getTasks.fulfilled({tasks: tasks['todolist1Id'], todoListId: 'todolist1Id'}, '', 'todolist1Id');
+
+    const newState = TasksReducer({
+        'todolist1Id': [],
+        'todolist2Id': []
+    }, action);
+
+    expect(newState['todolist1Id'].length).toBe(2);
+    expect(newState['todolist2Id'].length).toBe(0);
 });
 
 test('task HTML&CSS should be removed from tasks', () => {

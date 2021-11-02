@@ -1,5 +1,4 @@
 import {rootReducer, store} from "../bll/store";
-import {setLogged} from "../bll/reducers/AuthReducer";
 
 
 // Common types
@@ -65,6 +64,7 @@ export enum TaskStatuses {
     Completed,
     Draft
 }
+
 export enum TaskPriorities {
     Low,
     Middle,
@@ -72,6 +72,7 @@ export enum TaskPriorities {
     Urgently,
     Later
 }
+
 export type TaskType = {
     todoListId: string
     id: string
@@ -96,6 +97,14 @@ export type GetTasksResolved = {
     tasks: Array<TaskType>,
     todoListId: string
 }
-export type GetTasksRejected = {
-    error: string
+export type GetTasksRejected = {}
+export type CreateTaskResolved = {
+    taskModel: TaskType
+}
+export type CreateTaskRejected = {}
+export type UpdateTaskResolved = CreateTaskResolved;
+export type UpdateTaskRejected = {}
+export type DeleteTaskResolved = {
+    id: string
+    todoListId: string
 }
