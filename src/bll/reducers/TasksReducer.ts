@@ -25,12 +25,7 @@ import {
 
 export const getTasks = createAsyncThunk<GetTasksResolved, string, ThunkAPIConfigType>(
     'tasks/getTasks',
-    async (
-        todoListId,
-        {
-            dispatch,
-            rejectWithValue
-        }
+    async (todoListId, {dispatch, rejectWithValue}
     ) => {
         try {
             dispatch(setAppStatus({status: 'loading'}));
@@ -44,12 +39,7 @@ export const getTasks = createAsyncThunk<GetTasksResolved, string, ThunkAPIConfi
     });
 export const createTask = createAsyncThunk<CreateTaskResolved, { title: string, todoListId: string }, ThunkAPIConfigType>(
     'tasks/createTask',
-    async (
-        arg,
-        {
-            dispatch,
-            rejectWithValue
-        }
+    async (arg, {dispatch, rejectWithValue}
     ) => {
         try {
             dispatch(setAppStatus({status: 'loading'}));
@@ -70,12 +60,7 @@ export const createTask = createAsyncThunk<CreateTaskResolved, { title: string, 
     });
 export const updateTask = createAsyncThunk<UpdateTaskResolved, TaskType, ThunkAPIConfigType>(
     'tasks/updateTask',
-    async (
-        payload,
-        {
-            dispatch,
-            rejectWithValue
-        }
+    async (payload, {dispatch, rejectWithValue}
     ) => {
         try {
             dispatch(setAppStatus({status: 'loading'}));
@@ -95,12 +80,7 @@ export const updateTask = createAsyncThunk<UpdateTaskResolved, TaskType, ThunkAP
     });
 export const deleteTask = createAsyncThunk<DeleteTaskResolved, { id: string, todoListId: string }, ThunkAPIConfigType>(
     'tasks/deleteTask',
-    async (
-        arg,
-        {
-            dispatch,
-            rejectWithValue
-        }
+    async (arg, {dispatch, rejectWithValue}
     ) => {
         try {
             dispatch(setAppStatus({status: 'loading'}));

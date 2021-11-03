@@ -32,7 +32,7 @@ export type ThunkAPIConfigType = {
     dispatch?: undefined
     state?: undefined
     extra?: undefined
-    rejectValue?: {
+    rejectValue: {
         fieldsErrors?: Array<FieldErrorType>
         messages: Array<string>
     }
@@ -118,12 +118,4 @@ export type DeleteTaskResolved = {
     todoListId: string
 }
 export type LogInResolved = AuthStateType;
-export type LogInConfig = {
-    dispatch?: undefined
-    state?: undefined
-    extra?: undefined
-    rejectValue: {
-        fieldsErrors?: Array<FieldErrorType>
-        messages: Array<string>
-    }
-}
+export type LogOutResolved = AuthStateType;

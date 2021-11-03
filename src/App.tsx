@@ -11,11 +11,12 @@ import {Menu} from "@material-ui/icons";
 import {TodolistsList} from "./components/features/TodolistsList";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRequestType, RootStateType} from "./types/types";
+import {AppRequestType, RootDispatchType, RootStateType} from "./types/types";
 import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Login} from "./components/features/Login/Login";
-import {logOut, setAppInitialize} from "./bll/thunks/thunks";
+import {setAppInitialize} from "./bll/thunks/thunks";
+import {logOut} from "./bll/reducers/AuthReducer";
 
 
 type AppPropsType = {
