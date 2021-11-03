@@ -27,7 +27,6 @@ export const logIn = createAsyncThunk<LogInResolved, LoginDataType, LogInConfig>
             const response = await authAPI.logIn(loginData);
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
-                //dispatch(setLogged({isLogged: true}));
                 return {isLogged: true};
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];

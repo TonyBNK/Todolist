@@ -46,8 +46,7 @@ export const Login = () => {
             }
 
             return errors;
-        }
-        ,
+        },
         onSubmit: async (values, formikHelpers) => {
             const action = await dispatch(logIn(values));
             if (logIn.rejected.match(action)) {

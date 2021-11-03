@@ -28,6 +28,15 @@ export type ResponseType<T = {}> = { // T = {item: TaskType} | {item: TodolistTy
     fieldsErrors?: Array<FieldErrorType>
     resultCode: ResultCodes
 }
+export type ThunkAPIConfigType = {
+    dispatch?: undefined
+    state?: undefined
+    extra?: undefined
+    rejectValue?: {
+        fieldsErrors?: Array<FieldErrorType>
+        messages: Array<string>
+    }
+}
 
 // Root Type
 export type RootStateType = ReturnType<typeof rootReducer>;
@@ -69,7 +78,6 @@ export enum TaskStatuses {
     Completed,
     Draft
 }
-
 export enum TaskPriorities {
     Low,
     Middle,
@@ -77,7 +85,6 @@ export enum TaskPriorities {
     Urgently,
     Later
 }
-
 export type TaskType = {
     todoListId: string
     id: string
@@ -102,18 +109,14 @@ export type GetTasksResolved = {
     tasks: Array<TaskType>,
     todoListId: string
 }
-export type GetTasksRejected = {}
 export type CreateTaskResolved = {
     taskModel: TaskType
 }
-export type CreateTaskRejected = {}
 export type UpdateTaskResolved = CreateTaskResolved;
-export type UpdateTaskRejected = {}
 export type DeleteTaskResolved = {
     id: string
     todoListId: string
 }
-export type DeleteTaskRejected = {}
 export type LogInResolved = AuthStateType;
 export type LogInConfig = {
     dispatch?: undefined
