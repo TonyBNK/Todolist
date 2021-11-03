@@ -1,10 +1,10 @@
-import {authAPI, todolistsAPI} from "../../api/todolists-api";
+import {todolistsAPI} from "../../api/todolists-api";
 import {ResultCodes, TodolistType} from "../../types/types";
 import {
     handleServerAppError,
     handleServerNetworkError
 } from "../../utils/utils";
-import {setAppInitialized, setAppStatus} from "../reducers/AppReducer";
+import {setAppStatus} from "../reducers/AppReducer";
 import {
     addTodolist,
     changeTodolist,
@@ -14,30 +14,9 @@ import {
 } from "../reducers/TodolistsReducer";
 import {getTasks} from "../reducers/TasksReducer";
 import {Dispatch} from "redux";
-import {setLogged} from "../reducers/AuthReducer";
 
 
 const {Success} = ResultCodes;
-
-export const setAppInitialize = () =>
-    (dispatch: Dispatch) => {
-        authAPI
-            .me()
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(setLogged({isLogged: true}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            })
-            .finally(() => {
-                dispatch(setAppInitialized({isInitialized: true}));
-            });
-    }
 
 export const getTodolists = () =>
     (dispatch: Dispatch<any>) => {

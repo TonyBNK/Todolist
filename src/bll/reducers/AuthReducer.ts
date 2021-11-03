@@ -15,12 +15,7 @@ import {clearTodolistsData} from "./TodolistsReducer";
 
 export const logIn = createAsyncThunk<LogInResolved, LoginDataType, ThunkAPIConfigType>(
     'auth/logIn',
-    async (
-        loginData,
-        {
-            dispatch,
-            rejectWithValue
-        }
+    async (loginData, {dispatch, rejectWithValue}
     ) => {
         try {
             dispatch(setAppStatus({status: 'loading'}));
@@ -40,12 +35,7 @@ export const logIn = createAsyncThunk<LogInResolved, LoginDataType, ThunkAPIConf
     });
 export const logOut = createAsyncThunk<LogOutResolved, void, ThunkAPIConfigType>(
     'auth/logOut',
-    async (
-        arg,
-        {
-            dispatch,
-            rejectWithValue
-        }
+    async (arg, {dispatch, rejectWithValue}
     ) => {
         try {
             dispatch(setAppStatus({status: 'loading'}));

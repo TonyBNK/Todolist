@@ -2,7 +2,8 @@ import React, {useEffect} from 'react';
 import c from './App.module.css';
 import {
     AppBar,
-    Button, CircularProgress,
+    Button,
+    CircularProgress,
     IconButton,
     Toolbar,
     Typography,
@@ -11,18 +12,17 @@ import {Menu} from "@material-ui/icons";
 import {TodolistsList} from "./components/features/TodolistsList";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRequestType, RootDispatchType, RootStateType} from "./types/types";
+import {AppRequestType, RootStateType} from "./types/types";
 import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Login} from "./components/features/Login/Login";
-import {setAppInitialize} from "./bll/thunks/thunks";
 import {logOut} from "./bll/reducers/AuthReducer";
+import {setAppInitialize} from "./bll/reducers/AppReducer";
 
 
 type AppPropsType = {
     demo?: boolean
 }
-
 const App: React.FC<AppPropsType> = React.memo((
     {
         demo = false

@@ -58,6 +58,11 @@ export type LoginDataType = {
     rememberMe: boolean
     captcha?: string
 }
+export type SetAppInitializeResolved = {
+    isInitialized: boolean
+};
+export type LogInResolved = AuthStateType;
+export type LogOutResolved = AuthStateType;
 
 // Todolist types
 export type TodolistType = {
@@ -117,5 +122,3 @@ export type DeleteTaskResolved = {
     id: string
     todoListId: string
 }
-export type LogInResolved = AuthStateType;
-export type LogOutResolved = AuthStateType;
