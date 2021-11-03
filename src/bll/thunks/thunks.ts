@@ -6,7 +6,6 @@ import {
 } from "../../utils/utils";
 import {setAppStatus} from "../reducers/AppReducer";
 import {
-    addTodolist,
     changeTodolist,
     changeTodolistStatus,
     removeTodolist,
@@ -21,34 +20,16 @@ const {Success} = ResultCodes;
 export const getTodolists = () =>
     (dispatch: Dispatch<any>) => {
         dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .getTodolists()
+        todolistsAPI.getTodolists()
             .then(response => {
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(setTodolists({todolists: response.data}));
                 return response.data;
             })
             .then((todolists) => {
-                todolists.forEach(todo => {
-                    dispatch(getTasks(todo.id));
+                todolists.forEach(tl => {
+                    dispatch(getTasks(tl.id));
                 })
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
-export const createTodolist = (title: string) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .createTodolist(title)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(addTodolist({todolist: response.data.data.item}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
             })
             .catch(error => {
                 handleServerNetworkError(dispatch, error.message);

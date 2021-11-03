@@ -10,8 +10,7 @@ import {
 } from "../../types/types";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
-    addTodolist,
-    clearTodolistsData,
+    clearTodolistsData, createTodolist,
     removeTodolist,
     setTodolists
 } from "./TodolistsReducer";
@@ -108,7 +107,7 @@ const tasksSlice = createSlice({
         builder.addCase(setTodolists, (state, action) => {
             action.payload.todolists.forEach(todo => state[todo.id] = []);
         });
-        builder.addCase(addTodolist, (state, action) => {
+        builder.addCase(createTodolist.fulfilled, (state, action) => {
             state[action.payload.todolist.id] = [];
         });
         builder.addCase(removeTodolist, (state, action) => {

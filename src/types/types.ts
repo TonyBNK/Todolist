@@ -75,6 +75,12 @@ export type TodolistType = {
     entityStatus: RequestStatusType
 }
 export type GetTodolistsType = Array<TodolistType>;
+export type GetTodolistsResolved = {
+    todolists: Array<TodolistType>
+}
+export type CreateTodolistResolved = {
+    todolist: TodolistType
+}
 
 // Task types
 export enum TaskStatuses {
@@ -83,6 +89,7 @@ export enum TaskStatuses {
     Completed,
     Draft
 }
+
 export enum TaskPriorities {
     Low,
     Middle,
@@ -90,6 +97,7 @@ export enum TaskPriorities {
     Urgently,
     Later
 }
+
 export type TaskType = {
     todoListId: string
     id: string
