@@ -2,8 +2,10 @@ import {
     CreateTodolistResolved,
     GetTodolistsType,
     RequestStatusType,
-    ResultCodes, ThunkAPIConfigType,
+    ResultCodes,
+    ThunkAPIConfigType,
     TodolistType,
+    UpdateTodolistResolved,
 } from "../../types/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
@@ -50,6 +52,25 @@ export const createTodolist = createAsyncThunk<CreateTodolistResolved, string, T
             return rejectWithValue({messages: [e.message]});
         }
     });
+export const updateTodolist = createAsyncThunk<UpdateTodolistResolved, TodolistType, ThunkAPIConfigType>(
+    'todolists/updateTodolist',
+    async (payload, {dispatch, rejectWithValue}) => {
+        try {
+            dispatch(setAppStatus({status: 'loading'}));
+            const response = await todolistsAPI.updateTodolist(payload);
+            if (response.data.resultCode === ResultCodes.Success) {
+                dispatch(setAppStatus({status: 'succeeded'}));
+                return {todolist: payload};
+            } else {
+                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                handleServerAppError(dispatch, messages);
+                return rejectWithValue({messages, fieldsErrors});
+            }
+        } catch (e: any) {
+            handleServerNetworkError(dispatch, e.message);
+            return rejectWithValue({messages: [e.message]});
+        }
+    });
 
 const todolistsSlice = createSlice({
     name: 'todolists',
@@ -61,12 +82,6 @@ const todolistsSlice = createSlice({
                 filter: 'All',
                 entityStatus: 'idle'
             }))
-        },
-        changeTodolist(state, action: PayloadAction<{ todolist: TodolistType }>) {
-            const index = state.findIndex(todo => todo.id === action.payload.todolist.id);
-            if (index > -1) {
-                state[index] = action.payload.todolist;
-            }
         },
         changeTodolistStatus(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {
             const index = state.findIndex(todo => todo.id === action.payload.id);
@@ -92,6 +107,12 @@ const todolistsSlice = createSlice({
                 entityStatus: 'idle'
             });
         });
+        builder.addCase(updateTodolist.fulfilled, (state, action) => {
+            const index = state.findIndex(todo => todo.id === action.payload.todolist.id);
+            if (index > -1) {
+                state[index] = action.payload.todolist;
+            }
+        });
     }
 });
 
@@ -99,7 +120,6 @@ export const TodolistsReducer = todolistsSlice.reducer;
 
 export const {
     setTodolists,
-    changeTodolist,
     changeTodolistStatus,
     removeTodolist,
     clearTodolistsData

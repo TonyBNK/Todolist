@@ -6,7 +6,6 @@ import {
 } from "../../utils/utils";
 import {setAppStatus} from "../reducers/AppReducer";
 import {
-    changeTodolist,
     changeTodolistStatus,
     removeTodolist,
     setTodolists
@@ -30,23 +29,6 @@ export const getTodolists = () =>
                 todolists.forEach(tl => {
                     dispatch(getTasks(tl.id));
                 })
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
-export const updateTodolist = (payload: TodolistType) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .updateTodolist(payload)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(changeTodolist({todolist: payload}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
             })
             .catch(error => {
                 handleServerNetworkError(dispatch, error.message);

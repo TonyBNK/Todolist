@@ -15,10 +15,10 @@ import {
 } from "../../../types/types";
 import {
     deleteTodolist,
-    updateTodolist
 } from "../../../bll/thunks/thunks";
 import {Task} from "./Task/Task";
 import {createTask} from "../../../bll/reducers/TasksReducer";
+import {updateTodolist} from "../../../bll/reducers/TodolistsReducer";
 
 
 type TodolistPropsType = {
