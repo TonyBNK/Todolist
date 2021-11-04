@@ -1,12 +1,14 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useMemo} from "react";
-import {getTodolists} from "../../bll/thunks/thunks";
 import {RootStateType, TodolistType} from "../../types/types";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
-import {createTodolist} from "../../bll/reducers/TodolistsReducer";
+import {
+    createTodolist,
+    getTodolists
+} from "../../bll/reducers/TodolistsReducer";
 
 
 type TodolistsPropsType = {
