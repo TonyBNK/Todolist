@@ -1,5 +1,6 @@
 import {
     CreateTodolistResolved,
+    DeleteTodolistResolved,
     GetTodolistsType,
     RequestStatusType,
     ResultCodes,
@@ -8,10 +9,7 @@ import {
     UpdateTodolistResolved,
 } from "../../types/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {
-    handleServerAppError,
-    handleServerNetworkError
-} from "../../utils/utils";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/utils";
 import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
 
@@ -61,6 +59,26 @@ export const updateTodolist = createAsyncThunk<UpdateTodolistResolved, TodolistT
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
                 return {todolist: payload};
+            } else {
+                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                handleServerAppError(dispatch, messages);
+                return rejectWithValue({messages, fieldsErrors});
+            }
+        } catch (e: any) {
+            handleServerNetworkError(dispatch, e.message);
+            return rejectWithValue({messages: [e.message]});
+        }
+    });
+export const deleteTodolist = createAsyncThunk<DeleteTodolistResolved, string, ThunkAPIConfigType>(
+    'todolists/deleteTodolist',
+    async (id, {dispatch, rejectWithValue}) => {
+        try {
+            dispatch(setAppStatus({status: 'loading'}));
+            dispatch(changeTodolistStatus({id, entityStatus: 'loading'}));
+            const response = await todolistsAPI.deleteTodolist(id);
+            if (response.data.resultCode === ResultCodes.Success) {
+                dispatch(setAppStatus({status: 'succeeded'}));
+                return {id};
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleServerAppError(dispatch, messages);

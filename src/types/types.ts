@@ -82,6 +82,9 @@ export type CreateTodolistResolved = {
     todolist: TodolistType
 }
 export type UpdateTodolistResolved = CreateTodolistResolved
+export type DeleteTodolistResolved = {
+    id: string
+}
 
 // Task types
 export enum TaskStatuses {
