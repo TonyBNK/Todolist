@@ -20,14 +20,16 @@ import {getTasks} from "./TasksReducer";
 // export const getTodolists = createAsyncThunk<GetTodolistsResolved, void, ThunkAPIConfigType>(
 //     'todolists/getTodolists',
 //     async (arg, {dispatch, rejectWithValue}) => {
-//         dispatch(setAppStatus({status: 'loading'}));
 //         try {
+//             dispatch(setAppStatus({status: 'loading'}));
 //             const response = await todolistsAPI.getTodolists();
 //             dispatch(setAppStatus({status: 'succeeded'}));
-//             response.data.forEach(tl => {
+//             const todolists = response.data;
+//             dispatch(setTodolists({todolists}));
+//             todolists.forEach(tl => {
 //                 dispatch(getTasks(tl.id));
-//             });
-//             return {todolists: response.data};
+//             })
+//             return {todolists};
 //         } catch (e: any) {
 //             handleServerNetworkError(dispatch, e.message);
 //             return rejectWithValue({messages: [e.message]});
