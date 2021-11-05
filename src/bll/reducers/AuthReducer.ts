@@ -23,7 +23,6 @@ export const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigTy
             const response = await authAPI.logIn(loginData);
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
-                return;
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleServerAppError(dispatch, messages);
@@ -44,7 +43,6 @@ export const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(clearTodolistsData());
-                return;
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleServerAppError(dispatch, messages);

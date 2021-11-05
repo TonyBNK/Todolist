@@ -22,7 +22,6 @@ export const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfig
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(setLogged({isLogged: true}));
-                return;
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleServerAppError(dispatch, messages);
@@ -31,6 +30,8 @@ export const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfig
         } catch (e: any) {
             handleServerNetworkError(dispatch, e.message);
             return rejectWithValue({messages: [e.message]});
+        } finally {
+            return;
         }
     });
 
