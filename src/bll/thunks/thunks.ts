@@ -5,10 +5,7 @@ import {
     handleServerNetworkError
 } from "../../utils/utils";
 import {setAppStatus} from "../reducers/AppReducer";
-import {
-    addTodolist, changeTodolist,
-    changeTodolistStatus, removeTodolist, setTodolists,
-} from "../reducers/TodolistsReducer";
+import {changeTodolist, setTodolists,} from "../reducers/TodolistsReducer";
 import {getTasks} from "../reducers/TasksReducer";
 import {Dispatch} from "redux";
 
@@ -33,23 +30,6 @@ export const getTodolists = () =>
                 handleServerNetworkError(dispatch, error.message);
             });
     }
-export const createTodolist = (title: string) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .createTodolist(title)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(addTodolist({todolist: response.data.data.item}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
 export const updateTodolist = (payload: TodolistType) =>
     (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'loading'}));
@@ -59,24 +39,6 @@ export const updateTodolist = (payload: TodolistType) =>
                 if (response.data.resultCode === Success) {
                     dispatch(setAppStatus({status: 'succeeded'}));
                     dispatch(changeTodolist({todolist: payload}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
-export const deleteTodolist = (id: string) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        dispatch(changeTodolistStatus({id, entityStatus: 'loading'}));
-        todolistsAPI
-            .deleteTodolist(id)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(removeTodolist({id}));
                 } else {
                     handleServerAppError(dispatch, response.data.messages);
                 }

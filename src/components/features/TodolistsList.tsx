@@ -5,7 +5,8 @@ import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
-import {createTodolist, getTodolists} from "../../bll/thunks/thunks";
+import {getTodolists} from "../../bll/thunks/thunks";
+import {createTodolist} from "../../bll/reducers/TodolistsReducer";
 
 
 type TodolistsPropsType = {

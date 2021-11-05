@@ -2,7 +2,6 @@ import {
     AppRequestType,
     RequestStatusType,
     ResultCodes,
-    SetAppInitializeResolved,
     ThunkAPIConfigType
 } from "../../types/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
