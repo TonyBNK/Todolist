@@ -5,7 +5,7 @@ import {
     handleServerNetworkError
 } from "../../utils/utils";
 import {setAppStatus} from "../reducers/AppReducer";
-import {changeTodolist, setTodolists,} from "../reducers/TodolistsReducer";
+import {setTodolists,} from "../reducers/TodolistsReducer";
 import {getTasks} from "../reducers/TasksReducer";
 import {Dispatch} from "redux";
 
@@ -25,23 +25,6 @@ export const getTodolists = () =>
                 todolists.forEach(tl => {
                     dispatch(getTasks(tl.id));
                 })
-            })
-            .catch(error => {
-                handleServerNetworkError(dispatch, error.message);
-            });
-    }
-export const updateTodolist = (payload: TodolistType) =>
-    (dispatch: Dispatch) => {
-        dispatch(setAppStatus({status: 'loading'}));
-        todolistsAPI
-            .updateTodolist(payload)
-            .then(response => {
-                if (response.data.resultCode === Success) {
-                    dispatch(setAppStatus({status: 'succeeded'}));
-                    dispatch(changeTodolist({todolist: payload}));
-                } else {
-                    handleServerAppError(dispatch, response.data.messages);
-                }
             })
             .catch(error => {
                 handleServerNetworkError(dispatch, error.message);
