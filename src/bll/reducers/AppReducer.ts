@@ -14,7 +14,7 @@ import {
 } from "../../utils/utils";
 
 
-export const setAppInitialize = createAsyncThunk<SetAppInitializeResolved, void, ThunkAPIConfigType>(
+export const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
     'app/setAppInitialize',
     async (arg, {dispatch, rejectWithValue}) => {
         try {
@@ -22,6 +22,7 @@ export const setAppInitialize = createAsyncThunk<SetAppInitializeResolved, void,
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(setLogged({isLogged: true}));
+                return;
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleServerAppError(dispatch, messages);
@@ -30,8 +31,6 @@ export const setAppInitialize = createAsyncThunk<SetAppInitializeResolved, void,
         } catch (e: any) {
             handleServerNetworkError(dispatch, e.message);
             return rejectWithValue({messages: [e.message]});
-        } finally {
-            return {isInitialized: true};
         }
     });
 
@@ -51,8 +50,8 @@ const appSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(setAppInitialize.fulfilled, (state, action) => {
-            state.isInitialized = action.payload.isInitialized;
+        builder.addCase(setAppInitialize.fulfilled, (state) => {
+            state.isInitialized = true;
         });
     }
 });

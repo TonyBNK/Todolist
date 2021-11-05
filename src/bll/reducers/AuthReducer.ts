@@ -1,7 +1,8 @@
 import {
     LoginDataType,
-    LogInResolved, LogOutResolved,
-    ResultCodes, ThunkAPIConfigType
+    LogInResolved,
+    ResultCodes,
+    ThunkAPIConfigType
 } from "../../types/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setAppStatus} from "./AppReducer";
@@ -13,7 +14,7 @@ import {
 import {clearTodolistsData} from "./TodolistsReducer";
 
 
-export const logIn = createAsyncThunk<LogInResolved, LoginDataType, ThunkAPIConfigType>(
+export const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
     'auth/logIn',
     async (loginData, {dispatch, rejectWithValue}
     ) => {
@@ -22,7 +23,7 @@ export const logIn = createAsyncThunk<LogInResolved, LoginDataType, ThunkAPIConf
             const response = await authAPI.logIn(loginData);
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
-                return {isLogged: true};
+                return;
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleServerAppError(dispatch, messages);
@@ -33,7 +34,7 @@ export const logIn = createAsyncThunk<LogInResolved, LoginDataType, ThunkAPIConf
             return rejectWithValue({messages: [e.message]});
         }
     });
-export const logOut = createAsyncThunk<LogOutResolved, void, ThunkAPIConfigType>(
+export const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
     'auth/logOut',
     async (arg, {dispatch, rejectWithValue}
     ) => {
@@ -43,7 +44,7 @@ export const logOut = createAsyncThunk<LogOutResolved, void, ThunkAPIConfigType>
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(clearTodolistsData());
-                return {isLogged: false};
+                return;
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleServerAppError(dispatch, messages);
@@ -67,11 +68,11 @@ const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(logIn.fulfilled, (state, action) => {
-            state.isLogged = action.payload.isLogged;
+        builder.addCase(logIn.fulfilled, (state) => {
+            state.isLogged = true;
         });
-        builder.addCase(logOut.fulfilled, (state, action) => {
-            state.isLogged = action.payload.isLogged;
+        builder.addCase(logOut.fulfilled, (state) => {
+            state.isLogged = false;
         });
     }
 });
