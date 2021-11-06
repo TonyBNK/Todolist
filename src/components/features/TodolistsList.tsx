@@ -6,9 +6,8 @@ import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
 import {
-    createTodolist,
+    createTodolist, getTodolists
 } from "../../bll/reducers/TodolistsReducer";
-import {getTodolists} from "../../bll/thunks/thunks";
 
 
 type TodolistsPropsType = {

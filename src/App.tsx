@@ -34,6 +34,7 @@ const App: React.FC<AppPropsType> = React.memo((
     const isLogged = useSelector<RootStateType, boolean>(
         state => state.auth.isLogged
     );
+
     const dispatch = useDispatch();
 
     const onLogOutClickHandler = () => {

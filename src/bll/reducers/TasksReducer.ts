@@ -8,10 +8,12 @@ import {
     ThunkAPIConfigType,
     UpdateTaskResolved
 } from "../../types/types";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
-    clearTodolistsData, createTodolist, deleteTodolist,
-    setTodolists
+    clearTodolistsData,
+    createTodolist,
+    deleteTodolist,
+    getTodolists
 } from "./TodolistsReducer";
 import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
@@ -101,14 +103,10 @@ export const deleteTask = createAsyncThunk<DeleteTaskResolved, { id: string, tod
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState: {} as TasksType,
-    reducers: {
-        setTasks(state, action: PayloadAction<{ todoListId: string, tasks: Array<TaskType> }>) {
-            state[action.payload.todoListId] = action.payload.tasks;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(setTodolists, (state, action) => {
-            action.payload.todolists.forEach(todo => state[todo.id] = []);
+        builder.addCase(getTodolists.fulfilled, (state, action) => {
+            action.payload.todolists.forEach(todo => state[todo.id]);
         });
         builder.addCase(createTodolist.fulfilled, (state, action) => {
             state[action.payload.todolist.id] = [];

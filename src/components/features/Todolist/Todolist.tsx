@@ -1,9 +1,9 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import c from './Todolist.module.css';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
 import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
-import {CircularProgress, IconButton} from "@material-ui/core";
+import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -14,7 +14,7 @@ import {
     TodolistType
 } from "../../../types/types";
 import {Task} from "./Task/Task";
-import {createTask} from "../../../bll/reducers/TasksReducer";
+import {createTask, getTasks} from "../../../bll/reducers/TasksReducer";
 import {
     deleteTodolist,
     updateTodolist
@@ -35,6 +35,9 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
+    );
+    const isLogged = useSelector<RootStateType, boolean>(
+        state => state.auth.isLogged
     );
 
     const filter = todolistModel.filter;
@@ -70,16 +73,12 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         return null;
     }, [tasks]);
 
-    if (!tasksList){
-        return <div style={{
-            position: 'fixed',
-            width: '100%',
-            top: '30%',
-            textAlign: 'center'
-        }}>
-            <CircularProgress/>
-        </div>
-    }
+    useEffect(() => {
+        if (demo || !isLogged) {
+            return
+        }
+        dispatch(getTasks(todolistModel.id));
+    }, []);
 
     return (
         <div
