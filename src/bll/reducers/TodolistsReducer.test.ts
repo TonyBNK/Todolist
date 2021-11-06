@@ -1,8 +1,7 @@
 import {TodolistType} from "../../types/types";
 import {
-    addTodolist, changeTodolist, changeTodolistStatus,
-    removeTodolist,
-    TodolistsReducer
+    changeTodolistStatus, createTodolist, deleteTodolist,
+    TodolistsReducer, updateTodolist
 } from "./TodolistsReducer";
 
 
@@ -47,7 +46,12 @@ beforeEach(() => {
 });
 
 test('first todolist should be removed', () => {
-    const newTodolists = TodolistsReducer(todolists, removeTodolist({id: todolists[0].id}));
+    const newTodolists = TodolistsReducer(todolists, deleteTodolist.fulfilled({
+            id: todolists[0].id
+        },
+        'requestId',
+        todolists[0].id
+    ));
 
     expect(newTodolists.length).toBe(2);
     expect(newTodolists[0].id).toBe(todolists[1].id);
@@ -55,7 +59,12 @@ test('first todolist should be removed', () => {
 });
 
 test('new todolist should be added', () => {
-    const newTodolists = TodolistsReducer(todolists, addTodolist({todolist: newTodolist}));
+    const newTodolists = TodolistsReducer(todolists, createTodolist.fulfilled({
+            todolist: newTodolist
+        },
+        'requestId',
+        newTodolist.title
+    ));
 
     expect(newTodolists.length).toBe(4);
     expect(newTodolists[0].title).toBe(newTodolist.title);
@@ -64,12 +73,18 @@ test('new todolist should be added', () => {
 test('todolist title should be changed', () => {
     const newTitle = 'Something new';
 
-    const newTodolists = TodolistsReducer(todolists, changeTodolist({
-        todolist: {
+    const newTodolists = TodolistsReducer(todolists, updateTodolist.fulfilled({
+            todolist: {
+                ...todolists[0],
+                title: newTitle
+            }
+        },
+        'requestId',
+        {
             ...todolists[0],
             title: newTitle
         }
-    }));
+    ));
 
     expect(newTodolists.length).toBe(3);
     expect(newTodolists[0].title).toBe(newTitle);
@@ -78,12 +93,18 @@ test('todolist title should be changed', () => {
 test('todolist filter should be changed', () => {
     const newFilter = 'Active';
 
-    const newTodolists = TodolistsReducer(todolists, changeTodolist({
-        todolist: {
+    const newTodolists = TodolistsReducer(todolists, updateTodolist.fulfilled({
+            todolist: {
+                ...todolists[0],
+                filter: newFilter
+            }
+        },
+        'requestId',
+        {
             ...todolists[0],
             filter: newFilter
         }
-    }));
+    ));
 
     expect(newTodolists.length).toBe(3);
     expect(newTodolists[0].filter).toBe(newFilter);
