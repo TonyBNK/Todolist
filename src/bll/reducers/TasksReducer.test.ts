@@ -10,7 +10,7 @@ import {
     TasksType,
     TaskType, TodolistType
 } from "../../types/types";
-import {addTodolist, removeTodolist} from "./TodolistsReducer";
+import {createTodolist, deleteTodolist} from "./TodolistsReducer";
 
 
 let tasks: TasksType;
@@ -192,14 +192,24 @@ test('task title should be changed', () => {
 });
 
 test('new todolist should be added', () => {
-    let newTasks = TasksReducer(tasks, addTodolist({todolist: newTodolist}));
+    let newTasks = TasksReducer(tasks, createTodolist.fulfilled({
+            todolist: newTodolist
+        },
+        'requestId',
+        newTodolist.title
+    ));
 
     expect(Object.keys(newTasks).length).toBe(3);
     expect(newTasks['todolist3Id'].length).toBe(0);
 });
 
 test('one todolist should be removed', () => {
-    let newTasks = TasksReducer(tasks, removeTodolist({id: 'todolist1Id'}));
+    let newTasks = TasksReducer(tasks, deleteTodolist.fulfilled({
+            id: 'todolist1Id'
+        },
+        'requestId',
+        'todolist1Id'
+    ));
 
     expect(Object.keys(newTasks).length).toBe(1);
     expect(Object.values(newTasks)[0].length).toBe(2);
