@@ -1,8 +1,7 @@
 import {AppRequestType} from "../../types/types";
 import {
     AppReducer,
-    setAppError,
-    setAppInitialized,
+    setAppError, setAppInitialize,
     setAppStatus
 } from "./AppReducer";
 
@@ -28,7 +27,11 @@ test('request error should be changed', () => {
 });
 
 test('app initialization should be changed', () => {
-    const newState = AppReducer(initialState, setAppInitialized({isInitialized: true}));
+    const newState = AppReducer(initialState, setAppInitialize.fulfilled(
+        undefined,
+        'requestId',
+        undefined
+    ));
     expect(newState.isInitialized).toBeTruthy();
 });
 
