@@ -1,28 +1,28 @@
 import React, {useCallback} from "react";
 import c from './FilterButtons.module.css';
 import {Button} from "@material-ui/core";
-import {FilterType, RequestStatusType} from "../../../../types/types";
+import {TodolistType} from "../../../../types/types";
 
 
 export type FilterButtonsType = {
-    changeFilter: (filter: FilterType) => void
-    filter: FilterType
-    entityStatus?: RequestStatusType
+    item: TodolistType
+    changeItem: (model: TodolistType) => void
 }
 export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
     {
-        changeFilter,
-        filter,
-        entityStatus
+        item,
+        changeItem
     }) => {
+    const {filter, entityStatus} = item;
+
     const onAllFilterHandler = useCallback(
-        () => changeFilter('All'), [changeFilter]
+        () => changeItem({...item, filter: 'All'}), [changeItem, item]
     );
     const onActiveFilterHandler = useCallback(
-        () => changeFilter('Active'), [changeFilter]
+        () => changeItem({...item, filter: 'Active'}), [changeItem, item]
     );
     const onCompletedFilterHandler = useCallback(
-        () => changeFilter('Completed'), [changeFilter]
+        () => changeItem({...item, filter: 'Completed'}), [changeItem, item]
     );
 
     return (

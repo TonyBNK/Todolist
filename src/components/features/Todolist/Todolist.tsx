@@ -51,16 +51,11 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [todolistModel]);
 
     const addTask = useCallback((title: string) => {
-        const todoListId = todolistModel.id;
-        createTask({title, todoListId});
+        createTask({title, todoListId: todolistModel.id});
     }, [todolistModel.id]);
 
     const changeTodolist = useCallback((newTitle: string) => {
         updateTodolist({...todolistModel, title: newTitle});
-    }, [todolistModel]);
-
-    const changeFilter = useCallback((newFilter: FilterType) => {
-        updateTodolist({...todolistModel, filter: newFilter});
     }, [todolistModel]);
 
     const tasksList = useMemo(() => {
@@ -104,9 +99,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
                 }
             </div>
             <FilterButtons
-                filter={todolistModel.filter}
-                changeFilter={changeFilter}
-                entityStatus={todolistModel.entityStatus}
+                item={todolistModel}
+                changeItem={updateTodolist}
             />
         </div>
     );

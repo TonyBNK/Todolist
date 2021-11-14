@@ -6,12 +6,7 @@ import {
     deleteTodolist,
     getTodolists
 } from "../actions/TodolistsActions";
-import {
-    createTask,
-    deleteTask,
-    getTasks,
-    updateTask
-} from "../actions/TasksActions";
+import {tasksActions} from "../../components/features";
 
 
 const tasksSlice = createSlice({
@@ -31,20 +26,20 @@ const tasksSlice = createSlice({
         builder.addCase(clearTodolistsData, () => {
             return {};
         });
-        builder.addCase(getTasks.fulfilled, (state, action) => {
+        builder.addCase(tasksActions.getTasks.fulfilled, (state, action) => {
             state[action.payload.todoListId] = action.payload.tasks;
         });
-        builder.addCase(createTask.fulfilled, (state, action) => {
+        builder.addCase(tasksActions.createTask.fulfilled, (state, action) => {
             state[action.payload.taskModel.todoListId].unshift(action.payload.taskModel);
         });
-        builder.addCase(updateTask.fulfilled, (state, action) => {
+        builder.addCase(tasksActions.updateTask.fulfilled, (state, action) => {
             const tasks = state[action.payload.taskModel.todoListId];
             const index = tasks.findIndex(task => task.id === action.payload.taskModel.id);
             if (index > -1) {
                 tasks[index] = action.payload.taskModel
             }
         });
-        builder.addCase(deleteTask.fulfilled, (state, action) => {
+        builder.addCase(tasksActions.deleteTask.fulfilled, (state, action) => {
             const tasks = state[action.payload.todoListId];
             const index = tasks.findIndex(task => task.id === action.payload.id);
             if (index > -1) {

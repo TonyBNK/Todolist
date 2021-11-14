@@ -19,8 +19,7 @@ export const Task: React.FC<TaskPropsType> = React.memo((
     const {deleteTask, updateTask} = useActions(tasksActions);
 
     const onRemoveTaskHandler = useCallback(() => {
-        const [id, todoListId] = [taskModel.id, taskModel.todoListId];
-        deleteTask({id, todoListId});
+        deleteTask({id: taskModel.id, todoListId: taskModel.todoListId});
     }, [taskModel.id, taskModel.todoListId]);
 
     const changeTitle = useCallback((newTitle: string) => {

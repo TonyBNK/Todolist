@@ -3,7 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {todolistsActions} from "../../components/features";
 
 
-const todolistsSlice = createSlice({
+export const todolistsSlice = createSlice({
     name: 'todolists',
     initialState: [] as GetTodolistsType,
     reducers: {

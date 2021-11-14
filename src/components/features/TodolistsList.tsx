@@ -1,11 +1,10 @@
 import {useSelector} from "react-redux";
 import React, {useCallback, useEffect, useMemo} from "react";
-import {RootStateType, TodolistType} from "../../types/types";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
-import {authSelector} from "../../redux/selectors";
+import {authSelector, todolistsSelector} from "../../redux/selectors";
 import {useActions} from "../../redux/store";
 import {todolistsActions} from "./index";
 
@@ -28,9 +27,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
         getTodolists();
     }, []);
 
-    const todolists = useSelector<RootStateType, Array<TodolistType>>(
-        state => state.todolists
-    );
+    const todolists = useSelector(todolistsSelector.selectTodolists);
 
     const listOfTodolists = useMemo(() => {
         return todolists.map(tl => <Grid item>
@@ -47,10 +44,6 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
         )
     }, [todolists, demo]);
 
-    const addTodolist = useCallback((title: string) => {
-       createTodolist(title);
-    }, []);
-
     if (!isLogged) {
         return <Redirect to={'/login'}/>
     }
@@ -59,7 +52,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
         <Container>
             <Grid container>
                 <Paper style={{padding: '20px', marginTop: '20px'}}>
-                    <AddItemForm addItem={addTodolist}/>
+                    <AddItemForm addItem={createTodolist}/>
                 </Paper>
             </Grid>
             <Grid container spacing={7}>

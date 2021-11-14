@@ -81,7 +81,9 @@ export type GetTodolistsResolved = {
 export type CreateTodolistResolved = {
     todolist: TodolistType
 }
-export type UpdateTodolistResolved = CreateTodolistResolved
+export type UpdateTodolistResolved = {
+    todolist: TodolistType
+}
 export type DeleteTodolistResolved = {
     id: string
 }
@@ -129,7 +131,9 @@ export type GetTasksResolved = {
 export type CreateTaskResolved = {
     taskModel: TaskType
 }
-export type UpdateTaskResolved = CreateTaskResolved;
+export type UpdateTaskResolved = {
+    taskModel: TaskType
+}
 export type DeleteTaskResolved = {
     id: string
     todoListId: string
