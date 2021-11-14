@@ -22,16 +22,12 @@ export const Task: React.FC<TaskPropsType> = React.memo((
         deleteTask({id: taskModel.id, todoListId: taskModel.todoListId});
     }, [taskModel.id, taskModel.todoListId]);
 
-    const changeStatus = useCallback((newStatus: TaskStatuses) => {
-        updateTask({...taskModel, status: newStatus});
-    }, [taskModel]);
-
     const onChangeStatusHandler = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
         e.currentTarget.checked
-            ? changeStatus(TaskStatuses.Completed)
-            : changeStatus(TaskStatuses.New)
-    }, [changeStatus]);
+            ? updateTask({...taskModel, status: TaskStatuses.Completed})
+            : updateTask({...taskModel, status: TaskStatuses.New})
+    }, [taskModel, updateTask]);
 
     return <div
         key={taskModel.id}
