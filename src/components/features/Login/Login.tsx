@@ -14,13 +14,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {FormikErrorType, RootDispatchType} from "../../../types/types";
 import {Redirect} from "react-router-dom";
 import {authSelector} from "../../../redux/selectors";
-import {useActions} from "../../../redux/store";
 import {authActions} from "../../../redux/reducers";
 
 
 export const Login = () => {
     const dispatch = useDispatch<RootDispatchType>();
-    const {logIn} = useActions(authActions);
     const isLogged = useSelector(authSelector.selectIsLogged);
 
     const formik = useFormik({
@@ -46,8 +44,8 @@ export const Login = () => {
             return errors;
         },
         onSubmit: async (values, formikHelpers) => {
-            const action = await dispatch(logIn(values));
-            if (logIn.rejected.match(action)) {
+            const action = await dispatch(authActions.logIn(values));
+            if (authActions.logIn.rejected.match(action)) {
                 if (action.payload?.fieldsErrors?.length) {
                     formikHelpers.setFieldError(
                         action.payload.fieldsErrors[0].field,

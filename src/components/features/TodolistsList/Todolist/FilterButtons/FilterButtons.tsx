@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import c from './FilterButtons.module.css';
 import {Button} from "@material-ui/core";
-import {TodolistType} from "../../../../../types/types";
+import {FilterType, TodolistType} from "../../../../../types/types";
 
 
 export type FilterButtonsType = {
@@ -13,7 +13,7 @@ export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
         item,
         changeItem
     }) => {
-    const {filter, entityStatus} = item;
+    const {entityStatus} = item;
 
     const onAllFilterHandler = useCallback(
         () => changeItem({...item, filter: 'All'}), [changeItem, item]
@@ -25,38 +25,25 @@ export const FilterButtons: React.FC<FilterButtonsType> = React.memo((
         () => changeItem({...item, filter: 'Completed'}), [changeItem, item]
     );
 
+    const renderFilterButton = (onClick: () => void, filter: FilterType) => {
+
+        return <Button
+            style={{margin: '3px'}}
+            onClick={onClick}
+            color={'primary'}
+            variant={item.filter === filter ? 'contained' : 'outlined'}
+            size={'small'}
+            disabled={entityStatus === 'loading'}
+        >
+            {filter}
+        </Button>
+    }
+
     return (
         <div className={c.filterButtons}>
-            <Button
-                style={{margin: '3px'}}
-                onClick={onAllFilterHandler}
-                color={'primary'}
-                variant={filter === "All" ? 'contained' : 'outlined'}
-                size={'small'}
-                disabled={entityStatus === 'loading'}
-            >
-                All
-            </Button>
-            <Button
-                style={{margin: '3px'}}
-                onClick={onActiveFilterHandler}
-                color={"primary"}
-                variant={filter === "Active" ? 'contained' : 'outlined'}
-                size={'small'}
-                disabled={entityStatus === 'loading'}
-            >
-                Active
-            </Button>
-            <Button
-                style={{margin: '3px'}}
-                onClick={onCompletedFilterHandler}
-                variant={filter === "Completed" ? 'contained' : 'outlined'}
-                color={'primary'}
-                size={'small'}
-                disabled={entityStatus === 'loading'}
-            >
-                Completed
-            </Button>
+            {renderFilterButton(onAllFilterHandler, 'All')}
+            {renderFilterButton(onActiveFilterHandler, 'Active')}
+            {renderFilterButton(onCompletedFilterHandler, 'Completed')}
         </div>
     );
 });
