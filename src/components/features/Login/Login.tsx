@@ -13,12 +13,14 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {FormikErrorType, RootDispatchType} from "../../../types/types";
 import {Redirect} from "react-router-dom";
-import {logIn} from "../../../redux/reducers/AuthReducer";
 import {authSelector} from "../../../redux/selectors";
+import {useActions} from "../../../redux/store";
+import {authActions} from "../../../redux/reducers";
 
 
 export const Login = () => {
     const dispatch = useDispatch<RootDispatchType>();
+    const {logIn} = useActions(authActions);
     const isLogged = useSelector(authSelector.selectIsLogged);
 
     const formik = useFormik({

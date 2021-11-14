@@ -13,7 +13,7 @@ import {
 } from "../../utils/utils";
 
 
-export const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
+const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
     'app/setAppInitialize',
     async (arg, {dispatch, rejectWithValue}) => {
         try {
@@ -34,7 +34,11 @@ export const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfig
         }
     });
 
-const appSlice = createSlice({
+export const asyncActions = {
+    setAppInitialize
+}
+
+export const appSlice = createSlice({
     name: 'app',
     initialState: {
         status: "idle",

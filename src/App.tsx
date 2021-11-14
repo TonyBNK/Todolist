@@ -9,14 +9,15 @@ import {
     Typography,
 } from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {appSelector, authSelector} from "./redux/selectors";
 import {TodolistsList} from "./components/features/TodolistsList";
 import {Login} from "./components/features/Login";
 import {ProgressBar} from "./components/common/ProgressBar";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar";
-import {appReducer, authReducer} from "./redux/reducers";
+import {appActions, authActions} from "./redux/reducers";
+import {useActions} from "./redux/store";
 
 
 type AppPropsType = {
@@ -29,18 +30,18 @@ const App: React.FC<AppPropsType> = React.memo((
 ) => {
     const {status, isInitialized} = useSelector(appSelector.selectAppVariables);
     const isLogged = useSelector(authSelector.selectIsLogged);
-
-    const dispatch = useDispatch();
+    const {logOut} = useActions(authActions);
+    const {setAppInitialize} = useActions(appActions);
 
     const onLogOutClickHandler = () => {
-        dispatch(authReducer.logOut());
+        logOut();
     }
 
     useEffect(() => {
         if (demo) {
             return;
         }
-        dispatch(appReducer.setAppInitialize());
+        setAppInitialize();
     }, []);
 
     if (!isInitialized) {

@@ -14,7 +14,7 @@ import {
 import {clearTodolistsData} from "./TodolistsReducer";
 
 
-export const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
+const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
     'auth/logIn',
     async (loginData, {dispatch, rejectWithValue}
     ) => {
@@ -33,7 +33,7 @@ export const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigTy
             return rejectWithValue({messages: [e.message]});
         }
     });
-export const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
+const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
     'auth/logOut',
     async (arg, {dispatch, rejectWithValue}
     ) => {
@@ -55,7 +55,12 @@ export const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
         }
     });
 
-const authSlice = createSlice({
+export const asyncActions = {
+    logIn,
+    logOut
+}
+
+export const authSlice = createSlice({
     name: 'auth',
     initialState: {
         isLogged: false
