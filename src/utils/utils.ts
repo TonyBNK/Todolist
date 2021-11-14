@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {setAppError, setAppStatus} from "../bll/reducers/AppReducer";
+import {setAppError, setAppStatus} from "../redux/reducers/AppReducer";
 
 
 export const handleServerAppError = (dispatch: Dispatch, errorMessages: Array<string>) => {

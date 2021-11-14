@@ -5,7 +5,7 @@ import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import {RemoveCircleOutline} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../../types/types";
 import {useDispatch} from "react-redux";
-import {deleteTask, updateTask} from "../../../../bll/reducers/TasksReducer";
+import {deleteTask, updateTask} from "../../../../redux/reducers/TasksReducer";
 
 
 export type TaskPropsType = {

@@ -2,7 +2,8 @@ import React from "react";
 import {
     Button,
     Checkbox,
-    FormControl, FormControlLabel,
+    FormControl,
+    FormControlLabel,
     FormGroup,
     FormLabel,
     Grid,
@@ -10,20 +11,15 @@ import {
 } from "@material-ui/core";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    FormikErrorType,
-    RootDispatchType,
-    RootStateType
-} from "../../../types/types";
+import {FormikErrorType, RootDispatchType} from "../../../types/types";
 import {Redirect} from "react-router-dom";
-import {logIn} from "../../../bll/reducers/AuthReducer";
+import {logIn} from "../../../redux/reducers/AuthReducer";
+import {selectIsLogged} from "../../../redux/selectors/AuthSelector";
 
 
 export const Login = () => {
     const dispatch = useDispatch<RootDispatchType>();
-    const isLogged = useSelector<RootStateType, boolean>(
-        state => state.auth.isLogged
-    );
+    const isLogged = useSelector(selectIsLogged);
 
     const formik = useFormik({
         initialValues: {

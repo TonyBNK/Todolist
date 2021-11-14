@@ -7,7 +7,8 @@ import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
 import {
     createTodolist, getTodolists
-} from "../../bll/reducers/TodolistsReducer";
+} from "../../redux/reducers/TodolistsReducer";
+import {selectIsLogged} from "../../redux/selectors/AuthSelector";
 
 
 type TodolistsPropsType = {
@@ -19,9 +20,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
     }
 ) => {
     const dispatch = useDispatch();
-    const isLogged = useSelector<RootStateType, boolean>(
-        state => state.auth.isLogged
-    );
+    const isLogged = useSelector(selectIsLogged);
 
     useEffect(() => {
         if (demo || !isLogged) {

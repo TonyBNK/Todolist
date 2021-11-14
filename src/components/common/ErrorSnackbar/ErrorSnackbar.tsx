@@ -4,7 +4,7 @@ import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../types/types";
 import {Dispatch} from "redux";
-import {setAppError} from "../../../bll/reducers/AppReducer";
+import {setAppError} from "../../../redux/reducers/AppReducer";
 
 
 export const ErrorSnackbar = () => {

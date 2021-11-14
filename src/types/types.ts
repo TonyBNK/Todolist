@@ -1,4 +1,4 @@
-import {rootReducer, store} from "../bll/store";
+import {rootReducer, store} from "../redux/store";
 
 
 // Common types

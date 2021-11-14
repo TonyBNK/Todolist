@@ -14,11 +14,12 @@ import {
     TodolistType
 } from "../../../types/types";
 import {Task} from "./Task/Task";
-import {createTask, getTasks} from "../../../bll/reducers/TasksReducer";
+import {createTask, getTasks} from "../../../redux/reducers/TasksReducer";
 import {
     deleteTodolist,
     updateTodolist
-} from "../../../bll/reducers/TodolistsReducer";
+} from "../../../redux/reducers/TodolistsReducer";
+import {selectIsLogged} from "../../../redux/selectors/AuthSelector";
 
 
 type TodolistPropsType = {
@@ -36,9 +37,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
     );
-    const isLogged = useSelector<RootStateType, boolean>(
-        state => state.auth.isLogged
-    );
+    const isLogged = useSelector(selectIsLogged);
 
     const filter = todolistModel.filter;
 

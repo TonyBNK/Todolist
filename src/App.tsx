@@ -12,12 +12,13 @@ import {Menu} from "@material-ui/icons";
 import {TodolistsList} from "./components/features/TodolistsList";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRequestType, RootStateType} from "./types/types";
 import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Login} from "./components/features/Login/Login";
-import {logOut} from "./bll/reducers/AuthReducer";
-import {setAppInitialize} from "./bll/reducers/AppReducer";
+import {logOut} from "./redux/reducers/AuthReducer";
+import {setAppInitialize} from "./redux/reducers/AppReducer";
+import {selectAppVariables} from "./redux/selectors/AppSelector";
+import {selectIsLogged} from "./redux/selectors/AuthSelector";
 
 
 type AppPropsType = {
@@ -28,12 +29,8 @@ const App: React.FC<AppPropsType> = React.memo((
         demo = false
     }
 ) => {
-    const {status, isInitialized} = useSelector<RootStateType, AppRequestType>(
-        state => state.app
-    );
-    const isLogged = useSelector<RootStateType, boolean>(
-        state => state.auth.isLogged
-    );
+    const {status, isInitialized} = useSelector(selectAppVariables);
+    const isLogged = useSelector(selectIsLogged);
 
     const dispatch = useDispatch();
 
