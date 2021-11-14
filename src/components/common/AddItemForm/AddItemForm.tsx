@@ -3,8 +3,9 @@ import {IconButton, TextField} from "@material-ui/core";
 import {AddCircleOutline} from "@material-ui/icons";
 import {RequestStatusType} from "../../../types/types";
 
+
 export type AddItemFormPropsType = {
-    addItem: (newTitle: string, todoListId?: string) => void
+    addItem: (title: string, todoListId?: string) => void
     entityStatus?: RequestStatusType
 }
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
@@ -63,4 +64,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
             </IconButton>
         </div>
     )
-})
+});

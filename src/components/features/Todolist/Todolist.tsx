@@ -7,7 +7,6 @@ import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useSelector} from "react-redux";
 import {
-    FilterType,
     RootStateType,
     TaskStatuses,
     TaskType,
