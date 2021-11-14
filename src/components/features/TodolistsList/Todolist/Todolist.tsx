@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo} from "react";
 import c from './Todolist.module.css';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
-import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
-import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
+import {AddItemForm} from "../../../common/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
 import {useSelector} from "react-redux";
@@ -11,10 +11,10 @@ import {
     TaskStatuses,
     TaskType,
     TodolistType
-} from "../../../types/types";
+} from "../../../../types/types";
 import {Task} from "./Task/Task";
-import {authSelector} from "../../../redux/selectors";
-import {useActions} from "../../../redux/store";
+import {authSelector} from "../../../../redux/selectors";
+import {useActions} from "../../../../redux/store";
 import {tasksActions, todolistsActions} from "../index";
 
 

@@ -1,10 +1,10 @@
 import React, {ChangeEvent, useCallback} from "react";
 import c from "../Todolist.module.css";
 import {Checkbox, IconButton} from "@material-ui/core";
-import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
+import {EditableSpan} from "../../../../common/EditableSpan/EditableSpan";
 import {RemoveCircleOutline} from "@material-ui/icons";
-import {TaskStatuses, TaskType} from "../../../../types/types";
-import {useActions} from "../../../../redux/store";
+import {TaskStatuses, TaskType} from "../../../../../types/types";
+import {useActions} from "../../../../../redux/store";
 import {tasksActions} from "../../index";
 
 

@@ -9,16 +9,14 @@ import {
     Typography,
 } from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {TodolistsList} from "./components/features/TodolistsList";
-import {ErrorSnackbar} from "./components/common/ErrorSnackbar/ErrorSnackbar";
 import {useDispatch, useSelector} from "react-redux";
-import {ProgressBar} from "./components/common/ProgressBar/ProgressBar";
 import {Redirect, Route, Switch} from "react-router-dom";
-import {Login} from "./components/features/Login/Login";
-import {logOut} from "./redux/reducers/AuthReducer";
-import {setAppInitialize} from "./redux/reducers/AppReducer";
-import {selectAppVariables} from "./redux/selectors/AppSelector";
-import {authSelector} from "./redux/selectors";
+import {appSelector, authSelector} from "./redux/selectors";
+import {TodolistsList} from "./components/features/TodolistsList";
+import {Login} from "./components/features/Login";
+import {ProgressBar} from "./components/common/ProgressBar";
+import {ErrorSnackbar} from "./components/common/ErrorSnackbar";
+import {appReducer, authReducer} from "./redux/reducers";
 
 
 type AppPropsType = {
@@ -29,20 +27,20 @@ const App: React.FC<AppPropsType> = React.memo((
         demo = false
     }
 ) => {
-    const {status, isInitialized} = useSelector(selectAppVariables);
+    const {status, isInitialized} = useSelector(appSelector.selectAppVariables);
     const isLogged = useSelector(authSelector.selectIsLogged);
 
     const dispatch = useDispatch();
 
     const onLogOutClickHandler = () => {
-        dispatch(logOut());
+        dispatch(authReducer.logOut());
     }
 
     useEffect(() => {
         if (demo) {
             return;
         }
-        dispatch(setAppInitialize());
+        dispatch(appReducer.setAppInitialize());
     }, []);
 
     if (!isInitialized) {

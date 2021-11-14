@@ -1,6 +1,6 @@
 import {Meta, Story} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
-import {Task, TaskPropsType} from "../components/features/Todolist/Task/Task";
+import {Task, TaskPropsType} from "../components/features/TodolistsList/Todolist/Task/Task";
 import {TaskPriorities, TaskStatuses} from "../types/types";
 import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
 

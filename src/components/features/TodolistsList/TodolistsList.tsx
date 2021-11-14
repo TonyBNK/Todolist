@@ -1,11 +1,11 @@
 import {useSelector} from "react-redux";
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useEffect, useMemo} from "react";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {AddItemForm} from "../common/AddItemForm/AddItemForm";
+import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
-import {authSelector, todolistsSelector} from "../../redux/selectors";
-import {useActions} from "../../redux/store";
+import {authSelector, todolistsSelector} from "../../../redux/selectors";
+import {useActions} from "../../../redux/store";
 import {todolistsActions} from "./index";
 
 

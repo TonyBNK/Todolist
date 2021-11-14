@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import c from './FilterButtons.module.css';
 import {Button} from "@material-ui/core";
-import {TodolistType} from "../../../../types/types";
+import {TodolistType} from "../../../../../types/types";
 
 
 export type FilterButtonsType = {

@@ -10,7 +10,7 @@ import {
 } from "../../types/types";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
-    asyncActions as todolistAsyncActions,
+    asyncActions as todolistsAsyncActions,
     clearTodolistsData
 } from "./TodolistsReducer";
 import {setAppStatus} from "./AppReducer";
@@ -105,7 +105,7 @@ export const asyncActions = {
     deleteTask
 }
 
-const {getTodolists, createTodolist, deleteTodolist} = todolistAsyncActions;
+const {getTodolists, createTodolist, deleteTodolist} = todolistsAsyncActions;
 
 const tasksSlice = createSlice({
     name: 'tasks',
