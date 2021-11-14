@@ -4,8 +4,8 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import {RemoveCircleOutline} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../../types/types";
-import {useDispatch} from "react-redux";
-import {deleteTask, updateTask} from "../../../../redux/reducers/TasksReducer";
+import {useActions} from "../../../../redux/store";
+import {tasksActions} from "../../index";
 
 
 export type TaskPropsType = {
@@ -16,20 +16,20 @@ export const Task: React.FC<TaskPropsType> = React.memo((
         taskModel
     }
 ) => {
-    const dispatch = useDispatch();
+    const {deleteTask, updateTask} = useActions(tasksActions);
 
     const onRemoveTaskHandler = useCallback(() => {
         const [id, todoListId] = [taskModel.id, taskModel.todoListId];
-        dispatch(deleteTask({id, todoListId}));
-    }, [dispatch, taskModel.id, taskModel.todoListId]);
+        deleteTask({id, todoListId});
+    }, [taskModel.id, taskModel.todoListId]);
 
     const changeTitle = useCallback((newTitle: string) => {
-        dispatch(updateTask({...taskModel, title: newTitle}));
-    }, [dispatch, taskModel]);
+        updateTask({...taskModel, title: newTitle});
+    }, [taskModel]);
 
     const changeStatus = useCallback((newStatus: TaskStatuses) => {
-        dispatch(updateTask({...taskModel, status: newStatus}));
-    }, [dispatch, taskModel]);
+        updateTask({...taskModel, status: newStatus});
+    }, [taskModel]);
 
     const onChangeStatusHandler = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {

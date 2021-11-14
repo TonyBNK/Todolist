@@ -5,7 +5,7 @@ import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {
     FilterType,
     RootStateType,
@@ -14,10 +14,9 @@ import {
     TodolistType
 } from "../../../types/types";
 import {Task} from "./Task/Task";
-import {createTask, getTasks} from "../../../redux/reducers/TasksReducer";
 import {authSelector} from "../../../redux/selectors";
 import {useActions} from "../../../redux/store";
-import {todolistsActions} from "../index";
+import {tasksActions, todolistsActions} from "../index";
 
 
 type TodolistPropsType = {
@@ -30,8 +29,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         demo = false
     }
 ) => {
-    const dispatch = useDispatch();
     const {updateTodolist, deleteTodolist} = useActions(todolistsActions);
+    const {createTask, getTasks} = useActions(tasksActions);
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
@@ -53,8 +52,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
 
     const addTask = useCallback((title: string) => {
         const todoListId = todolistModel.id;
-        dispatch(createTask({title, todoListId}));
-    }, [dispatch, todolistModel.id]);
+        createTask({title, todoListId});
+    }, [todolistModel.id]);
 
     const changeTodolist = useCallback((newTitle: string) => {
         updateTodolist({...todolistModel, title: newTitle});
@@ -75,7 +74,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         if (demo || !isLogged) {
             return
         }
-        dispatch(getTasks(todolistModel.id));
+        getTasks(todolistModel.id);
     }, []);
 
     return (

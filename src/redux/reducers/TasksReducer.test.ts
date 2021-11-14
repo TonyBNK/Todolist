@@ -1,8 +1,5 @@
 import {
-    createTask,
-    deleteTask,
-    getTasks,
-    TasksReducer, updateTask
+    TasksReducer
 } from "./TasksReducer";
 import {
     TaskPriorities,
@@ -11,6 +8,12 @@ import {
     TaskType, TodolistType
 } from "../../types/types";
 import {createTodolist, deleteTodolist} from "../actions/TodolistsActions";
+import {
+    createTask,
+    deleteTask,
+    getTasks,
+    updateTask
+} from "../actions/TasksActions";
 
 
 let tasks: TasksType;
