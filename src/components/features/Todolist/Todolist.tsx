@@ -19,7 +19,7 @@ import {
     deleteTodolist,
     updateTodolist
 } from "../../../redux/reducers/TodolistsReducer";
-import {selectIsLogged} from "../../../redux/selectors/AuthSelector";
+import {authSelector} from "../../../redux/selectors";
 
 
 type TodolistPropsType = {
@@ -37,7 +37,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
     );
-    const isLogged = useSelector(selectIsLogged);
+    const isLogged = useSelector(authSelector.selectIsLogged);
 
     const filter = todolistModel.filter;
 

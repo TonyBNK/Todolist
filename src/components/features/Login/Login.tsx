@@ -14,12 +14,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {FormikErrorType, RootDispatchType} from "../../../types/types";
 import {Redirect} from "react-router-dom";
 import {logIn} from "../../../redux/reducers/AuthReducer";
-import {selectIsLogged} from "../../../redux/selectors/AuthSelector";
+import {authSelector} from "../../../redux/selectors";
 
 
 export const Login = () => {
     const dispatch = useDispatch<RootDispatchType>();
-    const isLogged = useSelector(selectIsLogged);
+    const isLogged = useSelector(authSelector.selectIsLogged);
 
     const formik = useFormik({
         initialValues: {

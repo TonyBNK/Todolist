@@ -18,7 +18,7 @@ import {Login} from "./components/features/Login/Login";
 import {logOut} from "./redux/reducers/AuthReducer";
 import {setAppInitialize} from "./redux/reducers/AppReducer";
 import {selectAppVariables} from "./redux/selectors/AppSelector";
-import {selectIsLogged} from "./redux/selectors/AuthSelector";
+import {authSelector} from "./redux/selectors";
 
 
 type AppPropsType = {
@@ -30,7 +30,7 @@ const App: React.FC<AppPropsType> = React.memo((
     }
 ) => {
     const {status, isInitialized} = useSelector(selectAppVariables);
-    const isLogged = useSelector(selectIsLogged);
+    const isLogged = useSelector(authSelector.selectIsLogged);
 
     const dispatch = useDispatch();
 

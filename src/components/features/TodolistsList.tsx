@@ -6,9 +6,10 @@ import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
 import {
-    createTodolist, getTodolists
+    createTodolist,
+    getTodolists
 } from "../../redux/reducers/TodolistsReducer";
-import {selectIsLogged} from "../../redux/selectors/AuthSelector";
+import {authSelector} from "../../redux/selectors";
 
 
 type TodolistsPropsType = {
@@ -20,7 +21,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
     }
 ) => {
     const dispatch = useDispatch();
-    const isLogged = useSelector(selectIsLogged);
+    const isLogged = useSelector(authSelector.selectIsLogged);
 
     useEffect(() => {
         if (demo || !isLogged) {
