@@ -1,8 +1,12 @@
 import {TodolistType} from "../../types/types";
 import {
-    changeTodolistStatus, createTodolist, deleteTodolist,
-    TodolistsReducer, updateTodolist
+    changeTodolistStatus, TodolistsReducer
 } from "./TodolistsReducer";
+import {
+    createTodolist,
+    deleteTodolist,
+    updateTodolist
+} from "../actions/TodolistsActions";
 
 
 let todolists: Array<TodolistType>;

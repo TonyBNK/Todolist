@@ -10,7 +10,7 @@ import {
     TasksType,
     TaskType, TodolistType
 } from "../../types/types";
-import {createTodolist, deleteTodolist} from "./TodolistsReducer";
+import {createTodolist, deleteTodolist} from "../actions/TodolistsActions";
 
 
 let tasks: TasksType;

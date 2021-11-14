@@ -15,11 +15,9 @@ import {
 } from "../../../types/types";
 import {Task} from "./Task/Task";
 import {createTask, getTasks} from "../../../redux/reducers/TasksReducer";
-import {
-    deleteTodolist,
-    updateTodolist
-} from "../../../redux/reducers/TodolistsReducer";
 import {authSelector} from "../../../redux/selectors";
+import {useActions} from "../../../redux/store";
+import {todolistsActions} from "../index";
 
 
 type TodolistPropsType = {
@@ -33,6 +31,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }
 ) => {
     const dispatch = useDispatch();
+    const {updateTodolist, deleteTodolist} = useActions(todolistsActions);
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
@@ -49,8 +48,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }
 
     const onRemoveTodolistHandler = useCallback(() => {
-        dispatch(deleteTodolist(todolistModel.id));
-    }, [dispatch, todolistModel]);
+        deleteTodolist(todolistModel.id);
+    }, [todolistModel]);
 
     const addTask = useCallback((title: string) => {
         const todoListId = todolistModel.id;
@@ -58,12 +57,12 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [dispatch, todolistModel.id]);
 
     const changeTodolist = useCallback((newTitle: string) => {
-        dispatch(updateTodolist({...todolistModel, title: newTitle}));
-    }, [dispatch, todolistModel]);
+        updateTodolist({...todolistModel, title: newTitle});
+    }, [todolistModel]);
 
     const changeFilter = useCallback((newFilter: FilterType) => {
-        dispatch(updateTodolist({...todolistModel, filter: newFilter}));
-    }, [dispatch, todolistModel]);
+        updateTodolist({...todolistModel, filter: newFilter});
+    }, [todolistModel]);
 
     const tasksList = useMemo(() => {
         if (tasks){

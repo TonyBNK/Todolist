@@ -1,15 +1,13 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import React, {useCallback, useEffect, useMemo} from "react";
 import {RootStateType, TodolistType} from "../../types/types";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
-import {
-    createTodolist,
-    getTodolists
-} from "../../redux/reducers/TodolistsReducer";
 import {authSelector} from "../../redux/selectors";
+import {useActions} from "../../redux/store";
+import {todolistsActions} from "./index";
 
 
 type TodolistsPropsType = {
@@ -20,14 +18,14 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
         demo = false
     }
 ) => {
-    const dispatch = useDispatch();
     const isLogged = useSelector(authSelector.selectIsLogged);
+    const {createTodolist, getTodolists} = useActions(todolistsActions);
 
     useEffect(() => {
         if (demo || !isLogged) {
             return
         }
-        dispatch(getTodolists());
+        getTodolists();
     }, []);
 
     const todolists = useSelector<RootStateType, Array<TodolistType>>(
@@ -50,8 +48,8 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
     }, [todolists, demo]);
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(createTodolist(title));
-    }, [dispatch]);
+       createTodolist(title);
+    }, []);
 
     if (!isLogged) {
         return <Redirect to={'/login'}/>

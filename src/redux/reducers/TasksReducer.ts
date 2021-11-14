@@ -10,10 +10,7 @@ import {
 } from "../../types/types";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
-    clearTodolistsData,
-    createTodolist,
-    deleteTodolist,
-    getTodolists
+    clearTodolistsData
 } from "./TodolistsReducer";
 import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
@@ -21,6 +18,11 @@ import {
     handleServerAppError,
     handleServerNetworkError
 } from "../../utils/utils";
+import {
+    createTodolist,
+    deleteTodolist,
+    getTodolists
+} from "../actions/TodolistsActions";
 
 
 export const getTasks = createAsyncThunk<GetTasksResolved, string, ThunkAPIConfigType>(
