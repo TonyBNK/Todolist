@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo} from "react";
-import c from './Todolist.module.css';
+import c from './Todolist.module.scss';
 import {FilterButtons} from "./FilterButtons/FilterButtons";
 import {AddItemForm} from "../../../common/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
@@ -16,6 +16,7 @@ import {Task} from "./Task/Task";
 import {authSelector} from "../../../../redux/selectors";
 import {useActions} from "../../../../redux/store";
 import {tasksActions, todolistsActions} from "../index";
+import {Paper} from "@mui/material";
 
 
 type TodolistPropsType = {
@@ -54,7 +55,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [todolistModel.id]);
 
     const tasksList = useMemo(() => {
-        if (tasks){
+        if (tasks) {
             return tasks.map(t => <Task taskModel={t}/>)
         }
         return null;
@@ -68,20 +69,23 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, []);
 
     return (
-        <div
+        <Paper
+            elevation={3}
             key={todolistModel.id}
-            className={c.todolist}>
+            className={c.todolistContainer}
+        >
+            <IconButton
+                onClick={onRemoveTodolistHandler}
+                disabled={todolistModel.entityStatus === 'loading'}
+                style={{position: 'absolute', right: 0, top: 0}}
+            >
+                <DeleteOutline color={"primary"}/>
+            </IconButton>
             <h3>
                 <EditableSpan
                     item={todolistModel}
                     changeItem={updateTodolist}
                 />
-                <IconButton
-                    onClick={onRemoveTodolistHandler}
-                    disabled={todolistModel.entityStatus === 'loading'}
-                >
-                    <DeleteOutline color={"primary"}/>
-                </IconButton>
             </h3>
             <AddItemForm
                 addItem={addTask}
@@ -89,13 +93,16 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
             />
             <div>
                 {
-                    tasksList
+                    tasksList?.length
+                        ? tasksList
+                        : <div style={{opacity: 0.5, textAlign: 'center', margin: '10px 0'}}>No
+                            tasks</div>
                 }
             </div>
             <FilterButtons
                 item={todolistModel}
                 changeItem={updateTodolist}
             />
-        </div>
+        </Paper>
     );
 });

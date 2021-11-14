@@ -31,15 +31,12 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
 
     const listOfTodolists = useMemo(() => {
         return todolists.map(tl => <Grid item>
-                <Paper
-                    elevation={3}
-                    style={{padding: '20px', marginTop: '40px'}}
-                >
+                <div style={{marginTop: '40px'}}>
                     <Todolist
                         todolistModel={tl}
                         demo={demo}
                     />
-                </Paper>
+                </div>
             </Grid>
         )
     }, [todolists, demo]);
@@ -55,7 +52,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
                     <AddItemForm addItem={createTodolist}/>
                 </Paper>
             </Grid>
-            <Grid container spacing={7}>
+            <Grid container spacing={4} style={{flexWrap: 'nowrap', overflowX: 'scroll', height: '80vh'}}>
                 {
                     listOfTodolists
                 }

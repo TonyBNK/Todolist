@@ -1,0 +1,21 @@
+.todolistContainer {
+  width: 260px;
+  position: relative;
+  padding: 20px;
+}
+
+.completed {
+  opacity: 0.5;
+}
+
+.error {
+  border: red 2px solid;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.isDone {
+  opacity: 0.5;
+}
