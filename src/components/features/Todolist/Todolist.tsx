@@ -54,10 +54,6 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         createTask({title, todoListId: todolistModel.id});
     }, [todolistModel.id]);
 
-    const changeTodolist = useCallback((newTitle: string) => {
-        updateTodolist({...todolistModel, title: newTitle});
-    }, [todolistModel]);
-
     const tasksList = useMemo(() => {
         if (tasks){
             return tasks.map(t => <Task taskModel={t}/>)
@@ -78,9 +74,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
             className={c.todolist}>
             <h3>
                 <EditableSpan
-                    title={todolistModel.title}
-                    onChangeTitle={changeTodolist}
-                    entityStatus={todolistModel.entityStatus}
+                    item={todolistModel}
+                    changeItem={updateTodolist}
                 />
                 <IconButton
                     onClick={onRemoveTodolistHandler}

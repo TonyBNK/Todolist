@@ -22,10 +22,6 @@ export const Task: React.FC<TaskPropsType> = React.memo((
         deleteTask({id: taskModel.id, todoListId: taskModel.todoListId});
     }, [taskModel.id, taskModel.todoListId]);
 
-    const changeTitle = useCallback((newTitle: string) => {
-        updateTask({...taskModel, title: newTitle});
-    }, [taskModel]);
-
     const changeStatus = useCallback((newStatus: TaskStatuses) => {
         updateTask({...taskModel, status: newStatus});
     }, [taskModel]);
@@ -46,8 +42,8 @@ export const Task: React.FC<TaskPropsType> = React.memo((
             checked={taskModel.status === TaskStatuses.Completed}
         />
         <EditableSpan
-            title={taskModel.title}
-            onChangeTitle={changeTitle}
+            item={taskModel}
+            changeItem={updateTask}
         />
         <IconButton
             onClick={onRemoveTaskHandler}

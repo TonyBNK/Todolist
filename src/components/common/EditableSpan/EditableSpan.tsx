@@ -1,21 +1,21 @@
 import React, {ChangeEvent, useCallback, useState} from "react";
 import {TextField} from "@material-ui/core";
-import {RequestStatusType} from "../../../types/types";
+import {TaskType, TodolistType} from "../../../types/types";
 
 export type EditableSpanPropsType = {
-    title: string
-    onChangeTitle: (newTitle: string) => void
-    entityStatus?: RequestStatusType
+    item: TodolistType | TaskType
+    changeItem: (model: any) => void // todo: delete any type
 }
 export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((
     {
-        title,
-        onChangeTitle,
-        entityStatus
+        item,
+        changeItem
     }
 ) => {
     const [editMode, setEditMode] = useState(false);
     const [itemTitle, setItemTitle] = useState('');
+
+    const {title, entityStatus} = item as TodolistType;
 
     const onSetEditModeHandler = useCallback(() => {
         setEditMode(true);
@@ -24,8 +24,8 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((
 
     const onSetViewModeHandler = useCallback(() => {
         setEditMode(false);
-        onChangeTitle(itemTitle);
-    }, [onChangeTitle, itemTitle]);
+        changeItem({...item, title: itemTitle});
+    }, [changeItem, itemTitle]);
 
     const onChangeTitleHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setItemTitle(e.currentTarget.value);
