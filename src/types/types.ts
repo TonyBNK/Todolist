@@ -138,3 +138,9 @@ export type DeleteTaskResolved = {
     id: string
     todoListId: string
 }
+
+//AddItemForm types
+export type AddItemFormSubmitHelperType = {
+    setError: (error: string) => void,
+    setTitle: (title: string) => void
+}

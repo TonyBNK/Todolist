@@ -1,40 +1,39 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {IconButton, TextField} from "@material-ui/core";
 import {AddCircleOutline} from "@material-ui/icons";
-import {RequestStatusType} from "../../../types/types";
+import {AddItemFormSubmitHelperType} from "../../../types/types";
 
 
 export type AddItemFormPropsType = {
-    addItem: (title: string, todoListId?: string) => void
-    entityStatus?: RequestStatusType
+    addItem: (title: string, helper: AddItemFormSubmitHelperType) => void
+    disabled?: boolean
 }
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
     {
         addItem,
-        entityStatus
+        disabled = false
     }
 ) => {
-    let [newItem, setNewItem] = useState<string>('');
+    let [title, setTitle] = useState('');
     let [error, setError] = useState<string | null>(null);
 
-    const onAddItemHandler = useCallback(() => {
-        if (newItem.trim()) {
-            addItem(newItem.trim());
-            setNewItem('');
+    const onAddItemHandler = useCallback(async () => {
+        if (title.trim() !== '') {
+            addItem(title, {setError, setTitle})
         } else {
-            setError("Title is required!");
+            setError('Title is required')
         }
-    }, [addItem, newItem]);
+    }, [addItem, title]);
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setNewItem(e.currentTarget.value);
+        setTitle(e.currentTarget.value);
     }, []);
 
     const onEnterPressHandler = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            if (newItem.trim()) {
-                addItem(newItem.trim());
-                setNewItem('');
+            if (title.trim()) {
+                onAddItemHandler();
+                setTitle('');
             } else {
                 setError("Title is required!");
             }
@@ -43,23 +42,37 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
                 setError(null);
             }
         }
-    }, [addItem, newItem, error]);
+    }, [onAddItemHandler, title, error]);
 
     return (
+        // <div>
+        //     <TextField
+        //         onChange={onChangeHandler}
+        //         onKeyPress={onEnterPressHandler}
+        //         value={newItem}
+        //         error={!!error}
+        //         helperText={error}
+        //         label={'Add item'}
+        //         disabled={entityStatus === 'loading'}
+        //     />
+        //     <IconButton
+        //         onClick={onAddItemHandler}
+        //         disabled={entityStatus === 'loading'}
+        //     >
+        //         <AddCircleOutline color={'primary'}/>
+        //     </IconButton>
+        // </div>
         <div>
-            <TextField
-                onChange={onChangeHandler}
-                onKeyPress={onEnterPressHandler}
-                value={newItem}
-                error={!!error}
-                helperText={error}
-                label={'Add item'}
-                disabled={entityStatus === 'loading'}
+            <TextField variant="outlined"
+                       disabled={disabled}
+                       error={!!error}
+                       value={title}
+                       onChange={onChangeHandler}
+                       onKeyPress={onEnterPressHandler}
+                       label="Title"
+                       helperText={error}
             />
-            <IconButton
-                onClick={onAddItemHandler}
-                disabled={entityStatus === 'loading'}
-            >
+            <IconButton color="primary" onClick={onAddItemHandler} disabled={disabled} style={{marginLeft: '5px'}}>
                 <AddCircleOutline color={'primary'}/>
             </IconButton>
         </div>

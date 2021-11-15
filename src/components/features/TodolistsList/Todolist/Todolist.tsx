@@ -5,8 +5,9 @@ import {AddItemForm} from "../../../common/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
+    AddItemFormSubmitHelperType,
     RootStateType,
     TaskStatuses,
     TaskType,
@@ -31,6 +32,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
 ) => {
     const {updateTodolist, deleteTodolist} = useActions(todolistsActions);
     const {createTask, getTasks} = useActions(tasksActions);
+    const dispatch = useDispatch();
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
@@ -50,8 +52,22 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
         deleteTodolist(todolistModel.id);
     }, [todolistModel]);
 
-    const addTask = useCallback((title: string) => {
+    const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
         createTask({title, todoListId: todolistModel.id});
+
+        // let thunk = tasksActions.createTask({title, todoListId: todolistModel.id});
+        // const resultAction = await dispatch(thunk);
+        //
+        // if (tasksActions.createTask.rejected.match(resultAction)) {
+        //     if (resultAction.payload?.errors?.length) {
+        //         const errorMessage = resultAction.payload?.errors[0];
+        //         helper.setError(errorMessage);
+        //     } else {
+        //         helper.setError('Some error occured');
+        //     }
+        // } else {
+        //     helper.setTitle('');
+        // }
     }, [todolistModel.id]);
 
     const tasksList = useMemo(() => {
@@ -87,10 +103,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
                     changeItem={updateTodolist}
                 />
             </h3>
-            <AddItemForm
-                addItem={addTask}
-                entityStatus={todolistModel.entityStatus}
-            />
+            <AddItemForm addItem={addTaskCallback} disabled={todolistModel.entityStatus === 'loading'}/>
             <div>
                 {
                     tasksList?.length
