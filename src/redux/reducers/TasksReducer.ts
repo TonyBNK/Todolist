@@ -50,10 +50,10 @@ const createTask = createAsyncThunk<CreateTaskResolved, { title: string, todoLis
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
                 handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
-                return rejectWithValue({messages, fieldsErrors})
+                return rejectWithValue({messages, fieldsErrors});
             }
         } catch (err) {
-            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false)
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
         }
 
     });

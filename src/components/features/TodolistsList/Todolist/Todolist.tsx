@@ -53,8 +53,6 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [todolistModel]);
 
     const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
-        //createTask({title, todoListId: todolistModel.id});
-
         const resultAction = await dispatch(tasksActions.createTask({title, todoListId: todolistModel.id}));
 
         if (tasksActions.createTask.rejected.match(resultAction)) {

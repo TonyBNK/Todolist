@@ -1,12 +1,13 @@
 import {useSelector} from "react-redux";
-import React, {useEffect, useMemo} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
 import {authSelector, todolistsSelector} from "../../../redux/selectors";
-import {useActions} from "../../../redux/store";
+import {useActions, useAppDispatch} from "../../../redux/store";
 import {todolistsActions} from "./index";
+import {AddItemFormSubmitHelperType} from "../../../types/types";
 
 
 type TodolistsPropsType = {
@@ -18,7 +19,24 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
     }
 ) => {
     const isLogged = useSelector(authSelector.selectIsLogged);
-    const {createTodolist, getTodolists} = useActions(todolistsActions);
+    const {getTodolists} = useActions(todolistsActions);
+    const dispatch = useAppDispatch();
+
+    const addTodolistCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
+        let thunk = todolistsActions.createTodolist(title)
+        const resultAction = await dispatch(thunk)
+
+        if (todolistsActions.createTodolist.rejected.match(resultAction)) {
+            if (resultAction.payload?.messages?.length) {
+                const errorMessage = resultAction.payload?.messages[0]
+                helper.setError(errorMessage)
+            } else {
+                helper.setError('Some error occured')
+            }
+        } else {
+            helper.setTitle('')
+        }
+    }, []);
 
     useEffect(() => {
         if (demo || !isLogged) {
@@ -49,7 +67,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
         <Container>
             <Grid container>
                 <Paper style={{padding: '20px', marginTop: '20px'}}>
-                    <AddItemForm addItem={createTodolist}/>
+                    <AddItemForm addItem={addTodolistCallback}/>
                 </Paper>
             </Grid>
             <Grid container spacing={4} style={{flexWrap: 'nowrap', overflowX: 'scroll', height: '80vh'}}>

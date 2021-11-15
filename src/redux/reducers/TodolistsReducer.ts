@@ -13,9 +13,11 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
 import {
+    handleAsyncServerAppError, handleAsyncServerNetworkError,
     handleServerAppError,
     handleServerNetworkError
 } from "../../utils/error-utils";
+import {AxiosError} from "axios";
 
 
 const getTodolists = createAsyncThunk<GetTodolistsResolved, void, ThunkAPIConfigType>(
@@ -42,12 +44,11 @@ const createTodolist = createAsyncThunk<CreateTodolistResolved, string, ThunkAPI
                 return {todolist: response.data.data.item};
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleServerAppError(dispatch, messages);
+                handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
                 return rejectWithValue({messages, fieldsErrors});
             }
-        } catch (e: any) {
-            handleServerNetworkError(dispatch, e.message);
-            return rejectWithValue({messages: [e.message]});
+        } catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
         }
     });
 const updateTodolist = createAsyncThunk<UpdateTodolistResolved, TodolistType, ThunkAPIConfigType>(

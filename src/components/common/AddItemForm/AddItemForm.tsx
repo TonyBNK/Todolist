@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {IconButton, TextField} from "@material-ui/core";
 import {AddCircleOutline} from "@material-ui/icons";
 import {AddItemFormSubmitHelperType} from "../../../types/types";
+import c from "./AddItemForm.module.scss";
 
 
 export type AddItemFormPropsType = {
@@ -33,7 +34,6 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
         if (e.key === 'Enter') {
             if (title.trim()) {
                 onAddItemHandler();
-                setTitle('');
             } else {
                 setError("Title is required!");
             }
@@ -45,24 +45,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
     }, [onAddItemHandler, title, error]);
 
     return (
-        // <div>
-        //     <TextField
-        //         onChange={onChangeHandler}
-        //         onKeyPress={onEnterPressHandler}
-        //         value={newItem}
-        //         error={!!error}
-        //         helperText={error}
-        //         label={'Add item'}
-        //         disabled={entityStatus === 'loading'}
-        //     />
-        //     <IconButton
-        //         onClick={onAddItemHandler}
-        //         disabled={entityStatus === 'loading'}
-        //     >
-        //         <AddCircleOutline color={'primary'}/>
-        //     </IconButton>
-        // </div>
-        <div>
+        <div className={c.addItemFormContainer}>
             <TextField
                 disabled={disabled}
                 error={!!error}
@@ -71,6 +54,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
                 onKeyPress={onEnterPressHandler}
                 label='Add item'
                 helperText={error}
+                style={{maxWidth: '200px'}}
             />
             <IconButton color="primary" onClick={onAddItemHandler}
                         disabled={disabled} style={{marginLeft: '5px'}}>
