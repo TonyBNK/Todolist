@@ -5,7 +5,7 @@ import {AddItemForm} from "../../../common/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {DeleteOutline} from "@material-ui/icons";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {
     AddItemFormSubmitHelperType,
     RootStateType,
@@ -15,7 +15,7 @@ import {
 } from "../../../../types/types";
 import {Task} from "./Task/Task";
 import {authSelector} from "../../../../redux/selectors";
-import {useActions} from "../../../../redux/store";
+import {useActions, useAppDispatch} from "../../../../redux/store";
 import {tasksActions, todolistsActions} from "../index";
 import {Paper} from "@mui/material";
 
@@ -32,7 +32,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
 ) => {
     const {updateTodolist, deleteTodolist} = useActions(todolistsActions);
     const {createTask, getTasks} = useActions(tasksActions);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
         state => state.tasks[todolistModel.id]
@@ -53,21 +53,20 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [todolistModel]);
 
     const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
-        createTask({title, todoListId: todolistModel.id});
+        //createTask({title, todoListId: todolistModel.id});
 
-        // let thunk = tasksActions.createTask({title, todoListId: todolistModel.id});
-        // const resultAction = await dispatch(thunk);
-        //
-        // if (tasksActions.createTask.rejected.match(resultAction)) {
-        //     if (resultAction.payload?.errors?.length) {
-        //         const errorMessage = resultAction.payload?.errors[0];
-        //         helper.setError(errorMessage);
-        //     } else {
-        //         helper.setError('Some error occured');
-        //     }
-        // } else {
-        //     helper.setTitle('');
-        // }
+        const resultAction = await dispatch(createTask({title, todoListId: todolistModel.id}));
+
+        if (createTask.rejected.match(resultAction)) {
+            if (resultAction.payload?.messages?.length) {
+                const errorMessage = resultAction.payload?.messages[0];
+                helper.setError(errorMessage);
+            } else {
+                helper.setError('Some error occurred');
+            }
+        } else {
+            helper.setTitle('');
+        }
     }, [todolistModel.id]);
 
     const tasksList = useMemo(() => {

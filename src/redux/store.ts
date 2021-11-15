@@ -32,3 +32,6 @@ export const useActions = <T extends ActionCreatorsMapObject>(actions: T) => {
         return  bindActionCreators(actions, dispatch);
     }, []);
 }
+
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatch>()

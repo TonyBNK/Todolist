@@ -63,16 +63,17 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((
         //     </IconButton>
         // </div>
         <div>
-            <TextField variant="outlined"
-                       disabled={disabled}
-                       error={!!error}
-                       value={title}
-                       onChange={onChangeHandler}
-                       onKeyPress={onEnterPressHandler}
-                       label="Title"
-                       helperText={error}
+            <TextField
+                disabled={disabled}
+                error={!!error}
+                value={title}
+                onChange={onChangeHandler}
+                onKeyPress={onEnterPressHandler}
+                label='Add item'
+                helperText={error}
             />
-            <IconButton color="primary" onClick={onAddItemHandler} disabled={disabled} style={{marginLeft: '5px'}}>
+            <IconButton color="primary" onClick={onAddItemHandler}
+                        disabled={disabled} style={{marginLeft: '5px'}}>
                 <AddCircleOutline color={'primary'}/>
             </IconButton>
         </div>

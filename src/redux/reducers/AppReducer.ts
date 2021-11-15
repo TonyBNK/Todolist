@@ -10,7 +10,7 @@ import {setLogged} from "./AuthReducer";
 import {
     handleServerAppError,
     handleServerNetworkError
-} from "../../utils/utils";
+} from "../../utils/error-utils";
 
 
 const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfigType>(

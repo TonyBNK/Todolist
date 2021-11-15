@@ -10,7 +10,7 @@ import {authAPI} from "../../api/todolists-api";
 import {
     handleServerAppError,
     handleServerNetworkError
-} from "../../utils/utils";
+} from "../../utils/error-utils";
 import {clearTodolistsData} from "./TodolistsReducer";
 
 

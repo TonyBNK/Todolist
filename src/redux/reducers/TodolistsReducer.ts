@@ -15,7 +15,7 @@ import {todolistsAPI} from "../../api/todolists-api";
 import {
     handleServerAppError,
     handleServerNetworkError
-} from "../../utils/utils";
+} from "../../utils/error-utils";
 
 
 const getTodolists = createAsyncThunk<GetTodolistsResolved, void, ThunkAPIConfigType>(

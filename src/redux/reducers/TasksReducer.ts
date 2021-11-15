@@ -16,9 +16,11 @@ import {
 import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
 import {
+    handleAsyncServerAppError, handleAsyncServerNetworkError,
     handleServerAppError,
     handleServerNetworkError
-} from "../../utils/utils";
+} from "../../utils/error-utils";
+import {AxiosError} from "axios";
 
 
 const getTasks = createAsyncThunk<GetTasksResolved, string, ThunkAPIConfigType>(
@@ -47,12 +49,11 @@ const createTask = createAsyncThunk<CreateTaskResolved, { title: string, todoLis
                 return {taskModel: response.data.data.item};
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleServerAppError(dispatch, messages);
-                return rejectWithValue({messages, fieldsErrors});
+                handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                return rejectWithValue({messages, fieldsErrors})
             }
-        } catch (e: any) {
-            handleServerNetworkError(dispatch, e.message);
-            return rejectWithValue({messages: [e.message]});
+        } catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false)
         }
 
     });
