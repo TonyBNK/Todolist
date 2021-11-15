@@ -31,7 +31,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }
 ) => {
     const {updateTodolist, deleteTodolist} = useActions(todolistsActions);
-    const {createTask, getTasks} = useActions(tasksActions);
+    const {getTasks} = useActions(tasksActions);
     const dispatch = useAppDispatch();
 
     let tasks = useSelector<RootStateType, Array<TaskType>>(
@@ -55,9 +55,9 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
         //createTask({title, todoListId: todolistModel.id});
 
-        const resultAction = await dispatch(createTask({title, todoListId: todolistModel.id}));
+        const resultAction = await dispatch(tasksActions.createTask({title, todoListId: todolistModel.id}));
 
-        if (createTask.rejected.match(resultAction)) {
+        if (tasksActions.createTask.rejected.match(resultAction)) {
             if (resultAction.payload?.messages?.length) {
                 const errorMessage = resultAction.payload?.messages[0];
                 helper.setError(errorMessage);
