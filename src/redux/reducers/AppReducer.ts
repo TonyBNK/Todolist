@@ -10,8 +10,7 @@ import {
     handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
-import {appActions} from "../actions/AppActions";
-import {authActions} from "../actions/AuthActions";
+import {appActions, authActions} from "../actions";
 
 
 const {setAppStatus, setAppError} = appActions;

@@ -10,9 +10,9 @@ import {
     handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
-import {appActions} from "../actions/AppActions";
-import {authActions} from "../actions/AuthActions";
-import {todolistsActions} from "../actions/TodolistsActions";
+import {appActions} from "../actions";
+import {authActions} from "../actions";
+import {todolistsActions} from "../actions";
 
 
 const {setAppStatus} = appActions;

@@ -17,8 +17,8 @@ import {
     handleAsyncServerAppError, handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
-import {appActions} from "../actions/AppActions";
-import {todolistsActions} from "../actions/TodolistsActions";
+import {appActions} from "../actions";
+import {todolistsActions} from "../actions";
 
 
 const {setAppStatus} = appActions;

@@ -15,8 +15,8 @@ import {
     handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
-import {appActions} from "../actions/AppActions";
-import {todolistsActions} from "../actions/TodolistsActions";
+import {appActions} from "../actions";
+import {todolistsActions} from "../actions";
 
 
 const {setAppStatus} = appActions;
@@ -31,7 +31,10 @@ const getTodolists = createAsyncThunk<GetTodolistsResolved, void, ThunkAPIConfig
             dispatch(setAppStatus({status: 'succeeded'}));
             return {todolists: response.data};
         } catch (err) {
-            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
+            return handleAsyncServerNetworkError(err as AxiosError, {
+                dispatch,
+                rejectWithValue
+            }, false);
         }
     });
 const createTodolist = createAsyncThunk<CreateTodolistResolved, string, ThunkAPIConfigType>(
@@ -45,12 +48,18 @@ const createTodolist = createAsyncThunk<CreateTodolistResolved, string, ThunkAPI
                 return {todolist: response.data.data.item};
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                handleAsyncServerAppError(response.data, {
+                    dispatch,
+                    rejectWithValue
+                }, false);
                 return rejectWithValue({messages, fieldsErrors});
                 // return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
             }
         } catch (err) {
-            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
+            return handleAsyncServerNetworkError(err as AxiosError, {
+                dispatch,
+                rejectWithValue
+            }, false);
         }
     });
 const updateTodolist = createAsyncThunk<UpdateTodolistResolved, TodolistType, ThunkAPIConfigType>(
@@ -63,10 +72,16 @@ const updateTodolist = createAsyncThunk<UpdateTodolistResolved, TodolistType, Th
                 dispatch(setAppStatus({status: 'succeeded'}));
                 return {todolist: payload};
             } else {
-                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
+                return handleAsyncServerAppError(response.data, {
+                    dispatch,
+                    rejectWithValue
+                });
             }
         } catch (err) {
-            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
+            return handleAsyncServerNetworkError(err as AxiosError, {
+                dispatch,
+                rejectWithValue
+            }, false);
         }
     });
 const deleteTodolist = createAsyncThunk<DeleteTodolistResolved, string, ThunkAPIConfigType>(
@@ -80,10 +95,16 @@ const deleteTodolist = createAsyncThunk<DeleteTodolistResolved, string, ThunkAPI
                 dispatch(setAppStatus({status: 'succeeded'}));
                 return {id};
             } else {
-                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
+                return handleAsyncServerAppError(response.data, {
+                    dispatch,
+                    rejectWithValue
+                });
             }
         } catch (err) {
-            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
+            return handleAsyncServerNetworkError(err as AxiosError, {
+                dispatch,
+                rejectWithValue
+            }, false);
         }
     });
 
@@ -101,36 +122,36 @@ export const todolistsSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(getTodolists.fulfilled, (state, action) => {
-            return action.payload.todolists.map(todo => ({
-                ...todo,
-                filter: 'All',
-                entityStatus: 'idle'
-            }))
-        })
-        .addCase(createTodolist.fulfilled, (state, action) => {
-            state.unshift({
-                ...action.payload.todolist,
-                filter: 'All',
-                entityStatus: 'idle'
-            });
-        })
-        .addCase(updateTodolist.fulfilled, (state, action) => {
-            const index = state.findIndex(todo => todo.id === action.payload.todolist.id);
-            if (index > -1) {
-                state[index] = action.payload.todolist;
-            }
-        })
-        .addCase(deleteTodolist.fulfilled, (state, action) => {
-            const index = state.findIndex(todo => todo.id === action.payload.id);
-            if (index > -1) {
-                state.splice(index, 1);
-            }
-        })
+                return action.payload.todolists.map(todo => ({
+                    ...todo,
+                    filter: 'All',
+                    entityStatus: 'idle'
+                }))
+            })
+            .addCase(createTodolist.fulfilled, (state, action) => {
+                state.unshift({
+                    ...action.payload.todolist,
+                    filter: 'All',
+                    entityStatus: 'idle'
+                });
+            })
+            .addCase(updateTodolist.fulfilled, (state, action) => {
+                const index = state.findIndex(todo => todo.id === action.payload.todolist.id);
+                if (index > -1) {
+                    state[index] = action.payload.todolist;
+                }
+            })
+            .addCase(deleteTodolist.fulfilled, (state, action) => {
+                const index = state.findIndex(todo => todo.id === action.payload.id);
+                if (index > -1) {
+                    state.splice(index, 1);
+                }
+            })
             .addCase(changeTodolistStatus, (state, action) => {
                 const index = state.findIndex(todo => todo.id === action.payload.id);
-                    if (index > -1) {
-                        state[index].entityStatus = action.payload.entityStatus
-                    }
+                if (index > -1) {
+                    state[index].entityStatus = action.payload.entityStatus
+                }
             })
             .addCase(clearTodolistsData, (state) => {
                 state = [];
