@@ -1,10 +1,10 @@
 import {AppRequestType} from "../../types/types";
-import {
-    AppReducer,
-    setAppError, setAppInitialize,
-    setAppStatus
-} from "./AppReducer";
+import {AppReducer, asyncActions as appAsyncActions} from "./AppReducer";
+import {appActions} from "../actions";
 
+
+const {setAppStatus, setAppError} = appActions;
+const {setAppInitialize} = appAsyncActions;
 
 let initialState: AppRequestType;
 
@@ -34,4 +34,3 @@ test('app initialization should be changed', () => {
     ));
     expect(newState.isInitialized).toBeTruthy();
 });
-

@@ -1,6 +1,9 @@
 import {AuthStateType} from "../../types/types";
-import {AuthReducer, setLogged} from "./AuthReducer";
+import {AuthReducer} from "./AuthReducer";
+import {authActions} from "../actions";
 
+
+const {setLogged} = authActions;
 
 let initialState: AuthStateType;
 

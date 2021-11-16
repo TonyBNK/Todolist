@@ -1,4 +1,5 @@
 import {
+    asyncActions as taskAsyncActions,
     TasksReducer
 } from "./TasksReducer";
 import {
@@ -7,14 +8,11 @@ import {
     TasksType,
     TaskType, TodolistType
 } from "../../types/types";
-import {createTodolist, deleteTodolist} from "../actions/TodolistsActions";
-import {
-    createTask,
-    deleteTask,
-    getTasks,
-    updateTask
-} from "../actions/TasksActions";
+import {asyncActions as todolistsAsyncActions} from "./TodolistsReducer";
 
+
+const {getTasks, updateTask, createTask, deleteTask} = taskAsyncActions;
+const {createTodolist, deleteTodolist} = todolistsAsyncActions;
 
 let tasks: TasksType;
 let newTask: TaskType;

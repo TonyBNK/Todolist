@@ -1,13 +1,10 @@
 import {TodolistType} from "../../types/types";
-import {
-    changeTodolistStatus, TodolistsReducer
-} from "./TodolistsReducer";
-import {
-    createTodolist,
-    deleteTodolist,
-    updateTodolist
-} from "../actions/TodolistsActions";
+import {asyncActions, TodolistsReducer} from "./TodolistsReducer";
+import {todolistsActions} from "../actions";
 
+
+const {createTodolist, updateTodolist, deleteTodolist} = asyncActions;
+const {changeTodolistStatus} = todolistsActions;
 
 let todolists: Array<TodolistType>;
 let newTodolist: TodolistType;
