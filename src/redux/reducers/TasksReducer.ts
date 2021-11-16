@@ -68,13 +68,10 @@ const updateTask = createAsyncThunk<UpdateTaskResolved, TaskType, ThunkAPIConfig
                 dispatch(setAppStatus({status: 'succeeded'}));
                 return {taskModel: response.data.data.item};
             } else {
-                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleServerAppError(dispatch, messages);
-                return rejectWithValue({messages, fieldsErrors});
+                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
             }
-        } catch (e: any) {
-            handleServerNetworkError(dispatch, e.message);
-            return rejectWithValue({messages: [e.message]});
+        } catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
         }
     });
 const deleteTask = createAsyncThunk<DeleteTaskResolved, { id: string, todoListId: string }, ThunkAPIConfigType>(

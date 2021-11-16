@@ -70,8 +70,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [todolistModel.id]);
 
     const changeTodolistTitle = useCallback((title: string) => {
-        updateTodolist({...todolistModel, title})
-    }, [todolistModel, updateTodolist]);
+        dispatch(todolistsActions.updateTodolist({...todolistModel, title}));
+    }, [todolistModel, dispatch]);
 
     const tasksList = useMemo(() => {
         if (tasks) {

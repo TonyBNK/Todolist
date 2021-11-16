@@ -4,7 +4,7 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../../../common/EditableSpan/EditableSpan";
 import {RemoveCircleOutline} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../../../types/types";
-import {useActions} from "../../../../../redux/store";
+import {useActions, useAppDispatch} from "../../../../../redux/store";
 import {tasksActions} from "../../index";
 
 
@@ -17,17 +17,18 @@ export const Task: React.FC<TaskPropsType> = React.memo((
     }
 ) => {
     const {deleteTask, updateTask} = useActions(tasksActions);
+    const dispatch = useAppDispatch();
 
     const onRemoveTaskHandler = useCallback(() => {
         deleteTask({id: taskModel.id, todoListId: taskModel.todoListId});
     }, [taskModel.id, taskModel.todoListId]);
 
     const onChangeTitleHandler = useCallback((newValue: string) => {
-        updateTask({
+        dispatch(tasksActions.updateTask({
             ...taskModel,
             title: newValue
-        })
-    }, [taskModel, updateTask]);
+        }));
+    }, [taskModel, dispatch]);
 
     const onChangeStatusHandler = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {

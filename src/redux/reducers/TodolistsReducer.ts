@@ -61,13 +61,10 @@ const updateTodolist = createAsyncThunk<UpdateTodolistResolved, TodolistType, Th
                 dispatch(setAppStatus({status: 'succeeded'}));
                 return {todolist: payload};
             } else {
-                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleServerAppError(dispatch, messages);
-                return rejectWithValue({messages, fieldsErrors});
+                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
             }
-        } catch (e: any) {
-            handleServerNetworkError(dispatch, e.message);
-            return rejectWithValue({messages: [e.message]});
+        } catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
         }
     });
 const deleteTodolist = createAsyncThunk<DeleteTodolistResolved, string, ThunkAPIConfigType>(
