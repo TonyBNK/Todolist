@@ -10,13 +10,15 @@ import {
     UpdateTodolistResolved,
 } from "../../types/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
 import {
     handleAsyncServerAppError, handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
+import {appActions} from "../actions/AppActions";
 
+
+const {setAppStatus} = appActions;
 
 const getTodolists = createAsyncThunk<GetTodolistsResolved, void, ThunkAPIConfigType>(
     'todolists/getTodolists',

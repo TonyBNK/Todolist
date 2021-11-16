@@ -3,9 +3,11 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
-import {setAppError} from "../../../redux/reducers/AppReducer";
 import {appSelector} from "../../../redux/selectors";
+import {appActions} from "../../../redux/actions/AppActions";
 
+
+const {setAppError} = appActions;
 
 export const ErrorSnackbar = () => {
     const {error} = useSelector(appSelector.selectAppVariables);

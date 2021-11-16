@@ -13,13 +13,15 @@ import {
     asyncActions as todolistsAsyncActions,
     clearTodolistsData
 } from "./TodolistsReducer";
-import {setAppStatus} from "./AppReducer";
 import {todolistsAPI} from "../../api/todolists-api";
 import {
     handleAsyncServerAppError, handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
+import {appActions} from "../actions/AppActions";
 
+
+const {setAppStatus} = appActions;
 
 const getTasks = createAsyncThunk<GetTasksResolved, string, ThunkAPIConfigType>(
     'tasks/getTasks',

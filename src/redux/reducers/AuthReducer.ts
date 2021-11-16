@@ -5,14 +5,18 @@ import {
     ThunkAPIConfigType
 } from "../../types/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {setAppStatus} from "./AppReducer";
 import {authAPI} from "../../api/todolists-api";
 import {
     handleAsyncServerAppError, handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {clearTodolistsData} from "./TodolistsReducer";
 import {AxiosError} from "axios";
+import {appActions} from "../actions/AppActions";
+import {authActions} from "../actions/AuthActions";
 
+
+const {setAppStatus} = appActions;
+const {setLogged} = authActions;
 
 const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
     'auth/logIn',
@@ -25,11 +29,17 @@ const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
                 dispatch(setAppStatus({status: 'succeeded'}));
             } else {
                 const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                handleAsyncServerAppError(response.data, {
+                    dispatch,
+                    rejectWithValue
+                }, false);
                 return rejectWithValue({messages, fieldsErrors});
             }
         } catch (err) {
-            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
+            return handleAsyncServerNetworkError(err as AxiosError, {
+                dispatch,
+                rejectWithValue
+            }, false);
         }
     });
 const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
@@ -43,14 +53,17 @@ const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(clearTodolistsData());
             } else {
-                // const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                // handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
-                // return rejectWithValue({messages, fieldsErrors});
-                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
+                return handleAsyncServerAppError(response.data, {
+                    dispatch,
+                    rejectWithValue
+                });
             }
 
-        }catch (err) {
-            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
+        } catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {
+                dispatch,
+                rejectWithValue
+            }, false);
         }
     });
 
@@ -64,21 +77,19 @@ export const authSlice = createSlice({
     initialState: {
         isLogged: false
     },
-    reducers: {
-        setLogged(state, action: PayloadAction<LogInResolved>) {
-            state.isLogged = action.payload.isLogged;
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(logIn.fulfilled, (state) => {
-            state.isLogged = true;
-        });
-        builder.addCase(logOut.fulfilled, (state) => {
-            state.isLogged = false;
-        });
+        builder
+            .addCase(logIn.fulfilled, (state) => {
+                state.isLogged = true;
+            })
+            .addCase(logOut.fulfilled, (state) => {
+                state.isLogged = false;
+            })
+            .addCase(setLogged, (state, action) => {
+                state.isLogged = action.payload.isLogged;
+            })
     }
 });
 
 export const AuthReducer = authSlice.reducer;
-
-export const {setLogged} = authSlice.actions;
