@@ -10,15 +10,16 @@ import {
     TextField
 } from "@material-ui/core";
 import {useFormik} from "formik";
-import {useDispatch, useSelector} from "react-redux";
-import {FormikErrorType, RootDispatchType} from "../../../types/types";
+import {useSelector} from "react-redux";
+import {FormikErrorType} from "../../../types/types";
 import {Redirect} from "react-router-dom";
 import {authSelector} from "../../../redux/selectors";
 import {authActions} from "../../../redux/reducers";
+import {useAppDispatch} from "../../../utils/redux-utils";
 
 
 export const Login = () => {
-    const dispatch = useDispatch<RootDispatchType>();
+    const dispatch = useAppDispatch();
     const isLogged = useSelector(authSelector.selectIsLogged);
 
     const formik = useFormik({

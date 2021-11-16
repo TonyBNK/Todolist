@@ -24,10 +24,9 @@ const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
             } else {
-                // const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                // handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
-                // return rejectWithValue({messages, fieldsErrors});
-                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
+                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                return rejectWithValue({messages, fieldsErrors});
             }
         } catch (err) {
             return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);

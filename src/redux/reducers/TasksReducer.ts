@@ -45,10 +45,9 @@ const createTask = createAsyncThunk<CreateTaskResolved, { title: string, todoLis
                 dispatch(setAppStatus({status: 'succeeded'}));
                 return {taskModel: response.data.data.item};
             } else {
-                // const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                // handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
-                // return rejectWithValue({messages, fieldsErrors});
-                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
+                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                return rejectWithValue({messages, fieldsErrors});
             }
         } catch (err) {
             return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
@@ -66,7 +65,9 @@ const updateTask = createAsyncThunk<UpdateTaskResolved, TaskType, ThunkAPIConfig
                 dispatch(setAppStatus({status: 'succeeded'}));
                 return {taskModel: response.data.data.item};
             } else {
-                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
+                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                return rejectWithValue({messages, fieldsErrors});
             }
         } catch (err) {
             return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
