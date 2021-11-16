@@ -53,7 +53,9 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
     }, [todolistModel]);
 
     const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
-        const resultAction = await dispatch(tasksActions.createTask({title, todoListId: todolistModel.id}));
+        const resultAction = await dispatch(tasksActions.createTask({
+            title, todoListId: todolistModel.id
+        }));
 
         if (tasksActions.createTask.rejected.match(resultAction)) {
             if (resultAction.payload?.messages?.length) {
@@ -66,6 +68,10 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
             helper.setTitle('');
         }
     }, [todolistModel.id]);
+
+    const changeTodolistTitle = useCallback((title: string) => {
+        updateTodolist({...todolistModel, title})
+    }, [todolistModel, updateTodolist]);
 
     const tasksList = useMemo(() => {
         if (tasks) {
@@ -96,16 +102,21 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo((
             </IconButton>
             <h3>
                 <EditableSpan
-                    item={todolistModel}
-                    changeItem={updateTodolist}
+                    value={todolistModel.title}
+                    onChange={changeTodolistTitle}
                 />
             </h3>
-            <AddItemForm addItem={addTaskCallback} disabled={todolistModel.entityStatus === 'loading'}/>
+            <AddItemForm addItem={addTaskCallback}
+                         disabled={todolistModel.entityStatus === 'loading'}/>
             <div>
                 {
                     tasksList?.length
                         ? tasksList
-                        : <div style={{opacity: 0.5, textAlign: 'center', margin: '10px 0'}}>No
+                        : <div style={{
+                            opacity: 0.5,
+                            textAlign: 'center',
+                            margin: '10px 0'
+                        }}>No
                             tasks</div>
                 }
             </div>
