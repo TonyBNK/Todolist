@@ -10,8 +10,7 @@ import {
 } from "../../types/types";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
-    asyncActions as todolistsAsyncActions,
-    clearTodolistsData
+    asyncActions as todolistsAsyncActions
 } from "./TodolistsReducer";
 import {todolistsAPI} from "../../api/todolists-api";
 import {
@@ -19,9 +18,11 @@ import {
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
 import {appActions} from "../actions/AppActions";
+import {todolistsActions} from "../actions/TodolistsActions";
 
 
 const {setAppStatus} = appActions;
+const {clearTodolistsData} = todolistsActions;
 
 const getTasks = createAsyncThunk<GetTasksResolved, string, ThunkAPIConfigType>(
     'tasks/getTasks',

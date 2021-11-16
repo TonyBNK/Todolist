@@ -1,22 +1,23 @@
 import {
     LoginDataType,
-    LogInResolved,
     ResultCodes,
     ThunkAPIConfigType
 } from "../../types/types";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {authAPI} from "../../api/todolists-api";
 import {
-    handleAsyncServerAppError, handleAsyncServerNetworkError
+    handleAsyncServerAppError,
+    handleAsyncServerNetworkError
 } from "../../utils/error-utils";
-import {clearTodolistsData} from "./TodolistsReducer";
 import {AxiosError} from "axios";
 import {appActions} from "../actions/AppActions";
 import {authActions} from "../actions/AuthActions";
+import {todolistsActions} from "../actions/TodolistsActions";
 
 
 const {setAppStatus} = appActions;
 const {setLogged} = authActions;
+const {clearTodolistsData} = todolistsActions;
 
 const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
     'auth/logIn',

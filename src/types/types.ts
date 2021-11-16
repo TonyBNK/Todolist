@@ -62,7 +62,6 @@ export type SetAppInitializeResolved = {
     isInitialized: boolean
 };
 export type LogInResolved = AuthStateType;
-export type LogOutResolved = AuthStateType;
 
 // Todolist types
 export type TodolistType = {

@@ -3,22 +3,24 @@ import {
     DeleteTodolistResolved,
     GetTodolistsResolved,
     GetTodolistsType,
-    RequestStatusType,
     ResultCodes,
     ThunkAPIConfigType,
     TodolistType,
     UpdateTodolistResolved,
 } from "../../types/types";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {todolistsAPI} from "../../api/todolists-api";
 import {
-    handleAsyncServerAppError, handleAsyncServerNetworkError
+    handleAsyncServerAppError,
+    handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {AxiosError} from "axios";
 import {appActions} from "../actions/AppActions";
+import {todolistsActions} from "../actions/TodolistsActions";
 
 
 const {setAppStatus} = appActions;
+const {changeTodolistStatus, clearTodolistsData} = todolistsActions;
 
 const getTodolists = createAsyncThunk<GetTodolistsResolved, void, ThunkAPIConfigType>(
     'todolists/getTodolists',
@@ -95,50 +97,45 @@ export const asyncActions = {
 export const todolistsSlice = createSlice({
     name: 'todolists',
     initialState: [] as GetTodolistsType,
-    reducers: {
-        changeTodolistStatus(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {
-            const index = state.findIndex(todo => todo.id === action.payload.id);
-            if (index > -1) {
-                state[index].entityStatus = action.payload.entityStatus
-            }
-        },
-        clearTodolistsData(state) {
-            state = [];
-        }
-    },
+    reducers: {},
     extraReducers: builder => {
-        builder.addCase(getTodolists.fulfilled, (state, action) => {
+        builder
+            .addCase(getTodolists.fulfilled, (state, action) => {
             return action.payload.todolists.map(todo => ({
                 ...todo,
                 filter: 'All',
                 entityStatus: 'idle'
             }))
-        });
-        builder.addCase(createTodolist.fulfilled, (state, action) => {
+        })
+        .addCase(createTodolist.fulfilled, (state, action) => {
             state.unshift({
                 ...action.payload.todolist,
                 filter: 'All',
                 entityStatus: 'idle'
             });
-        });
-        builder.addCase(updateTodolist.fulfilled, (state, action) => {
+        })
+        .addCase(updateTodolist.fulfilled, (state, action) => {
             const index = state.findIndex(todo => todo.id === action.payload.todolist.id);
             if (index > -1) {
                 state[index] = action.payload.todolist;
             }
-        });
-        builder.addCase(deleteTodolist.fulfilled, (state, action) => {
+        })
+        .addCase(deleteTodolist.fulfilled, (state, action) => {
             const index = state.findIndex(todo => todo.id === action.payload.id);
             if (index > -1) {
                 state.splice(index, 1);
             }
-        });
+        })
+            .addCase(changeTodolistStatus, (state, action) => {
+                const index = state.findIndex(todo => todo.id === action.payload.id);
+                    if (index > -1) {
+                        state[index].entityStatus = action.payload.entityStatus
+                    }
+            })
+            .addCase(clearTodolistsData, (state) => {
+                state = [];
+            })
     }
 });
 
 export const TodolistsReducer = todolistsSlice.reducer;
-
-export const {
-    changeTodolistStatus,
-    clearTodolistsData
-} = todolistsSlice.actions;
