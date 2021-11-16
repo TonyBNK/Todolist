@@ -8,10 +8,10 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setAppStatus} from "./AppReducer";
 import {authAPI} from "../../api/todolists-api";
 import {
-    handleServerAppError,
-    handleServerNetworkError
+    handleAsyncServerAppError, handleAsyncServerNetworkError
 } from "../../utils/error-utils";
 import {clearTodolistsData} from "./TodolistsReducer";
+import {AxiosError} from "axios";
 
 
 const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
@@ -24,13 +24,13 @@ const logIn = createAsyncThunk<undefined, LoginDataType, ThunkAPIConfigType>(
             if (response.data.resultCode === ResultCodes.Success) {
                 dispatch(setAppStatus({status: 'succeeded'}));
             } else {
-                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleServerAppError(dispatch, messages);
-                return rejectWithValue({messages, fieldsErrors});
+                // const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                // handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                // return rejectWithValue({messages, fieldsErrors});
+                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
             }
-        } catch (e: any) {
-            handleServerNetworkError(dispatch, e.message);
-            return rejectWithValue({messages: [e.message]});
+        } catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
         }
     });
 const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
@@ -44,14 +44,14 @@ const logOut = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(clearTodolistsData());
             } else {
-                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleServerAppError(dispatch, messages);
-                return rejectWithValue({messages, fieldsErrors});
+                // const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                // handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                // return rejectWithValue({messages, fieldsErrors});
+                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
             }
 
-        }catch (e: any) {
-            handleServerNetworkError(dispatch, e.message);
-            return rejectWithValue({messages: [e.message]});
+        }catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
         }
     });
 

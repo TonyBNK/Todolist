@@ -5,9 +5,9 @@ import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Redirect} from "react-router-dom";
 import {authSelector, todolistsSelector} from "../../../redux/selectors";
-import {useActions, useAppDispatch} from "../../../redux/store";
 import {todolistsActions} from "./index";
 import {AddItemFormSubmitHelperType} from "../../../types/types";
+import {useActions, useAppDispatch} from "../../../utils/redux-utils";
 
 
 type TodolistsPropsType = {

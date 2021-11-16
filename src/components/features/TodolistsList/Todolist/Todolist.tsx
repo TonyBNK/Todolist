@@ -15,9 +15,9 @@ import {
 } from "../../../../types/types";
 import {Task} from "./Task/Task";
 import {authSelector} from "../../../../redux/selectors";
-import {useActions, useAppDispatch} from "../../../../redux/store";
 import {tasksActions, todolistsActions} from "../index";
 import {Paper} from "@mui/material";
+import {useActions, useAppDispatch} from "../../../../utils/redux-utils";
 
 
 type TodolistPropsType = {

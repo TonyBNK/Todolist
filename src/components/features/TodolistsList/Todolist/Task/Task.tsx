@@ -4,8 +4,8 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../../../common/EditableSpan/EditableSpan";
 import {RemoveCircleOutline} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../../../types/types";
-import {useActions, useAppDispatch} from "../../../../../redux/store";
 import {tasksActions} from "../../index";
+import {useActions, useAppDispatch} from "../../../../../utils/redux-utils";
 
 
 export type TaskPropsType = {

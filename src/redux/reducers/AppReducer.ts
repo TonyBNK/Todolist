@@ -8,9 +8,10 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI} from "../../api/todolists-api";
 import {setLogged} from "./AuthReducer";
 import {
-    handleServerAppError,
-    handleServerNetworkError
+    handleAsyncServerAppError,
+    handleAsyncServerNetworkError
 } from "../../utils/error-utils";
+import {AxiosError} from "axios";
 
 
 const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
@@ -22,13 +23,13 @@ const setAppInitialize = createAsyncThunk<undefined, void, ThunkAPIConfigType>(
                 dispatch(setAppStatus({status: 'succeeded'}));
                 dispatch(setLogged({isLogged: true}));
             } else {
-                const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
-                handleServerAppError(dispatch, messages);
-                return rejectWithValue({messages, fieldsErrors});
+                // const [messages, fieldsErrors] = [response.data.messages, response.data.fieldsErrors];
+                // handleAsyncServerAppError(response.data, {dispatch, rejectWithValue}, false);
+                // return rejectWithValue({messages, fieldsErrors});
+                return handleAsyncServerAppError(response.data, {dispatch, rejectWithValue});
             }
-        } catch (e: any) {
-            handleServerNetworkError(dispatch, e.message);
-            return rejectWithValue({messages: [e.message]});
+        } catch (err) {
+            return handleAsyncServerNetworkError(err as AxiosError, {dispatch, rejectWithValue}, false);
         } finally {
             return;
         }

@@ -17,7 +17,7 @@ import {Login} from "./components/features/Login";
 import {ProgressBar} from "./components/common/ProgressBar";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar";
 import {appActions, authActions} from "./redux/reducers";
-import {useActions} from "./redux/store";
+import {useActions} from "./utils/redux-utils";
 
 
 type AppPropsType = {
