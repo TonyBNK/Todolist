@@ -14,8 +14,8 @@ import {useSelector} from "react-redux";
 import {FormikErrorType} from "../../../types/types";
 import {Redirect} from "react-router-dom";
 import {authSelector} from "../../../redux/selectors";
-import {authActions} from "../../../redux/reducers";
 import {useAppDispatch} from "../../../utils/redux-utils";
+import {authActions} from "../../../redux/reducers";
 
 
 export const Login = () => {

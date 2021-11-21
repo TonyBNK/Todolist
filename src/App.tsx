@@ -16,8 +16,8 @@ import {TodolistsList} from "./components/features/TodolistsList";
 import {Login} from "./components/features/Login";
 import {ProgressBar} from "./components/common/ProgressBar";
 import {ErrorSnackbar} from "./components/common/ErrorSnackbar";
-import {appActions, authActions} from "./redux/reducers";
 import {useActions} from "./utils/redux-utils";
+import {appActions, authActions} from "./redux/reducers";
 
 
 type AppPropsType = {
@@ -38,7 +38,7 @@ const App: React.FC<AppPropsType> = React.memo((
     }
 
     useEffect(() => {
-        if (demo) {
+        if (isInitialized) {
             return;
         }
         setAppInitialize();

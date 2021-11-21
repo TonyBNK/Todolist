@@ -1,4 +1,5 @@
-import {rootReducer, store} from "../redux/store";
+import {store} from "../redux/store";
+import {rootReducer} from "../redux/rootReducer";
 
 
 // Common types
