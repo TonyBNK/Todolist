@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useCallback} from "react";
-import c from "../Todolist.module.scss";
+import c from "./Task.module.scss";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../../../common/EditableSpan/EditableSpan";
 import {RemoveCircleOutline} from "@material-ui/icons";

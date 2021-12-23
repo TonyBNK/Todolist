@@ -31,7 +31,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
                 const errorMessage = resultAction.payload?.messages[0]
                 helper.setError(errorMessage)
             } else {
-                helper.setError('Some error occured')
+                helper.setError('Some error occurred')
             }
         } else {
             helper.setTitle('')
