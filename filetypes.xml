@@ -5,6 +5,7 @@
       <mapping pattern="variables" type="AUTO_DETECTED" />
       <mapping pattern="Homework-1-04" type="HTML" />
       <mapping pattern=".parcelrc" type="PLAIN_TEXT" />
+      <mapping pattern=".sassrc" type="PLAIN_TEXT" />
       <removed_mapping pattern=".env" approved="true" type=".env file" />
     </extensionMap>
   </component>
