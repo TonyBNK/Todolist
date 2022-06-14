@@ -19,6 +19,8 @@ const rerenderEntireTree = () => {
     );
 }
 
+console.log(process.env.API_KEY);
+
 rerenderEntireTree();
 
 // If you want to start measuring performance in your app, pass a function
