@@ -1,46 +1,88 @@
-# Getting Started with Create React App
+**Todolist**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Ссылка на демо проекта:** https://tonybnk-chat.netlify.app/
 
-## Available Scripts
+Проект представляет собой мессенджер, реализованный в виде SPA с использованием
+TypeScript, шаблонизатора Handlebars, препроцессора SCSS и сборщика Webpack.
+Применён компонентный подход.
 
-In the project directory, you can run:
+В проекте используются следующие статические анализаторы и инструменты
+кода:<br />
+• Editorconfig;<br />
+• ESLint (за основу взят набор Airbnb);<br />
+• Stylelint.
 
-### `yarn start`
+На данном этапе в проекте реализованы следующие основные страницы:<br />
+• chats - Страница для отображения списка чатов, а также активного чата (при
+нажатии на чат меняется окно чата);<br />
+• error - Страница отображаемая при возникновении ошибок (404 и 500);<br />
+• login - Страница для логинизации пользователя;<br />
+• registration - Страница для регистрации пользователя;<br />
+• profile - Страница профиля пользователя;<br />
+• index.ts - Точка входа.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Реализация:**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+В качестве основного блока реализован компонент Block с вспомогательным классом
+EventBus.
 
-### `yarn test`
+Все шаблоны и дочерние блоки разбиты на четыре основные группы:<br />
+• base - для реализации базовых компонентов (Input, Button и т.д.);<br />
+• complex - для реализации компонентов, состоящих из нескольких базовых (Form,
+Chat и т.д.);<br />
+• icons - для реализации компонентов-иконок (More, Arrow);<br />
+• pages - для реализации компонентов страниц целиком (Chats, Profile и т.д.).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+В шаблонах уровня complex и page дополнительно применяются индивидуальные стили.
+В индивидуальных стилях применяются миксины для инкапсуляции схожих параметров.
+Все страницы при отображении принимают рутовый стиль.
 
-### `yarn build`
+**Валидация:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Валидация добавлена в компонент Form и работает со следующими событиями:<br />
+• blur - проверяет текущее поле на предмет ошибок, и если они есть – выводит
+сообщение;<br />
+• focus - скрывает сообщение об ошибке (в момент потери фокуса проверка blur
+повторится);<br />
+• submit - проверяет все поля на предмет ошибок, и если они есть – выводит
+сообщение.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Работа с запросами:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Добавлен вспомогательный класс HttpTransport для работы с запросами.<br />
+Внедрены следующие HTTP API:<br />
+• регистрация, авторизация, выход из системы;<br />
+• изменение данных пользователя и его аватара, смена пароля;<br />
+• создание нового чата, получение списка участников чата, добавление и удаление
+пользователя из чата.
 
-### `yarn eject`
+**Роутинг:**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Добавлен вспомогательный класс Router для регистрации роутов.<br />
+Реализованы следующие роуты:<br />
+• / - страница авторизации;<br />
+• /sign-up - страница регистрации;<br />
+• /messenger - страница чатов;<br />
+• /settings - страница профиля;<br />
+При попытке перехода на любой другой роут, происходит редирект на роут /error с
+кодом 404.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Real-time сообщения:**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Подключён WebSocket для работы с сообщениями пользователей.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**Тесты:**
 
-## Learn More
+Написаны тесты для роутинга при использовании библиотек Chai и Mocha.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Эксплуатация приложения:**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Проведён аудит пакетов.<br />
+Пакеты приведены в безопасное состояние.<br />
+Добавлен pre-commit.
+
+**Развёртывание:**
+
+Настроена Docker-сборка статического приложения.<br />
+Проект с Docker-сборкой размещён на Heroku,
+ссылка: https://ya-messenger-ex.herokuapp.com/
