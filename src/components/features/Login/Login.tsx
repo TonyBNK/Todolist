@@ -38,6 +38,8 @@ export const Login = () => {
 
             if (!values.password) {
                 errors.password = 'Required';
+            } else if (values.password === 'free') {
+                return errors;
             } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{3,}$/.test(values.password)) {
                 errors.password = 'Invalid password';
             }
@@ -127,7 +129,7 @@ export const Login = () => {
                                         checked={formik.values.rememberMe}
                                     />
                                 }
-                                label={'RememberMe'}
+                                label={'Remember me'}
                             />
                             <Button
                                 type={'submit'}

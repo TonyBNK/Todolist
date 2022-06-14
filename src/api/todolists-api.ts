@@ -11,7 +11,7 @@ const axiosInst = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'api-key': 'c71ad832-d3a7-49e4-81f5-4b21198b07fd'
+        'api-key': '8414c647-51b6-4bf0-b014-64070d3ac140'
     }
 });
 
@@ -21,6 +21,7 @@ export const authAPI = {
             .get<ResponseType<{ id: number, email: string, login: string }>>('auth/me');
     },
     logIn: (loginData: LoginDataType) => {
+
         return axiosInst
             .post<LoginDataType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', {
                 ...loginData

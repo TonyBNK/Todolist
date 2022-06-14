@@ -70,7 +70,7 @@ export const TodolistsList: React.FC<TodolistsPropsType> = React.memo((
                     <AddItemForm addItem={addTodolistCallback}/>
                 </Paper>
             </Grid>
-            <Grid container spacing={4} style={{flexWrap: 'nowrap', overflowX: 'scroll', height: '80vh'}}>
+            <Grid container spacing={4}>
                 {
                     listOfTodolists
                 }
