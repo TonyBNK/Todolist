@@ -21,7 +21,6 @@ export const authAPI = {
             .get<ResponseType<{ id: number, email: string, login: string }>>('auth/me');
     },
     logIn: (loginData: LoginDataType) => {
-
         return axiosInst
             .post<LoginDataType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', {
                 ...loginData
