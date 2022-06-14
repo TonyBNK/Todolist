@@ -10,9 +10,9 @@ import {
 const axiosInst = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
-    headers: {
-        'api-key': process.env.API_KEY
-    }
+    // headers: {
+    //     'api-key': process.env.API_KEY
+    // }
 });
 
 export const authAPI = {
